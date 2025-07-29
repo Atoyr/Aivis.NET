@@ -1,6 +1,6 @@
 namespace Aivis.Schemas;
 
-public class TextToSpeechRequest
+public class TTSRequest
 {
     private Guid modelUuid;
     /// <summary>
@@ -143,4 +143,10 @@ public class TextToSpeechRequest
     /// wav, flac, mp3, aac, opus
     /// </summary>
     public string OutputFormat { get; set; } = "opus";
+
+    public TTSRequest(string modelUuid, string text)
+    {
+        ModelUuid = modelUuid;
+        Text = text;
+    }
 }
