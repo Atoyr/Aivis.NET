@@ -1,0 +1,17 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <VersionPrefix>0.1.0</VersionPrefix>
+        <LangVersion>latest</LangVersion>
+
+        <Authors>UCHIYAMA Ryota</Authors>
+        <Owner>UCHIYAMA Ryota</Owner>
+
+        <PackageTags>Aivis;AivisCloud</PackageTags>
+        <PackageProjectUrl>https://github.com/atoyr/Aivis-net</ProjectUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageIcon><!-- FIXME --></PackageIcon>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>git://github.com/atoyr/Aivis-net</RepositoryUrl>
+        <PackageReadmeFile><!-- FIXME --></PackageReadmeFile>
+    </PropertyGroup>
+</Project>

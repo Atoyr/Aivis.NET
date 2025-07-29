@@ -1,9 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Import Project="../Aivis.Net.targets" />
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0;net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+
+    <AssemblyName>Aivis.Net</AssemblyName>
+    <RootNamespace>Aivis</RootNamespace>
+
+    <Title>Aivis-net</Title>
+    <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
+    <ProjectUrl>https://github.com/Atoyr/Aivis-net</ProjectUrl>
+    <Description>The Aivis Cloud Client for the Aivis.Net library</Description>
+    <ReleaseNotes>0.1.0 First Release</ReleaseNotes>
+    <Copyright>© 2025 Ryota Uchiyama</Copyright>
+    <Tags>.NET</Tags>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/Atoyr/Aivis-net</RepositoryUrl>
   </PropertyGroup>
 
 </Project>
