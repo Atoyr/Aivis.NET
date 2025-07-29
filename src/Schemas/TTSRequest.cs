@@ -79,20 +79,21 @@ public class TTSRequest
         }
     }
 
-    private string? styleName = null;
-    /// <summary>
-    /// 音声合成モデルの話者のスタイル名を指定します。通常、ノーマルスタイルの名前は「ノーマル」です。
-    /// スタイル名には、AivmManifest.speakers[].styles[].name の値を指定します。 style_id とは併用できません。
-    /// 
-    /// 当該モデル → 話者 → スタイルに存在しないスタイル名を指定すると 422 エラーが発生します。
-    /// 未指定時は、当該話者のデフォルトスタイルを音声合成に利用します。
-    /// </summary>
-    [JsonPropertyName("style_name")]
-    public string? StyleName 
-    {
-        get => styleName ?? "ノーマル";
-        set => styleName = value;
-    }
+    // FIXME: StyleIdと併用できない
+    // private string? styleName = null;
+    // /// <summary>
+    // /// 音声合成モデルの話者のスタイル名を指定します。通常、ノーマルスタイルの名前は「ノーマル」です。
+    // /// スタイル名には、AivmManifest.speakers[].styles[].name の値を指定します。 style_id とは併用できません。
+    // /// 
+    // /// 当該モデル → 話者 → スタイルに存在しないスタイル名を指定すると 422 エラーが発生します。
+    // /// 未指定時は、当該話者のデフォルトスタイルを音声合成に利用します。
+    // /// </summary>
+    // [JsonPropertyName("style_name")]
+    // public string? StyleName 
+    // {
+    //     get => styleName ?? "ノーマル";
+    //     set => styleName = value;
+    // }
 
 
     private Guid? userDictionaryUuid = null;
