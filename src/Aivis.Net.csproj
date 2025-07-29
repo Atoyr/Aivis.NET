@@ -19,4 +19,8 @@
     <RepositoryUrl>https://github.com/Atoyr/Aivis-net</RepositoryUrl>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="NAudio" Version="2.2.1" />
+  </ItemGroup>
+
 </Project>
