@@ -25,30 +25,30 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Setup .NET 8.0
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: ${{ env.DOTNET_VERSION_1 }}
+      - name: Checkout code
+        uses: actions/checkout@v4
         
-    - name: Setup .NET 9.0
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: ${{ env.DOTNET_VERSION_2 }}
+      - name: Setup .NET 8.0
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION_1 }}
+          
+      - name: Setup .NET 9.0
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION_2 }}
+          
+      - name: Restore lib
+        run: dotnet restore ${{ env.PROJECT_PATH}}
         
-    - name: Restore lib
-      run: dotnet restore ${{ env.PROJECT_PATH}}
-      
-    - name: Build lib
-      run: dotnet build ${{ env.PROJECT_PATH}} --no-restore --configuration Release
-      
-    - name: Restore sample project
-      run: dotnet restore ${{ env.SAMPLE_PATH}}
-      
-    - name: Build sample project
-      run: dotnet build ${{ env.SAMPLE_PATH }} --no-restore --configuration Release
+      - name: Build lib
+        run: dotnet build ${{ env.PROJECT_PATH}} --no-restore --configuration Release
+        
+      - name: Restore sample project
+        run: dotnet restore ${{ env.SAMPLE_PATH}}
+        
+      - name: Build sample project
+        run: dotnet build ${{ env.SAMPLE_PATH }} --no-restore --configuration Release
       
     # テストプロジェクトがある場合のためのステップ（現在はコメントアウト）
     # - name: Run tests
