@@ -45,7 +45,7 @@ jobs:
       run: dotnet build ${{ env.PROJECT_PATH}} --no-restore --configuration Release
       
     - name: Restore sample project
-      run: dotnet restore ${{ env.PROJECT_PATH}}
+      run: dotnet restore ${{ env.SAMPLE_PATH}}
       
     - name: Build sample project
       run: dotnet build ${{ env.SAMPLE_PATH }} --no-restore --configuration Release
