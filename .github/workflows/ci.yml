@@ -38,11 +38,14 @@ jobs:
       with:
         dotnet-version: ${{ env.DOTNET_VERSION_2 }}
         
-    - name: Restore dependencies
+    - name: Restore lib
       run: dotnet restore ${{ env.PROJECT_PATH}}
       
-    - name: Build solution
+    - name: Build lib
       run: dotnet build ${{ env.PROJECT_PATH}} --no-restore --configuration Release
+      
+    - name: Restore sample project
+      run: dotnet restore ${{ env.PROJECT_PATH}}
       
     - name: Build sample project
       run: dotnet build ${{ env.SAMPLE_PATH }} --no-restore --configuration Release
