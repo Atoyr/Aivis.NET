@@ -4,9 +4,6 @@ namespace Aivis;
 
 public class Speaker : ISpeaker
 {
-    private IWavePlayer? waveOut;
-    private BufferedWaveProvider? bufferedWaveProvider;
-
     public void Play(MediaType mediaType, byte[] audioData)
     {
         PlayAsync(mediaType, audioData).GetAwaiter().GetResult();
