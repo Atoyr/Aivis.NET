@@ -1,0 +1,56 @@
+name: ci-test
+
+on:
+  # Push時にビルド
+  push:
+    branches-ignore:
+      - dependabot/**
+  
+  # プルリク時にビルド
+  pull_request:
+    branches: [ main ]
+  
+  # ブランチマージ時にビルド (mainブランチへのpushで対応)
+  workflow_dispatch:
+
+env:
+  DOTNET_VERSION_1: '8.0.x'
+  DOTNET_VERSION_2: '9.0.x'
+  PROJECT_PATH: 'src/Aivis.Net.csproj'
+  SAMPLE_PATH: 'sample/Console/Aivis.Sample.Console.csproj'
+
+jobs:
+  build-and-test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup .NET 8.0
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION_1 }}
+          
+      - name: Setup .NET 9.0
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION_2 }}
+          
+      - name: Restore lib
+        run: dotnet restore ${{ env.PROJECT_PATH}}
+        
+      - name: Build lib
+        run: dotnet build ${{ env.PROJECT_PATH}} --no-restore --configuration Release
+        
+      - name: Restore sample project
+        run: dotnet restore ${{ env.SAMPLE_PATH}}
+        
+      - name: Build sample project
+        run: dotnet build ${{ env.SAMPLE_PATH }} --no-restore --configuration Release
+      
+    # テストプロジェクトがある場合のためのステップ（現在はコメントアウト）
+    # - name: Run tests
+    #   run: dotnet test --no-build --configuration Release --verbosity normal
+      

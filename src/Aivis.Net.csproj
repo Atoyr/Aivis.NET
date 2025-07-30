@@ -8,7 +8,7 @@
     <AssemblyName>Aivis.Net</AssemblyName>
     <RootNamespace>Aivis</RootNamespace>
 
-    <Title>Aivis-net</Title>
+    <Title>Aivis.NET</Title>
     <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
     <ProjectUrl>https://github.com/Atoyr/Aivis-net</ProjectUrl>
     <Description>The Aivis Cloud Client for the Aivis.Net library</Description>
