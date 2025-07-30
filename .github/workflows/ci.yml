@@ -39,10 +39,10 @@ jobs:
         dotnet-version: ${{ env.DOTNET_VERSION_2 }}
         
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore ${{ env.PROJECT_PATH}}
       
     - name: Build solution
-      run: dotnet build --no-restore --configuration Release
+      run: dotnet build ${{ env.PROJECT_PATH}} --no-restore --configuration Release
       
     - name: Build sample project
       run: dotnet build ${{ env.SAMPLE_PATH }} --no-restore --configuration Release
