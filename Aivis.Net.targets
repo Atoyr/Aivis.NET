@@ -7,11 +7,8 @@
         <Owner>UCHIYAMA Ryota</Owner>
 
         <PackageTags>Aivis;AivisCloud</PackageTags>
-        <PackageProjectUrl>https://github.com/atoyr/Aivis-net</PackageProjectUrl>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <PackageIcon><!-- FIXME --></PackageIcon>
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>git://github.com/atoyr/Aivis-net</RepositoryUrl>
-        <PackageReadmeFile><!-- FIXME --></PackageReadmeFile>
     </PropertyGroup>
 </Project>
