@@ -30,10 +30,11 @@ dotnet add package Aivis.Net
 
 ## 使用例
 
+Text-to-Speech
 ``` C#
 Aivis.AivisClientOptions options = new(apiKey);
 Aivis.AivisClient aivisClient = new(options);
-var stream = await aivisClient.TTS(uuid, text);
+var stream = await aivisClient.TTS(modelUuid, text);
 
 Aivis.Speaker speaker = new();
 await speaker.PlayAsync(Aivis.MediaType.MP3, stream);
