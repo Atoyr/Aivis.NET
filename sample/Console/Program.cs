@@ -1,5 +1,4 @@
-﻿
-Console.WriteLine("input api key");
+﻿Console.WriteLine("input api key");
 var apiKey = Console.ReadLine();
 
 if (string.IsNullOrWhiteSpace(apiKey))
@@ -15,8 +14,8 @@ Console.WriteLine("input text");
 var text = Console.ReadLine();
 
 Aivis.AivisClientOptions options = new(apiKey!.Trim());
-Aivis.AivisClient aivisClient = new(options);
-var stream = await aivisClient.TTS(uuid!.Replace("\n", "").Trim(), text);
+Aivis.AivisTTLClient ttlCient = new(options);
+var stream = await ttlCient.Synthesize(uuid!.Replace("\n", "").Trim(), text);
 
 Aivis.Speaker speaker = new();
 await speaker.PlayAsync(Aivis.MediaType.MP3, stream);
