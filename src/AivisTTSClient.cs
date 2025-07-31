@@ -36,6 +36,7 @@ public class AivisTTSClient : ITalkToSpeech
 
         // Content-Dispositionヘッダーの取得
         string contentDisposition = response.Content.Headers.ContentDisposition?.ToString() ?? string.Empty;
+        string fileName = HttpUtility.ExtractFileName(contentDisposition);
 
         // カスタムヘッダーの取得
         string billingMode = HttpUtility.GetHeaderValue(response, "X-Aivis-Billing-Mode");
@@ -46,7 +47,7 @@ public class AivisTTSClient : ITalkToSpeech
 
         return new TTSContents(
                 await audioTask,
-                contentDisposition,
+                fileName,
                 billingMode,
                 characterCount,
                 creditsRemaining,

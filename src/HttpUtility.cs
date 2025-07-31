@@ -36,4 +36,47 @@ public static class HttpUtility
         var value = GetHeaderValue(response, key);
         return uint.TryParse(value, out var result) ? result : 0;
     }
+
+    /// <summary>
+    /// Content-Dispositionヘッダーからファイル名を抽出します。
+    /// </summary>
+    /// <param name="contentDisposition">Content-Dispositionヘッダーの値</param>
+    /// <returns>ファイル名</returns>
+    public static string ExtractFileName(string contentDisposition)
+    {
+        if (string.IsNullOrEmpty(contentDisposition))
+            return string.Empty;
+            
+        // 様々なパターンに対応
+        // 例: "inline; filename="file.mp3""
+        // 例: "attachment; filename=file.mp3"
+        // 例: "inline; filename*=UTF-8''file.mp3"
+        
+        var parts = contentDisposition.Split(';');
+        foreach (var part in parts)
+        {
+            var trimmed = part.Trim();
+            
+            // 通常のfilename=パターン
+            if (trimmed.StartsWith("filename=", StringComparison.OrdinalIgnoreCase))
+            {
+                var fileName = trimmed.Substring("filename=".Length).Trim();
+                return fileName.Trim('"').Trim('\'');
+            }
+            
+            // RFC 5987準拠のfilename*=パターン（エンコードされたファイル名）
+            if (trimmed.StartsWith("filename*=", StringComparison.OrdinalIgnoreCase))
+            {
+                var encodedFileName = trimmed.Substring("filename*=".Length).Trim();
+                // UTF-8''filename.mp3 のような形式から filename.mp3 を抽出
+                var lastQuoteIndex = encodedFileName.LastIndexOf('\'');
+                if (lastQuoteIndex >= 0 && lastQuoteIndex < encodedFileName.Length - 1)
+                {
+                    return encodedFileName.Substring(lastQuoteIndex + 1);
+                }
+                return encodedFileName.Trim('"').Trim('\'');
+            }
+        }
+        return null;
+    }
 }
