@@ -5,13 +5,13 @@ using Aivis.Schemas;
 
 namespace Aivis;
 
-public class AivisTTLClient : ITalkToSpeech
+public class AivisTTSClient : ITalkToSpeech
 {
     private AivisClientOptions _options;
 
     private const string SynthetizeEndpoint = "/v1/tts/synthesize";
 
-    public AivisTTLClient(AivisClientOptions options)
+    public AivisTTSClient(AivisClientOptions options)
     {
         if (string.IsNullOrEmpty(options?.ApiKey))
         {

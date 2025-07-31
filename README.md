@@ -33,8 +33,8 @@ dotnet add package Aivis.Net
 Text-to-Speech
 ``` C#
 Aivis.AivisClientOptions options = new(apiKey);
-Aivis.AivisTTLClient ttlClient = new(options);
-var stream = await ttlClient.Synthesize(modelUuid, text);
+Aivis.AivisTTSClient ttsClient = new(options);
+var stream = await ttsClient.Synthesize(modelUuid, text);
 
 Aivis.Speaker speaker = new();
 await speaker.PlayAsync(Aivis.MediaType.MP3, stream);

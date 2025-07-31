@@ -14,8 +14,8 @@ Console.WriteLine("input text");
 var text = Console.ReadLine();
 
 Aivis.AivisClientOptions options = new(apiKey!.Trim());
-Aivis.AivisTTLClient ttlCient = new(options);
-var stream = await ttlCient.Synthesize(uuid!.Replace("\n", "").Trim(), text);
+Aivis.AivisTTSClient ttsCient = new(options);
+var stream = await ttsCient.Synthesize(uuid!.Replace("\n", "").Trim(), text);
 
 Aivis.Speaker speaker = new();
 await speaker.PlayAsync(Aivis.MediaType.MP3, stream);
