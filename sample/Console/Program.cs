@@ -20,7 +20,23 @@ while (string.IsNullOrWhiteSpace(text = Console.ReadLine()))
 
 Aivis.AivisClientOptions options = new(apiKey!.Trim());
 Aivis.AivisTTSClient ttsCient = new(options);
-var stream = await ttsCient.Synthesize(modelUuid!.Replace("\n", "").Trim(), text!);
+
+// use audio data only.
+// var stream = await ttsCient.SynthesizeAsync(modelUuid!.Replace("\n", "").Trim(), text!);
+var contents = await ttsCient.SynthesizeWithContentsAsync(modelUuid!.Replace("\n", "").Trim(), text!.Trim());
+
+Console.WriteLine($"File Name         : {contents.ContentDisposition}");
+Console.WriteLine($"Billing Mode      : {contents.BillingMode}");
+Console.WriteLine($"Character Count   : {contents.CharacterCount}");
+if (contents.IsPayAsYouGo)
+{
+    Console.WriteLine($"Credits Remainig  : {contents.CreditsRemaining}");
+    Console.WriteLine($"Credits Used      : {contents.CreditsUsed}");
+}
+else
+{
+    Console.WriteLine($"Rate Limit        : {contents.RateLimitRemaining}");
+}
 
 Aivis.Speaker speaker = new();
-await speaker.PlayAsync(Aivis.MediaType.MP3, stream);
+await speaker.PlayAsync(Aivis.MediaType.MP3, contents.Audio);

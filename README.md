@@ -34,7 +34,7 @@ Text-to-Speech
 ``` C#
 Aivis.AivisClientOptions options = new(apiKey);
 Aivis.AivisTTSClient ttsClient = new(options);
-var stream = await ttsClient.Synthesize(modelUuid, text);
+var stream = await ttsClient.SynthesizeAsync(modelUuid, text);
 
 Aivis.Speaker speaker = new();
 await speaker.PlayAsync(Aivis.MediaType.MP3, stream);

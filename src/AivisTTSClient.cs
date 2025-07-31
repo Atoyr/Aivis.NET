@@ -1,5 +1,6 @@
 using System.Text;
 using System.Text.Json;
+using System.Net;
 
 using Aivis.Schemas;
 
@@ -7,7 +8,7 @@ namespace Aivis;
 
 public class AivisTTSClient : ITalkToSpeech
 {
-    private AivisClientOptions _options;
+    private readonly AivisClientOptions _options;
 
     private const string SynthetizeEndpoint = "/v1/tts/synthesize";
 
@@ -21,21 +22,73 @@ public class AivisTTSClient : ITalkToSpeech
     }
 
     /// <inheritdoc />
-    public async Task<byte[]> Synthesize(string modelUuid, string text, string format = "mp3")
+    public async Task<byte[]> SynthesizeAsync(string modelUuid, string text, string format = "mp3")
+    {
+        var response = await PostSynthesizeAsync(modelUuid, text, format);
+        return await response.Content.ReadAsByteArrayAsync();
+    }
+
+    /// <inheritdoc />
+    public async Task<TTSContents> SynthesizeWithContentsAsync(string modelUuid, string text, string format = "mp3")
+    {
+        var response = await PostSynthesizeAsync(modelUuid, text, format);
+        var audioTask = response.Content.ReadAsByteArrayAsync();
+
+        // Content-Dispositionヘッダーの取得
+        string contentDisposition = response.Content.Headers.ContentDisposition?.ToString() ?? string.Empty;
+        string fileName = HttpUtility.ExtractFileName(contentDisposition);
+
+        // カスタムヘッダーの取得
+        string billingMode = HttpUtility.GetHeaderValue(response, "X-Aivis-Billing-Mode");
+        uint characterCount = HttpUtility.GetHeaderValueAsUInt(response, "X-Aivis-Character-Count");
+        uint creditsRemaining = HttpUtility.GetHeaderValueAsUInt(response, "X-Aivis-Credits-Remaining");
+        uint creditsUsed = HttpUtility.GetHeaderValueAsUInt(response, "X-Aivis-Credits-Used");
+        uint rateLimitRemaining = HttpUtility.GetHeaderValueAsUInt(response, "X-Aivis-Rate-Limit-Remaining");
+
+        return new TTSContents(
+                await audioTask,
+                fileName,
+                billingMode,
+                characterCount,
+                creditsRemaining,
+                creditsUsed,
+                rateLimitRemaining
+                );
+    }
+
+    private async Task<HttpResponseMessage> PostSynthesizeAsync(string modelUuid, string text, string format = "mp3")
     {
         TTSRequest requestBody = new(modelUuid, text){ OutputFormat = format};
         var jsonContent = JsonSerializer.Serialize(requestBody);
 
         var response = await PostWithAuthAsync(SynthetizeEndpoint, jsonContent);
-
         if (response.IsSuccessStatusCode)
         {
-            // ストリーミングレスポンスの処理
-            return await response.Content.ReadAsByteArrayAsync();
+            return response;
         }
-        else
+
+        switch (response.StatusCode)
         {
-            throw new Exception($"音声合成に失敗しました: {response.StatusCode} - {await response.Content.ReadAsStringAsync()}");
+            case HttpStatusCode.Unauthorized :
+                throw new UnauthorizedAccessException($"{response.StatusCode} - APIキーが設定されていないか無効です。");
+            case HttpStatusCode.PaymentRequired :
+                throw new NotSupportedException($"{response.StatusCode} - クレジット残高が不足しています。");
+            case HttpStatusCode.NotFound:
+                throw new NotSupportedException($"{response.StatusCode} - 指定されたモデルが見つかりません。モデルUUIDを確認してください。");
+            case HttpStatusCode.UnprocessableContent:
+                throw new NotSupportedException($"{response.StatusCode} - リクエストパラメータの形式が正しくありません。");
+            case HttpStatusCode.TooManyRequests:
+                throw new NotSupportedException($"{response.StatusCode} - 音声合成APIのレート制限に到達しました。");
+            case HttpStatusCode.InternalServerError:
+                throw new NotSupportedException($"{response.StatusCode} - Citorasサーバへの接続中に不明なエラーが発生しました。");
+            case HttpStatusCode.BadGateway:
+                throw new NotSupportedException($"{response.StatusCode} - Citorasサーバへの接続に失敗しました。");
+            case HttpStatusCode.ServiceUnavailable:
+                throw new NotSupportedException($"{response.StatusCode} - Citorasサーバで障害が発生しているか、音声合成に失敗しました。");
+            case HttpStatusCode.GatewayTimeout:
+                throw new NotSupportedException($"{response.StatusCode} - Citorasサーバへの接続がタイムアウトしました。");
+            default:
+                throw new Exception($"音声合成に失敗しました: {response.StatusCode} - {await response.Content.ReadAsStringAsync()}");
         }
     }
 

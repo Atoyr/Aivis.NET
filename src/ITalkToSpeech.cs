@@ -9,5 +9,7 @@ public interface ITalkToSpeech
     /// <param name="text">合成するテキスト</param>
     /// <param name="format">出力フォーマット（デフォルトは "mp3"）</param>
     /// <returns>音声データのバイト配列</returns>
-    Task<byte[]> Synthesize(string modelUuid, string text, string format = "mp3");
+    Task<byte[]> SynthesizeAsync(string modelUuid, string text, string format = "mp3");
+
+    Task<TTSContents> SynthesizeWithContentsAsync(string modelUuid, string text, string format = "mp3");
 }
