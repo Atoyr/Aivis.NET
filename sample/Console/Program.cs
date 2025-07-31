@@ -1,22 +1,26 @@
-﻿
-Console.WriteLine("input api key");
-var apiKey = Console.ReadLine();
+﻿Console.WriteLine("input api key");
+string? apiKey;
+string? modelUuid;
+string? text;
 
-if (string.IsNullOrWhiteSpace(apiKey))
+while (string.IsNullOrWhiteSpace(apiKey = Console.ReadLine()))
 {
     Console.WriteLine("api key is invalid");
-    return;
 }
 
-Console.WriteLine("input model uuid");
-var uuid = Console.ReadLine();
+while (string.IsNullOrWhiteSpace(modelUuid = Console.ReadLine()))
+{
+    Console.WriteLine("model uuid is invalid");
+}
 
-Console.WriteLine("input text");
-var text = Console.ReadLine();
+while (string.IsNullOrWhiteSpace(text = Console.ReadLine()))
+{
+    Console.WriteLine("text is invalid");
+}
 
 Aivis.AivisClientOptions options = new(apiKey!.Trim());
-Aivis.AivisClient aivisClient = new(options);
-var stream = await aivisClient.TTS(uuid!.Replace("\n", "").Trim(), text);
+Aivis.AivisTTSClient ttsCient = new(options);
+var stream = await ttsCient.Synthesize(modelUuid!.Replace("\n", "").Trim(), text!);
 
 Aivis.Speaker speaker = new();
 await speaker.PlayAsync(Aivis.MediaType.MP3, stream);
