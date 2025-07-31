@@ -45,13 +45,14 @@ public static class HttpUtility
     public static string ExtractFileName(string contentDisposition)
     {
         if (string.IsNullOrEmpty(contentDisposition))
+        {
             return string.Empty;
+        }
             
         // 様々なパターンに対応
         // 例: "inline; filename="file.mp3""
         // 例: "attachment; filename=file.mp3"
         // 例: "inline; filename*=UTF-8''file.mp3"
-        
         var parts = contentDisposition.Split(';');
         foreach (var part in parts)
         {
@@ -77,6 +78,6 @@ public static class HttpUtility
                 return encodedFileName.Trim('"').Trim('\'');
             }
         }
-        return null;
+        return string.Empty;
     }
 }
