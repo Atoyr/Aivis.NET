@@ -18,6 +18,7 @@ env:
   DOTNET_VERSION_2: '9.0.x'
   PROJECT_PATH: 'src/Aivis.Net.csproj'
   SAMPLE_PATH: 'sample/Console/Aivis.Sample.Console.csproj'
+  TEST_PATH: 'tests/Aivis.Tests.csproj'
 
 jobs:
   build-and-test:
@@ -49,8 +50,13 @@ jobs:
         
       - name: Build sample project
         run: dotnet build ${{ env.SAMPLE_PATH }} --no-restore --configuration Release
-      
-    # テストプロジェクトがある場合のためのステップ（現在はコメントアウト）
-    # - name: Run tests
-    #   run: dotnet test --no-build --configuration Release --verbosity normal
+        
+      - name: Restore test project
+        run: dotnet restore ${{ env.TEST_PATH }}
+        
+      - name: Build test project
+        run: dotnet build ${{ env.TEST_PATH }} --no-restore --configuration Release
+        
+      - name: Run tests
+        run: dotnet test ${{ env.TEST_PATH }} --no-build --configuration Release --verbosity normal
       
