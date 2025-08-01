@@ -11,13 +11,17 @@ public class AivisTTSClientTests
     private readonly Mock<HttpMessageHandler> _mockHttpMessageHandler;
     private readonly HttpClient _httpClient;
     private readonly AivisClientOptions _options;
+    private readonly IHttpClientProvider _httpClientProvider;
 
     public AivisTTSClientTests()
     {
         _mockHttpMessageHandler = new Mock<HttpMessageHandler>();
         _httpClient = new HttpClient(_mockHttpMessageHandler.Object);
-        HttpClientProvider.SetFactory(() => _httpClient);
-        _options = new AivisClientOptions("test-api-key");
+        _httpClientProvider = new MockHttpClientProvider(_httpClient);
+        _options = new AivisClientOptions("test-api-key")
+        {
+            HttpClientProvider = _httpClientProvider,
+        };
     }
 
     [Fact]
@@ -193,7 +197,8 @@ public class AivisTTSClientTests
     {
         var customOptions = new AivisClientOptions("test-api-key")
         {
-            BaseUrl = "https://custom-api.example.com"
+            BaseUrl = "https://custom-api.example.com",
+            HttpClientProvider = _httpClientProvider
         };
 
         var responseMessage = new HttpResponseMessage(HttpStatusCode.OK)
