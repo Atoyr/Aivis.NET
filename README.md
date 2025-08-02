@@ -40,5 +40,10 @@ Aivis.Speaker speaker = new();
 await speaker.PlayAsync(Aivis.MediaType.MP3, stream);
 ```
 
+## ❓ 質問・不具合の報告
+
+- バグ報告や機能要望は [Issueページ](https://github.com/Atoyr/Aivis-net/issues) よりお願いします
+- ライブラリの使い方の質問も歓迎しています！`[Question]` ラベルを付けて投稿してください
+
 # ライセンス
 MIT
