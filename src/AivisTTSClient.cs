@@ -29,6 +29,13 @@ public class AivisTTSClient : ITalkToSpeech
     }
 
     /// <inheritdoc />
+    public async Task<Stream> SynthesizeStreamAsync(string modelUuid, string text, string format = "mp3")
+    {
+        var response = await PostSynthesizeAsync(modelUuid, text, format);
+        return await response.Content.ReadAsStreamAsync();
+    }
+
+    /// <inheritdoc />
     public async Task<TTSContents> SynthesizeWithContentsAsync(string modelUuid, string text, string format = "mp3")
     {
         var response = await PostSynthesizeAsync(modelUuid, text, format);

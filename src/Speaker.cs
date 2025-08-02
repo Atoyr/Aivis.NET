@@ -9,6 +9,19 @@ public class Speaker : ISpeaker
         PlayAsync(mediaType, audioData).GetAwaiter().GetResult();
     }
 
+    public async Task PlayAsync(MediaType mediaType, MemoryStream audioStream, CancellationToken cancellationToken = default)
+    {
+        // ここに非同期で音声を再生するロジックを実装
+        switch (mediaType)
+        {
+            case MediaType.MP3:
+                await PlayMp3Async(audioStream, cancellationToken);
+                break;
+            default:
+                throw new NotSupportedException($"Unsupported media type: {mediaType}");
+        }
+    }
+
     public async Task PlayAsync(MediaType mediaType, byte[] audioData, CancellationToken cancellationToken = default)
     {
         // ここに非同期で音声を再生するロジックを実装
@@ -25,9 +38,14 @@ public class Speaker : ISpeaker
     private async Task PlayMp3Async(byte[] audioData, CancellationToken cancellationToken = default)
     {
         using var stream = new MemoryStream(audioData);
-        stream.Position = 0;
+        await PlayMp3Async(stream, cancellationToken);
+    }
 
-        var mp3Reader = new Mp3FileReader(stream);
+    private async Task PlayMp3Async(MemoryStream audioStream, CancellationToken cancellationToken = default)
+    {
+        audioStream.Position = 0;
+
+        var mp3Reader = new Mp3FileReader(audioStream);
         // 出力デバイスを初期化
         var outputDevice = new WaveOutEvent();
         outputDevice.Init(mp3Reader);
