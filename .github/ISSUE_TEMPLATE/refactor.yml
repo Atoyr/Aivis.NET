@@ -1,0 +1,56 @@
+name: 🔧 リファクタリング / Refactor
+description: コードの改善や構造の変更提案はこちら
+title: "[🔧Refactor] "
+labels: [refactor]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **リファクタリングの提案ありがとうございます！以下の内容をできるだけ詳しく記入してください。**
+
+  - type: textarea
+    id: current-situation
+    attributes:
+      label: 現在の状況
+      description: 現在のコードの問題点や改善したい箇所を詳しく説明してください。
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-changes
+    attributes:
+      label: 提案する変更内容
+      description: どのようにコードを改善するか、具体的な変更内容を記載してください。
+    validations:
+      required: true
+
+  - type: textarea
+    id: benefits
+    attributes:
+      label: 期待される効果
+      description: この変更によってどのような改善が期待できるかを説明してください。
+      placeholder: |
+        例：
+        - パフォーマンスの向上
+        - 可読性の向上
+        - 保守性の向上
+        - テストしやすさの向上
+    validations:
+      required: true
+
+  - type: textarea
+    id: impact
+    attributes:
+      label: 影響範囲
+      description: この変更が既存のAPIや機能に与える影響を説明してください。
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: 追加情報
+      description: 参考資料、関連するissue、コード例などがあれば記載してください。
+    validations:
+      required: false
