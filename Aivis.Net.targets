@@ -9,5 +9,6 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>git://github.com/atoyr/Aivis-net</RepositoryUrl>
+        <PackageReadmeFile>NUGET_README.md</PackageReadmeFile>
     </PropertyGroup>
 </Project>
