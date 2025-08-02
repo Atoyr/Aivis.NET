@@ -12,11 +12,7 @@
     <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
     <ProjectUrl>https://github.com/Atoyr/Aivis-net</ProjectUrl>
     <Description>The Aivis Cloud Client for the Aivis.Net library</Description>
-    <ReleaseNotes>0.1.2</ReleaseNotes>
     <Copyright>© 2025 Ryota Uchiyama</Copyright>
-    <Tags>.NET</Tags>
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/Atoyr/Aivis-net</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
