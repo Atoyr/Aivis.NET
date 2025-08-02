@@ -43,11 +43,14 @@ public class Speaker : ISpeaker
 
     private async Task PlayMp3Async(Stream audioStream, CancellationToken cancellationToken = default)
     {
-        audioStream.Position = 0;
+        if(audioStream.CanSeek)
+        {
+            audioStream.Position = 0;
+        }
 
-        var mp3Reader = new Mp3FileReader(audioStream);
+        using var mp3Reader = new Mp3FileReader(audioStream);
+        using var outputDevice = new WaveOutEvent();
         // 出力デバイスを初期化
-        var outputDevice = new WaveOutEvent();
         outputDevice.Init(mp3Reader);
         
         // 再生開始
@@ -60,7 +63,7 @@ public class Speaker : ISpeaker
                 outputDevice.Stop();
                 return;
             }
-            await Task.Delay(100);
+            await Task.Delay(100, cancellationToken);
         }
     }
 }
