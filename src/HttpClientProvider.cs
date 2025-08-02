@@ -3,7 +3,7 @@ namespace Aivis;
 /// <summary>
 /// HttpClientProvider クラスは、HttpClient の単一インスタンスを提供します。
 /// </summary>
-public class HttpClientProvider : IHttpClientProvider
+public class HttpClientProvider : IHttpClientProvider, IDisposable
 {
     private HttpClient _instance = new HttpClient();
 
@@ -11,4 +11,14 @@ public class HttpClientProvider : IHttpClientProvider
     /// HttpClient の共有インスタンス。
     /// </summary>
     public HttpClient Instance => _instance;
+
+    public HttpClientProvider()
+    {
+        _instance = new HttpClient();
+    }
+
+    public void Dispose()
+    {
+        _instance?.Dispose();
+    }
 }
