@@ -16,7 +16,7 @@ public interface ISpeaker
     /// <param name="mediaType">音声バイナリデータのコンテンツタイプ</param>
     /// <param name="audioStream">音声ストリーム</param>
     /// <param name="cancellationToken">キャンセル</param>
-    Task PlayAsync(MediaType mediaType, MemoryStream audioStream, CancellationToken cancellationToken);
+    Task PlayAsync(MediaType mediaType, Stream audioStream, CancellationToken cancellationToken);
 
     /// <summary>
     /// バイナリデータから音声を再生する

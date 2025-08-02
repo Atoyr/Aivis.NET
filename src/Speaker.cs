@@ -9,7 +9,7 @@ public class Speaker : ISpeaker
         PlayAsync(mediaType, audioData).GetAwaiter().GetResult();
     }
 
-    public async Task PlayAsync(MediaType mediaType, MemoryStream audioStream, CancellationToken cancellationToken = default)
+    public async Task PlayAsync(MediaType mediaType, Stream audioStream, CancellationToken cancellationToken = default)
     {
         // ここに非同期で音声を再生するロジックを実装
         switch (mediaType)
@@ -41,7 +41,7 @@ public class Speaker : ISpeaker
         await PlayMp3Async(stream, cancellationToken);
     }
 
-    private async Task PlayMp3Async(MemoryStream audioStream, CancellationToken cancellationToken = default)
+    private async Task PlayMp3Async(Stream audioStream, CancellationToken cancellationToken = default)
     {
         audioStream.Position = 0;
 
