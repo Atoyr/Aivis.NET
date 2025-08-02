@@ -12,10 +12,7 @@ public class HttpClientProvider : IHttpClientProvider, IDisposable
     /// </summary>
     public HttpClient Instance => _instance;
 
-    public HttpClientProvider()
-    {
-        _instance = new HttpClient();
-    }
+    public HttpClientProvider() { }
 
     public void Dispose()
     {
