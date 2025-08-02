@@ -17,10 +17,6 @@
     <img alt="GitHub Actions CI Workflow Status" src="https://img.shields.io/github/actions/workflow/status/atoyr/Aivis-Net/ci.yml">
   </a>
 
-  <a href="https://github.com/Atoyr/Aivis-net/actions/workflows/publish.yml">
-    <img alt="GitHub Actions Publish Workflow Status" src="https://img.shields.io/github/actions/workflow/status/atoyr/Aivis-Net/publish.yml">
-  </a>
-
   #
 
 </div>
