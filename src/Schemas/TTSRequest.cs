@@ -75,7 +75,10 @@ public class TTSRequest
             {
                 styleId = value;
             }
-            throw new ArgumentOutOfRangeException(nameof(value), "StyleId must be between 0 and 31.");
+            else
+            {
+                throw new ArgumentOutOfRangeException(nameof(value), "StyleId must be between 0 and 31.");
+            }
         }
     }
 

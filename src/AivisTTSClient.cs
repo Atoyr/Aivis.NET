@@ -102,6 +102,6 @@ public class AivisTTSClient : ITalkToSpeech
         };
 
         request.Headers.Add("Authorization", $"Bearer {_options.ApiKey}");
-        return await HttpClientProvider.Instance.SendAsync(request);
+        return await _options.HttpClientProvider.Instance.SendAsync(request);
     }
 }
