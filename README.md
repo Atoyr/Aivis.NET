@@ -9,6 +9,18 @@
     <img alt="NuGet Version" src="https://img.shields.io/nuget/v/Aivis.Net">
   </a>
 
+  <a href="https://github.com/Atoyr/Aivis-net/releases">
+    <img alt="GitHub Release" src="https://img.shields.io/github/v/release/Atoyr/Aivis-NET">
+  </a>
+
+  <a href="https://github.com/Atoyr/Aivis-net/actions/workflows/ci.yml">
+    <img alt="GitHub Actions CI Workflow Status" src="https://img.shields.io/github/actions/workflow/status/atoyr/Aivis-Net/ci.yml">
+  </a>
+
+  <a href="https://github.com/Atoyr/Aivis-net/actions/workflows/publish.yml">
+    <img alt="GitHub Actions Publish Workflow Status" src="https://img.shields.io/github/actions/workflow/status/atoyr/Aivis-Net/publish.yml">
+  </a>
+
   #
 
 </div>
