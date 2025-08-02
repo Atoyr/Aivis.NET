@@ -23,6 +23,5 @@ public interface ISpeaker
     /// </summary>
     /// <param name="mediaType">音声バイナリデータのコンテンツタイプ</param>
     /// <param name="audioData">音声バイナリデータ</param>
-    /// <param name="cancellationToken">キャンセル</param>
-    void Play(MediaType meidaType, byte[] audioData);
+    void Play(MediaType mediaType, byte[] audioData);
 }
