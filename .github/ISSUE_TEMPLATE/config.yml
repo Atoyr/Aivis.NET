@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Issue Registration / イシュー登録
+    url: https://github.com/Atoyr/Aivis-net/issues/new/choose
+    about: Create a new issue using templates / テンプレートを使用して新しいイシューを作成
+  - name: Discussions / ディスカッション
+    url: https://github.com/Atoyr/Aivis-net/discussions
+    about: Ask questions and discuss about the library / ライブラリについて質問や議論をする
