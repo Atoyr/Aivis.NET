@@ -1,0 +1,62 @@
+name: 🛠️ メンテナンス / Chore
+description: 依存関係の更新、ドキュメント修正、ビルド設定の変更など
+title: "[🛠️Chore] "
+labels: [chore]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **メンテナンス作業の提案ありがとうございます！以下の内容をできるだけ詳しく記入してください。**
+
+  - type: dropdown
+    id: chore-type
+    attributes:
+      label: 作業の種類
+      description: どのような種類のメンテナンス作業ですか？
+      options:
+        - 依存関係の更新
+        - ドキュメントの修正・更新
+        - ビルド設定の変更
+        - CI/CDの改善
+        - テスト環境の改善
+        - その他
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: 作業内容
+      description: 具体的にどのような作業を行うか詳しく説明してください。
+    validations:
+      required: true
+
+  - type: textarea
+    id: reason
+    attributes:
+      label: 理由・目的
+      description: なぜこの作業が必要なのか、どのような効果を期待しているかを説明してください。
+    validations:
+      required: true
+
+  - type: textarea
+    id: changes
+    attributes:
+      label: 変更予定の内容
+      description: 具体的にどのファイルや設定を変更するか記載してください。
+      placeholder: |
+        例：
+        - package.json の依存関係を更新
+        - README.md の使用例を修正
+        - .github/workflows/ci.yml を改善
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: 追加情報
+      description: 参考資料、関連するissue、スクリーンショットなどがあれば記載してください。
+    validations:
+      required: false
