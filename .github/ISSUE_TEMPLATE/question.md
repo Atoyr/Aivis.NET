@@ -1,8 +1,10 @@
+---
 name: ❓ 質問 / Question
 description: ライブラリの使い方などに関する質問はこちら
 title: "[Question] "
 labels: [Question]
 assignees: ''
+---
 
 body:
   - type: textarea

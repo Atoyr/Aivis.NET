@@ -1,8 +1,10 @@
+---
 name: 🐛 バグ報告 / Bug Report
 description: ライブラリの不具合を報告するためのテンプレート
 title: "[Bug] "
 labels: [Bug]
 assignees: ''
+---
 
 body:
   - type: markdown
