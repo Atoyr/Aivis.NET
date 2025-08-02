@@ -19,8 +19,8 @@ while (string.IsNullOrWhiteSpace(modelUuid = Console.ReadLine()))
 }
 
 Aivis.AivisClientOptions options = new(apiKey!.Trim());
-Aivis.AivisTTSClient ttsCient = new(options);
-using var stream = await ttsCient.SynthesizeStreamAsync(modelUuid!.Replace("\n", "").Trim(), text!);
+Aivis.AivisTTSClient ttsClient = new(options);
+using var stream = await ttsClient.SynthesizeStreamAsync(modelUuid!.Replace("\n", "").Trim(), text!);
 
 Aivis.Speaker speaker = new();
 Console.WriteLine("チャンクの受信を開始します...");
