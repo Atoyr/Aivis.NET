@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Discussions / ディスカッション
+    url: https://github.com/Atoyr/Aivis-net/discussions
+    about: Ask questions and discuss about the library / ライブラリについて質問や議論をする
