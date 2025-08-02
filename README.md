@@ -40,6 +40,16 @@ Aivis.Speaker speaker = new();
 await speaker.PlayAsync(Aivis.MediaType.MP3, stream);
 ```
 
+ストリーミング再生
+``` C#
+Aivis.AivisClientOptions options = new(apiKey);
+Aivis.AivisTTSClient ttsClient = new(options);
+var stream = await ttsClient.SynthesizeStreamAsync(modelUuid, text);
+
+Aivis.Speaker speaker = new();
+await speaker.PlayAsync(Aivis.MediaType.MP3, stream);
+```
+
 ## ❓ 質問・不具合の報告
 
 - バグ報告や機能要望は [Issueページ](https://github.com/Atoyr/Aivis-net/issues) よりお願いします
