@@ -45,7 +45,7 @@ jobs:
       - name: Run formatter for sample Console
         run: dotnet format ${{ env.SAMPLE_CONSOLE_PATH }} --verify-no-changes 
       - name: Run formatter for sample StreamPlay
-        run: dotnet format ${{ env.SAMPLE_CONSOLE_PATH }} --verify-no-changes 
+        run: dotnet format ${{ env.SAMPLE_STREAM_PLAY_PATH }} --verify-no-changes 
       - name: Run formatter for tests
         run: dotnet format ${{ env.TEST_PATH }} --verify-no-changes 
   build-and-test:
