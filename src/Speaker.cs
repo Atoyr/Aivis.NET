@@ -43,7 +43,7 @@ public class Speaker : ISpeaker
 
     private async Task PlayMp3Async(Stream audioStream, CancellationToken cancellationToken = default)
     {
-        if(audioStream.CanSeek)
+        if (audioStream.CanSeek)
         {
             audioStream.Position = 0;
         }
@@ -52,7 +52,7 @@ public class Speaker : ISpeaker
         using var outputDevice = new WaveOutEvent();
         // 出力デバイスを初期化
         outputDevice.Init(mp3Reader);
-        
+
         // 再生開始
         outputDevice.Play();
 

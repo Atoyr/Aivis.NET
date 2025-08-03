@@ -46,15 +46,15 @@ public class AivisClientOptions
         {
             return new AivisClientOptions()
             {
-                BaseUrl = BaseUrl, 
+                BaseUrl = BaseUrl,
                 HttpClientProvider = HttpClientProvider
             };
         }
-        else 
+        else
         {
             return new AivisClientOptions(ApiKey)
             {
-                BaseUrl = BaseUrl, 
+                BaseUrl = BaseUrl,
                 HttpClientProvider = HttpClientProvider
             };
         }

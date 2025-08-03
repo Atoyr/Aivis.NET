@@ -69,7 +69,7 @@ public class TTSRequest
     public int StyleId
     {
         get => styleId;
-        set 
+        set
         {
             if (0 <= value && value <= 31)
             {

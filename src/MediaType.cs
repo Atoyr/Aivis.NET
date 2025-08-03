@@ -1,10 +1,10 @@
 namespace Aivis;
 
-public enum MediaType 
+public enum MediaType
 {
-    WAV, 
-    FLAC, 
-    MP3, 
-    AAC, 
+    WAV,
+    FLAC,
+    MP3,
+    AAC,
     OPUS,
 }

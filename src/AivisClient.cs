@@ -3,7 +3,7 @@ namespace Aivis;
 
 public class AivisClient
 {
-    private AivisClientOptions _options;
+    private readonly AivisClientOptions _options;
 
     public AivisClient(AivisClientOptions options)
     {

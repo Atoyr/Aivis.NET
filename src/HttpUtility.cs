@@ -48,7 +48,7 @@ public static class HttpUtility
         {
             return string.Empty;
         }
-            
+
         // 様々なパターンに対応
         // 例: "inline; filename="file.mp3""
         // 例: "attachment; filename=file.mp3"
@@ -57,14 +57,14 @@ public static class HttpUtility
         foreach (var part in parts)
         {
             var trimmed = part.Trim();
-            
+
             // 通常のfilename=パターン
             if (trimmed.StartsWith("filename=", StringComparison.OrdinalIgnoreCase))
             {
                 var fileName = trimmed.Substring("filename=".Length).Trim();
                 return fileName.Trim('"').Trim('\'');
             }
-            
+
             // RFC 5987準拠のfilename*=パターン（エンコードされたファイル名）
             if (trimmed.StartsWith("filename*=", StringComparison.OrdinalIgnoreCase))
             {

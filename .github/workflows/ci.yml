@@ -17,10 +17,37 @@ env:
   DOTNET_VERSION_1: '8.0.x'
   DOTNET_VERSION_2: '9.0.x'
   PROJECT_PATH: 'src/Aivis.Net.csproj'
-  SAMPLE_PATH: 'sample/Console/Aivis.Sample.Console.csproj'
+  SAMPLE_CONSOLE_PATH: 'sample/Console/Aivis.Sample.Console.csproj'
+  SAMPLE_STREAM_PLAY_PATH: 'sample/StreamPlay/Aivis.Sample.StreamPlay.csproj'
   TEST_PATH: 'tests/Aivis.Tests.csproj'
 
 jobs:
+  format-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8.0
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION_1 }}
+
+      - name: Setup .NET 9.0
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION_2 }}
+
+      - name: Install dotnet-format
+        run: dotnet tool install --global dotnet-format
+      - name: Run formatter for lib
+        run: dotnet format ${{ env.PROJECT_PATH }} --verify-no-changes 
+      - name: Run formatter for sample Console
+        run: dotnet format ${{ env.SAMPLE_CONSOLE_PATH }} --verify-no-changes 
+      - name: Run formatter for sample StreamPlay
+        run: dotnet format ${{ env.SAMPLE_STREAM_PLAY_PATH }} --verify-no-changes 
+      - name: Run formatter for tests
+        run: dotnet format ${{ env.TEST_PATH }} --verify-no-changes 
   build-and-test:
     name: Build and Test
     runs-on: ubuntu-latest
@@ -33,30 +60,36 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ env.DOTNET_VERSION_1 }}
-          
+
       - name: Setup .NET 9.0
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ env.DOTNET_VERSION_2 }}
-          
+
       - name: Restore lib
         run: dotnet restore ${{ env.PROJECT_PATH}}
-        
+
       - name: Build lib
         run: dotnet build ${{ env.PROJECT_PATH}} --no-restore --configuration Release
-        
-      - name: Restore sample project
-        run: dotnet restore ${{ env.SAMPLE_PATH}}
-        
-      - name: Build sample project
-        run: dotnet build ${{ env.SAMPLE_PATH }} --no-restore --configuration Release
-        
+
+      - name: Restore sample console project
+        run: dotnet restore ${{ env.SAMPLE_CONSOLE_PATH}}
+
+      - name: Build sample console project
+        run: dotnet build ${{ env.SAMPLE_CONSOLE_PATH }} --no-restore --configuration Release
+
+      - name: Restore sample StreamPlay project
+        run: dotnet restore ${{ env.SAMPLE_STREAM_PLAY_PATH}}
+
+      - name: Build sample StreamPlay project
+        run: dotnet build ${{ env.SAMPLE_STREAM_PLAY_PATH }} --no-restore --configuration Release
+
       - name: Restore test project
         run: dotnet restore ${{ env.TEST_PATH }}
-        
+
       - name: Build test project
         run: dotnet build ${{ env.TEST_PATH }} --no-restore --configuration Release
-        
+
       - name: Run tests
         run: dotnet test ${{ env.TEST_PATH }} --no-build --configuration Release --verbosity normal
       

@@ -5,7 +5,7 @@ namespace Aivis;
 /// </summary>
 public class HttpClientProvider : IHttpClientProvider, IDisposable
 {
-    private HttpClient _instance = new HttpClient();
+    private readonly HttpClient _instance = new HttpClient();
 
     /// <summary>
     /// HttpClient の共有インスタンス。

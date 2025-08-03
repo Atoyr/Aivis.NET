@@ -1,6 +1,6 @@
+using System.Net;
 using System.Text;
 using System.Text.Json;
-using System.Net;
 
 using Aivis.Schemas;
 
@@ -65,7 +65,7 @@ public class AivisTTSClient : ITalkToSpeech
 
     private async Task<HttpResponseMessage> PostSynthesizeAsync(string modelUuid, string text, string format = "mp3")
     {
-        TTSRequest requestBody = new(modelUuid, text){ OutputFormat = format};
+        TTSRequest requestBody = new(modelUuid, text) { OutputFormat = format };
         var jsonContent = JsonSerializer.Serialize(requestBody);
 
         var response = await PostWithAuthAsync(SynthetizeEndpoint, jsonContent);
@@ -76,9 +76,9 @@ public class AivisTTSClient : ITalkToSpeech
 
         switch (response.StatusCode)
         {
-            case HttpStatusCode.Unauthorized :
+            case HttpStatusCode.Unauthorized:
                 throw new UnauthorizedAccessException($"{response.StatusCode} - APIキーが設定されていないか無効です。");
-            case HttpStatusCode.PaymentRequired :
+            case HttpStatusCode.PaymentRequired:
                 throw new NotSupportedException($"{response.StatusCode} - クレジット残高が不足しています。");
             case HttpStatusCode.NotFound:
                 throw new NotSupportedException($"{response.StatusCode} - 指定されたモデルが見つかりません。モデルUUIDを確認してください。");
