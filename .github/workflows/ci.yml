@@ -21,6 +21,30 @@ env:
   TEST_PATH: 'tests/Aivis.Tests.csproj'
 
 jobs:
+  format-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup .NET 8.0
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION_1 }}
+          
+      - name: Setup .NET 9.0
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION_2 }}
+
+      - name: Install dotnet-format
+        run: dotnet tool install --global dotnet-format
+      - name: Run formatter for lib
+        run: dotnet format --verify-no-changes ${{ env.PROJECT_PATH }}
+      - name: Run formatter for sample Console
+        run: dotnet format --verify-no-changes ${{ env.SAMPLE_PATH }}
+      - name: Run formatter for tests
+        run: dotnet format --verify-no-changes ${{ env.TEST_PATH }}
   build-and-test:
     name: Build and Test
     runs-on: ubuntu-latest
