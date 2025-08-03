@@ -91,7 +91,7 @@ public static class HttpHelper
     /// <param name="endpoint">APIエンドポイント</param>
     /// <param name="query">クエリパラメータとして使用するオブジェクト</param>
     /// <returns>構築されたURL</returns>
-    public static string BuildUrl(string endpoint, object query)
+    public static string BuildUrl(string endpoint, object? query)
     {
         var baseUrl = endpoint.TrimEnd('/');
         
