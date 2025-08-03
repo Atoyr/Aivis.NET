@@ -1,6 +1,7 @@
 using System.Net;
 using System.Text;
 using System.Text.Json;
+
 using Moq;
 using Moq.Protected;
 
@@ -98,7 +99,7 @@ public class AivisTTSClientTests
         {
             Content = new ByteArrayContent(expectedAudioData)
         };
-        
+
         responseMessage.Content.Headers.Add("Content-Disposition", "attachment; filename=\"test.mp3\"");
         responseMessage.Headers.Add("X-Aivis-Billing-Mode", "PayAsYouGo");
         responseMessage.Headers.Add("X-Aivis-Character-Count", "10");
@@ -133,7 +134,7 @@ public class AivisTTSClientTests
     [InlineData(HttpStatusCode.ServiceUnavailable, typeof(NotSupportedException))]
     [InlineData(HttpStatusCode.GatewayTimeout, typeof(NotSupportedException))]
     public async Task SynthesizeAsync_ErrorStatusCode_ThrowsExpectedException(
-        HttpStatusCode statusCode, 
+        HttpStatusCode statusCode,
         Type expectedExceptionType)
     {
         var responseMessage = new HttpResponseMessage(statusCode)
@@ -144,10 +145,10 @@ public class AivisTTSClientTests
         SetupHttpResponse(responseMessage);
 
         var client = new AivisTTSClient(_options);
-        
+
         var exception = await Assert.ThrowsAsync(expectedExceptionType, async () =>
             await client.SynthesizeAsync("550e8400-e29b-41d4-a716-446655440000", "テストテキスト"));
-        
+
         Assert.Contains(statusCode.ToString(), exception.Message);
     }
 
@@ -162,10 +163,10 @@ public class AivisTTSClientTests
         SetupHttpResponse(responseMessage);
 
         var client = new AivisTTSClient(_options);
-        
+
         var exception = await Assert.ThrowsAsync<Exception>(async () =>
             await client.SynthesizeAsync("550e8400-e29b-41d4-a716-446655440000", "テストテキスト"));
-        
+
         Assert.Contains("音声合成に失敗しました", exception.Message);
         Assert.Contains("Conflict", exception.Message);
     }
@@ -229,7 +230,7 @@ public class AivisTTSClientTests
 
         _mockHttpMessageHandler.Protected()
             .Verify("SendAsync", Times.Once(),
-                ItExpr.Is<HttpRequestMessage>(req => 
+                ItExpr.Is<HttpRequestMessage>(req =>
                     req.Headers.Authorization != null &&
                     req.Headers.Authorization.Scheme == "Bearer" &&
                     req.Headers.Authorization.Parameter == "test-api-key"),
@@ -240,7 +241,7 @@ public class AivisTTSClientTests
     {
         _mockHttpMessageHandler.Protected()
             .Setup<Task<HttpResponseMessage>>("SendAsync",
-                expectedUrl != null 
+                expectedUrl != null
                     ? ItExpr.Is<HttpRequestMessage>(req => req.RequestUri!.ToString() == expectedUrl)
                     : ItExpr.IsAny<HttpRequestMessage>(),
                 ItExpr.IsAny<CancellationToken>())

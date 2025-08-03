@@ -36,7 +36,7 @@ public class AivisClientOptionsTests
         var httpClientProvider = new MockHttpClientProvider(httpClient);
         var options = new AivisClientOptions(apiKey)
         {
-            BaseUrl = customUrl, 
+            BaseUrl = customUrl,
             HttpClientProvider = httpClientProvider
         };
 
@@ -54,7 +54,7 @@ public class AivisClientOptionsTests
         var httpClientProvider = new MockHttpClientProvider(httpClient);
         var original = new AivisClientOptions(originalApiKey)
         {
-            BaseUrl = customUrl, 
+            BaseUrl = customUrl,
             HttpClientProvider = httpClientProvider
         };
 
@@ -75,7 +75,7 @@ public class AivisClientOptionsTests
         // Modify the cloned instance
         var modifiedClone = new AivisClientOptions("test-key")
         {
-            BaseUrl = "https://modified-url.com", 
+            BaseUrl = "https://modified-url.com",
         };
 
         // Original should remain unchanged
