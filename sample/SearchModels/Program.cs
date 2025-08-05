@@ -15,7 +15,7 @@ foreach(var model in contents.AivmModels)
 {
     Console.WriteLine($"- {model.Name} ({model.AivmModelUuid})");
     Console.WriteLine($"  Description: {model.Description}");
-    Console.WriteLine($"  Tags: {string.Join(", ", model.Tags ?? new string[0])}");
+    Console.WriteLine($"  Tags: {string.Join(", ", model.Tags.Select(x => x.Name) ?? new Aivis.Schemas.Tag[0].Select(x => x.Name))}");
     Console.WriteLine($"  Created At: {model.CreatedAt}");
     Console.WriteLine($"  Updated At: {model.UpdatedAt}");
     Console.WriteLine();

@@ -20,22 +20,22 @@ public record AivmModelResponse
     string DetailedDescription, 
 
     [property: JsonPropertyName("category")]
-    string Category, 
+    Category Category, 
 
     [property: JsonPropertyName("voice_timbre")]
-    string VoiceTimbre, 
+    VoiceTimbre VoiceTimbre, 
 
     [property: JsonPropertyName("visibility")]
-    string Visibility, 
+    Visibility Visibility, 
 
     [property: JsonPropertyName("is_tag_locked")]
     bool IsTagLocked, 
 
     [property: JsonPropertyName("model_files")]
-    object[] ModelFiles, 
+    ModelFile[] ModelFiles, 
 
     [property: JsonPropertyName("tags")]
-    object[] Tags, 
+    Tag[] Tags, 
 
     [property: JsonPropertyName("like_count")]
     int LikeCount, 
@@ -44,7 +44,7 @@ public record AivmModelResponse
     bool IsLiked, 
 
     [property: JsonPropertyName("speakers")]
-    object[] Speakers, 
+    Speaker[] Speakers, 
 
     [property: JsonPropertyName("created_at")]
     DateTime CreatedAt, 

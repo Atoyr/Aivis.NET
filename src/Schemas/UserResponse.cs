@@ -20,7 +20,7 @@ public record UserResponse
     AccountType AccountType,
 
     [property: JsonPropertyName("account_status")]
-    string AccountStatus,
+    AccountStatus AccountStatus,
 
     [property: JsonPropertyName("social_links")]
     SocialLink[] SocialLinks

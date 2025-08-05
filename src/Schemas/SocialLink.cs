@@ -4,7 +4,7 @@ namespace Aivis.Schemas;
 
 public record SocialLink(
     [property: JsonPropertyName("type")]
-    string Type, 
+    SocialLinkType Type, 
     [property: JsonPropertyName("url")]
     string Url
 );

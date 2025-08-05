@@ -6,10 +6,10 @@ namespace Aivis.Schemas;
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum AccountType
 {
-    [EnumMember(Value = "User")]
+    [EnumMember(Value = nameof(AccountType.User))]
     User = 0,
-    [EnumMember(Value = "Official")]    
+    [EnumMember(Value = nameof(AccountType.Official))]
     Official = 1,
-    [EnumMember(Value = "Admin")]   
+    [EnumMember(Value = nameof(AccountType.Admin))]
     Admin = 2
 }
