@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 
 namespace Aivis.Schemas;
 
-[JsonConverter(typeof(JsonStringEnumConverter))]
+[JsonConverter(typeof(EnumMemberStringEnumConverter<ModelArchitecture>))]
 public enum ModelArchitecture
 {
     [EnumMember(Value = "Style-Bert-VITS2")]
