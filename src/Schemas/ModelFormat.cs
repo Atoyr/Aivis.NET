@@ -1,5 +1,5 @@
-using System.Text.Json.Serialization;
 using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Aivis.Schemas;
 
@@ -13,4 +13,3 @@ public enum ModelFormat
     [JsonPropertyName("ONNX")]
     Onnx = 1,
 }
-

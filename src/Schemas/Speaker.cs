@@ -4,16 +4,15 @@ namespace Aivis.Schemas;
 
 public record Speaker(
     [property: JsonPropertyName("aivm_speaker_uuid")]
-    Guid AivmSpeakerUuid, 
+    Guid AivmSpeakerUuid,
     [property: JsonPropertyName("name")]
-    string Name, 
+    string Name,
     [property: JsonPropertyName("icon_url")]
-    string IconUrl, 
+    string IconUrl,
     [property: JsonPropertyName("supported_languages")]
-    string[] SupportedLanguages, 
+    string[] SupportedLanguages,
     [property: JsonPropertyName("local_id")]
-    int LocalId, 
+    int LocalId,
     [property: JsonPropertyName("styles")]
     Style[] Styles
 );
-

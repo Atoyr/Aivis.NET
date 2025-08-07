@@ -4,28 +4,28 @@ namespace Aivis.Schemas;
 
 public record ModelFile(
     [property: JsonPropertyName("aivm_model_uuid")]
-    Guid AivmModelUuid, 
+    Guid AivmModelUuid,
 
     [property: JsonPropertyName("manifest_version")]
-    string ManifestVersion, 
+    string ManifestVersion,
 
     [property: JsonPropertyName("name")]
-    string Name, 
+    string Name,
 
     [property: JsonPropertyName("description")]
-    string Description, 
+    string Description,
 
     [property: JsonPropertyName("creators")]
-    string[] Creators, 
+    string[] Creators,
 
     [property: JsonPropertyName("license_type")]
     LicenseType LicenseType,
 
     [property: JsonPropertyName("license_text")]
-    string? LicenseText, 
+    string? LicenseText,
 
     [property: JsonPropertyName("model_type")]
-    ModelType ModelType, 
+    ModelType ModelType,
 
     [property: JsonPropertyName("model_architecture")]
     ModelArchitecture ModelArchitecture,
@@ -34,25 +34,25 @@ public record ModelFile(
     ModelFormat ModelFormat,
 
     [property: JsonPropertyName("training_epoches")]
-    int? TrainingEpochs, 
+    int? TrainingEpochs,
 
     [property: JsonPropertyName("training_steps")]
-    int? TrainingSteps, 
+    int? TrainingSteps,
 
     [property: JsonPropertyName("version")]
-    string Version, 
+    string Version,
 
     [property: JsonPropertyName("file_size")]
     int FileSize,
 
     [property: JsonPropertyName("checksum")]
-    string Checksum, 
+    string Checksum,
 
     [property: JsonPropertyName("download_count")]
     int DownloadCount,
 
     [property: JsonPropertyName("created_at")]
-    DateTime CreatedAt, 
+    DateTime CreatedAt,
 
     [property: JsonPropertyName("updated_at")]
     DateTime UpdatedAt

@@ -4,13 +4,11 @@ namespace Aivis.Schemas;
 
 public record Style(
     [property: JsonPropertyName("name")]
-    string Name, 
+    string Name,
     [property: JsonPropertyName("icon_url")]
-    string? IconUrl, 
+    string? IconUrl,
     [property: JsonPropertyName("local_id")]
-    int LocalId, 
+    int LocalId,
     [property: JsonPropertyName("voice_samples")]
     VoiceSample[] VoiceSamples
 );
-
-

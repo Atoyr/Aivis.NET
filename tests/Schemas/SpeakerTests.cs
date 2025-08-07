@@ -1,4 +1,5 @@
 using System.Text.Json;
+
 using Xunit;
 
 namespace Aivis.Schemas.Tests;
@@ -51,13 +52,13 @@ public class SpeakerTests
         Assert.Equal("en", result.SupportedLanguages[1]);
         Assert.Equal(1, result.LocalId);
         Assert.Equal(2, result.Styles.Length);
-        
+
         // First style
         Assert.Equal("Normal", result.Styles[0].Name);
         Assert.Equal("https://example.com/normal_icon.png", result.Styles[0].IconUrl);
         Assert.Equal(0, result.Styles[0].LocalId);
         Assert.Empty(result.Styles[0].VoiceSamples);
-        
+
         // Second style
         Assert.Equal("Happy", result.Styles[1].Name);
         Assert.Null(result.Styles[1].IconUrl);

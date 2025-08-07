@@ -5,7 +5,7 @@ using Aivis.Schemas;
 
 namespace Aivis;
 
-public class AivisModelClient 
+public class AivisModelClient
 {
     private readonly AivisClientOptions _options;
 
@@ -78,7 +78,7 @@ public class AivisModelClient
             throw new ArgumentException("Model ID cannot be null or empty.", nameof(modelId));
         }
 
-        var response = await GetAsync(DownloadEndpoint(modelId), new {ModelType = modelType, Redirect = false});
+        var response = await GetAsync(DownloadEndpoint(modelId), new { ModelType = modelType, Redirect = false });
         if (response.StatusCode == HttpStatusCode.Created)
         {
             // LocationヘッダからURLを取得

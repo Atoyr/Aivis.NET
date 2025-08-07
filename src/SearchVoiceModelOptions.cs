@@ -8,8 +8,8 @@ public class SearchVoiceModelsOptions
     public string? Keyword { get; set; }
 
     private List<string> _tags = new();
-    public string[]? Tags 
-    { 
+    public string[]? Tags
+    {
         get
         {
             if (_tags.Count == 0)
@@ -26,7 +26,7 @@ public class SearchVoiceModelsOptions
 
     private List<string> _categories = new();
     public string[]? Categories
-    { 
+    {
         get
         {
             if (_categories.Count == 0)
@@ -43,7 +43,7 @@ public class SearchVoiceModelsOptions
 
     private List<string> _voiceTimbres = new();
     public string[]? VoiceTimbres
-    { 
+    {
         get
         {
             if (_voiceTimbres.Count == 0)
@@ -60,7 +60,7 @@ public class SearchVoiceModelsOptions
 
     private List<string> _licenceTypes = new();
     public string[]? LicenceTypes
-    { 
+    {
         get
         {
             if (_licenceTypes.Count == 0)

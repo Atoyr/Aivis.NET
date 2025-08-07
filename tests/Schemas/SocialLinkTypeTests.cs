@@ -1,4 +1,5 @@
 using System.Text.Json;
+
 using Xunit;
 
 namespace Aivis.Schemas.Tests;
@@ -64,7 +65,7 @@ public class SocialLinkTypeTests
     {
         // Both GitHub and HuggingFace have the same enum value (8)
         // When serializing, it should serialize to the first enum name (GitHub)
-        
+
         // Act
         var githubResult = JsonSerializer.Serialize(SocialLinkType.GitHub);
         var huggingFaceResult = JsonSerializer.Serialize(SocialLinkType.HuggingFace);
@@ -72,7 +73,7 @@ public class SocialLinkTypeTests
         // Assert
         Assert.Equal("\"GitHub\"", githubResult);
         Assert.Equal("\"GitHub\"", huggingFaceResult); // Both serialize to "GitHub"
-        
+
         // Verify they have the same underlying value
         Assert.Equal((int)SocialLinkType.GitHub, (int)SocialLinkType.HuggingFace);
     }

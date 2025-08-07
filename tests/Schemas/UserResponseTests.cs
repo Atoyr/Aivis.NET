@@ -1,4 +1,5 @@
 using System.Text.Json;
+
 using Xunit;
 
 namespace Aivis.Schemas.Tests;
@@ -114,7 +115,7 @@ public class UserResponseTests
         Assert.Equal(originalUserResponse.AccountType, deserializedUserResponse.AccountType);
         Assert.Equal(originalUserResponse.AccountStatus, deserializedUserResponse.AccountStatus);
         Assert.Equal(originalUserResponse.SocialLinks.Length, deserializedUserResponse.SocialLinks.Length);
-        
+
         for (int i = 0; i < originalUserResponse.SocialLinks.Length; i++)
         {
             Assert.Equal(originalUserResponse.SocialLinks[i].Type, deserializedUserResponse.SocialLinks[i].Type);

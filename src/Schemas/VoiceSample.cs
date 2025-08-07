@@ -4,10 +4,7 @@ namespace Aivis.Schemas;
 
 public record VoiceSample(
     [property: JsonPropertyName("audio_url")]
-    string AudioUrl, 
+    string AudioUrl,
     [property: JsonPropertyName("transcript")]
     string Transcript
 );
-
-
-

@@ -13,10 +13,10 @@ namespace Aivis.Schemas;
 public class EnumMemberStringEnumConverter : JsonConverterFactory
 {
     // パフォーマンス向上のため、リフレクション結果をキャッシュ
-    private static readonly ConcurrentDictionary<Type, ConcurrentDictionary<string, object>> _enumValueCache 
+    private static readonly ConcurrentDictionary<Type, ConcurrentDictionary<string, object>> _enumValueCache
         = new ConcurrentDictionary<Type, ConcurrentDictionary<string, object>>();
-    
-    private static readonly ConcurrentDictionary<Type, ConcurrentDictionary<object, string>> _enumNameCache 
+
+    private static readonly ConcurrentDictionary<Type, ConcurrentDictionary<object, string>> _enumNameCache
         = new ConcurrentDictionary<Type, ConcurrentDictionary<object, string>>();
 
     public override bool CanConvert(Type typeToConvert)
@@ -47,7 +47,7 @@ public class EnumMemberStringEnumConverter : JsonConverterFactory
 
             // キャッシュから値を取得
             var valueCache = _enumValueCache.GetOrAdd(typeToConvert, BuildValueCache);
-            
+
             if (valueCache.TryGetValue(value, out var enumValue))
             {
                 return (T)enumValue;
@@ -60,7 +60,7 @@ public class EnumMemberStringEnumConverter : JsonConverterFactory
         public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
         {
             var nameCache = _enumNameCache.GetOrAdd(typeof(T), BuildNameCache);
-            
+
             if (nameCache.TryGetValue(value, out var name))
             {
                 writer.WriteStringValue(name);
@@ -81,17 +81,17 @@ public class EnumMemberStringEnumConverter : JsonConverterFactory
                 if (field.IsLiteral && field.FieldType == enumType)
                 {
                     var enumValue = field.GetValue(null)!;
-                    
+
                     // EnumMember属性の値を優先
                     var enumMemberAttr = field.GetCustomAttribute<EnumMemberAttribute>();
                     if (enumMemberAttr?.Value != null)
                     {
                         cache.TryAdd(enumMemberAttr.Value, enumValue);
                     }
-                    
+
                     // フォールバック: フィールド名も登録（大文字小文字を区別しない）
                     cache.TryAdd(field.Name, enumValue);
-                    
+
                     // enum.ToString()の結果も登録
                     cache.TryAdd(enumValue.ToString()!, enumValue);
                 }
@@ -109,7 +109,7 @@ public class EnumMemberStringEnumConverter : JsonConverterFactory
                 if (field.IsLiteral && field.FieldType == enumType)
                 {
                     var enumValue = field.GetValue(null)!;
-                    
+
                     // EnumMember属性の値を優先
                     var enumMemberAttr = field.GetCustomAttribute<EnumMemberAttribute>();
                     if (enumMemberAttr?.Value != null)
@@ -182,14 +182,14 @@ public class EnumMemberStringEnumConverter<T> : JsonConverter<T> where T : struc
             if (field.IsLiteral && field.FieldType == enumType)
             {
                 var enumValue = (T)field.GetValue(null)!;
-                
+
                 // EnumMember属性の値を優先
                 var enumMemberAttr = field.GetCustomAttribute<EnumMemberAttribute>();
                 if (enumMemberAttr?.Value != null)
                 {
                     map.TryAdd(enumMemberAttr.Value, enumValue);
                 }
-                
+
                 // フォールバック値も登録
                 map.TryAdd(field.Name, enumValue);
                 map.TryAdd(enumValue.ToString(), enumValue);
@@ -209,7 +209,7 @@ public class EnumMemberStringEnumConverter<T> : JsonConverter<T> where T : struc
             if (field.IsLiteral && field.FieldType == enumType)
             {
                 var enumValue = (T)field.GetValue(null)!;
-                
+
                 // EnumMember属性の値を優先
                 var enumMemberAttr = field.GetCustomAttribute<EnumMemberAttribute>();
                 if (enumMemberAttr?.Value != null)

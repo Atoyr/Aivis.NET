@@ -1,5 +1,5 @@
-using System.Web;
 using System.Reflection;
+using System.Web;
 
 namespace Aivis;
 
@@ -94,7 +94,7 @@ public static class HttpHelper
     public static string BuildUrl(string endpoint, object? query)
     {
         var baseUrl = endpoint.TrimEnd('/');
-        
+
         if (query == null)
         {
             return baseUrl;
@@ -106,7 +106,7 @@ public static class HttpHelper
             return baseUrl;
         }
 
-        var queryString = string.Join("&", queryParams.Select(kvp => 
+        var queryString = string.Join("&", queryParams.Select(kvp =>
             $"{HttpUtility.UrlEncode(kvp.Key)}={HttpUtility.UrlEncode(kvp.Value)}"));
 
         return $"{baseUrl}?{queryString}";
@@ -131,7 +131,7 @@ public static class HttpHelper
         foreach (var property in properties)
         {
             var value = property.GetValue(query);
-            
+
             // nullの場合はスキップ
             if (value == null)
             {

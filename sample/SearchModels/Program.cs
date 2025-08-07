@@ -20,7 +20,8 @@ switch (mode)
 }
 
 
-async Task SearchModels() {
+async Task SearchModels()
+{
     var searchOptions = new Aivis.SearchVoiceModelsOptions();
     Console.WriteLine("input keyword");
     searchOptions.SetKeyword(Console.ReadLine());
@@ -34,7 +35,7 @@ async Task SearchModels() {
 
     Console.WriteLine($"Found {contents.Total} models:");
 
-    foreach(var model in contents.AivmModels)
+    foreach (var model in contents.AivmModels)
     {
         Console.WriteLine($"- {model.Name} ({model.AivmModelUuid})");
         Console.WriteLine($"  Description: {model.Description}");
@@ -45,7 +46,8 @@ async Task SearchModels() {
     }
 }
 
-async Task GetModelDetail() {
+async Task GetModelDetail()
+{
     Console.WriteLine("input Model ID");
     var id = Console.ReadLine();
     Aivis.AivisClientOptions options = new();
@@ -60,7 +62,8 @@ async Task GetModelDetail() {
     Console.WriteLine();
 }
 
-async Task GetDownload() {
+async Task GetDownload()
+{
     Console.WriteLine("input Model ID");
     var id = Console.ReadLine();
     Aivis.AivisClientOptions options = new();

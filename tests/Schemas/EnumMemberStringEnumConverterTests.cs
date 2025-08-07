@@ -1,4 +1,5 @@
 using System.Text.Json;
+
 using Xunit;
 
 namespace Aivis.Schemas.Tests;
@@ -76,9 +77,9 @@ public class EnumMemberStringEnumConverterTests
         string json = "\"InvalidLicenseType\"";
 
         // Act & Assert
-        var exception = Assert.Throws<JsonException>(() => 
+        var exception = Assert.Throws<JsonException>(() =>
             JsonSerializer.Deserialize<LicenseType>(json, _options));
-        
+
         Assert.Contains("Unable to convert", exception.Message);
         Assert.Contains("InvalidLicenseType", exception.Message);
     }
@@ -90,7 +91,7 @@ public class EnumMemberStringEnumConverterTests
         string json = "null";
 
         // Act & Assert
-        Assert.Throws<JsonException>(() => 
+        Assert.Throws<JsonException>(() =>
             JsonSerializer.Deserialize<LicenseType>(json, _options));
     }
 
@@ -101,9 +102,9 @@ public class EnumMemberStringEnumConverterTests
         string json = "123";
 
         // Act & Assert
-        var exception = Assert.Throws<JsonException>(() => 
+        var exception = Assert.Throws<JsonException>(() =>
             JsonSerializer.Deserialize<LicenseType>(json, _options));
-        
+
         Assert.Contains("Expected string value", exception.Message);
     }
 
@@ -143,13 +144,13 @@ public class EnumMemberStringEnumConverterTests
     {
         // Act - Serialize
         var json = JsonSerializer.Serialize(licenseType, _options);
-        
+
         // Assert - Check serialization
         Assert.Equal(expectedJson, json);
-        
+
         // Act - Deserialize
         var deserialized = JsonSerializer.Deserialize<LicenseType>(json, _options);
-        
+
         // Assert - Check deserialization
         Assert.Equal(licenseType, deserialized);
     }

@@ -5,49 +5,49 @@ namespace Aivis.Schemas;
 public record AivmModelResponse
 (
     [property: JsonPropertyName("aivm_model_uuid")]
-    Guid AivmModelUuid, 
+    Guid AivmModelUuid,
 
     [property: JsonPropertyName("user")]
-    UserResponse User, 
+    UserResponse User,
 
     [property: JsonPropertyName("name")]
-    string Name, 
+    string Name,
 
     [property: JsonPropertyName("description")]
-    string Description, 
+    string Description,
 
     [property: JsonPropertyName("detailed_description")]
-    string DetailedDescription, 
+    string DetailedDescription,
 
     [property: JsonPropertyName("category")]
-    Category Category, 
+    Category Category,
 
     [property: JsonPropertyName("voice_timbre")]
-    VoiceTimbre VoiceTimbre, 
+    VoiceTimbre VoiceTimbre,
 
     [property: JsonPropertyName("visibility")]
-    Visibility Visibility, 
+    Visibility Visibility,
 
     [property: JsonPropertyName("is_tag_locked")]
-    bool IsTagLocked, 
+    bool IsTagLocked,
 
     [property: JsonPropertyName("model_files")]
-    ModelFile[] ModelFiles, 
+    ModelFile[] ModelFiles,
 
     [property: JsonPropertyName("tags")]
-    Tag[] Tags, 
+    Tag[] Tags,
 
     [property: JsonPropertyName("like_count")]
-    int LikeCount, 
+    int LikeCount,
 
     [property: JsonPropertyName("is_liked")]
-    bool IsLiked, 
+    bool IsLiked,
 
     [property: JsonPropertyName("speakers")]
-    Speaker[] Speakers, 
+    Speaker[] Speakers,
 
     [property: JsonPropertyName("created_at")]
-    DateTime CreatedAt, 
+    DateTime CreatedAt,
 
     [property: JsonPropertyName("updated_at")]
     DateTime UpdatedAt

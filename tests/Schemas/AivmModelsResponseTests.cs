@@ -1,4 +1,5 @@
 using System.Text.Json;
+
 using Xunit;
 
 namespace Aivis.Schemas.Tests;
@@ -76,9 +77,9 @@ public class AivmModelsResponseTests
         Assert.NotNull(result);
         Assert.Equal(2, result.Total);
         Assert.Equal(2, result.AivmModels.Count());
-        
+
         var models = result.AivmModels.ToArray();
-        
+
         // First model
         Assert.Equal(Guid.Parse("a59cb814-0083-4369-8542-f51a29e72af7"), models[0].AivmModelUuid);
         Assert.Equal("test_user1", models[0].User.Handle);
@@ -89,7 +90,7 @@ public class AivmModelsResponseTests
         Assert.False(models[0].IsTagLocked);
         Assert.Equal(10, models[0].LikeCount);
         Assert.False(models[0].IsLiked);
-        
+
         // Second model
         Assert.Equal(Guid.Parse("b59cb814-0083-4369-8542-f51a29e72af8"), models[1].AivmModelUuid);
         Assert.Equal("test_user2", models[1].User.Handle);
@@ -216,10 +217,10 @@ public class AivmModelsResponseTests
         Assert.NotNull(deserializedResponse);
         Assert.Equal(originalResponse.Total, deserializedResponse.Total);
         Assert.Equal(originalResponse.AivmModels.Count(), deserializedResponse.AivmModels.Count());
-        
+
         var originalModel = originalResponse.AivmModels.First();
         var deserializedModel = deserializedResponse.AivmModels.First();
-        
+
         Assert.Equal(originalModel.AivmModelUuid, deserializedModel.AivmModelUuid);
         Assert.Equal(originalModel.Name, deserializedModel.Name);
         Assert.Equal(originalModel.User.Handle, deserializedModel.User.Handle);
