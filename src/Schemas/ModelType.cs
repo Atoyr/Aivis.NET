@@ -7,7 +7,7 @@ namespace Aivis.Schemas;
 public enum ModelType
 {
     [EnumMember(Value = "AIVM")]
-    Aivm = 0,
+    AIVM = 0,
     [EnumMember(Value = "AIVMX")]
-    Aivmx = 1
+    AIVMX = 1
 }

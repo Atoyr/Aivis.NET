@@ -166,14 +166,37 @@ public static class HttpHelper
     /// <returns>プロパティ名</returns>
     private static string GetPropertyName(PropertyInfo property)
     {
-        // プロパティ名をcamelCaseに変換
+        // プロパティ名をスネークケースに変換
         var name = property.Name;
         if (string.IsNullOrEmpty(name))
         {
             return name;
         }
+        return ToSnakeCase(name);
+    }
 
-        return char.ToLowerInvariant(name[0]) + name.Substring(1);
+    /// <summary>
+    /// PascalCaseやcamelCaseの文字列をスネークケースに変換します
+    /// </summary>
+    /// <param name="input">変換元の文字列</param>
+    /// <returns>スネークケース文字列</returns>
+    private static string ToSnakeCase(string input)
+    {
+        if (string.IsNullOrWhiteSpace(input)) return input;
+        var sb = new System.Text.StringBuilder();
+        for (int i = 0; i < input.Length; i++)
+        {
+            if (char.IsUpper(input[i]))
+            {
+                if (i > 0) sb.Append('_');
+                sb.Append(char.ToLowerInvariant(input[i]));
+            }
+            else
+            {
+                sb.Append(input[i]);
+            }
+        }
+        return sb.ToString();
     }
 
     /// <summary>
