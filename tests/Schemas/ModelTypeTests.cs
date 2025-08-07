@@ -6,8 +6,8 @@ namespace Aivis.Schemas.Tests;
 public class ModelTypeTests
 {
     [Theory]
-    [InlineData("AIVM", ModelType.Aivm)]
-    [InlineData("AIVMX", ModelType.Aivmx)]
+    [InlineData("AIVM", ModelType.AIVM)]
+    [InlineData("AIVMX", ModelType.AIVMX)]
     public void Should_DeserializeFromString_Success(string jsonValue, ModelType expected)
     {
         // Arrange
@@ -21,8 +21,8 @@ public class ModelTypeTests
     }
 
     [Theory]
-    [InlineData(ModelType.Aivm, "Aivm")]
-    [InlineData(ModelType.Aivmx, "Aivmx")]
+    [InlineData(ModelType.AIVM, "AIVM")]
+    [InlineData(ModelType.AIVMX, "AIVMX")]
     public void Should_SerializeToString_Success(ModelType value, string expected)
     {
         // Act

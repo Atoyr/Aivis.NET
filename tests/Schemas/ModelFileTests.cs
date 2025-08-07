@@ -46,7 +46,7 @@ public class ModelFileTests
         Assert.Equal("Creator2", result.Creators[1]);
         Assert.Equal(LicenseType.ACML_1_0, result.LicenseType);
         Assert.Null(result.LicenseText);
-        Assert.Equal(ModelType.Aivm, result.ModelType);
+        Assert.Equal(ModelType.AIVM, result.ModelType);
         Assert.Equal(ModelArchitecture.StyleBertVITS2, result.ModelArchitecture);
         Assert.Equal(ModelFormat.Safetensors, result.ModelFormat);
         Assert.Equal(116, result.TrainingEpochs);
@@ -69,7 +69,7 @@ public class ModelFileTests
             new[] { "Creator1", "Creator2" },
             LicenseType.CC0,
             "Custom License Text",
-            ModelType.Aivmx,
+            ModelType.AIVMX,
             ModelArchitecture.StyleBertVITS2_JPEx,
             ModelFormat.Onnx,
             100,
@@ -90,7 +90,7 @@ public class ModelFileTests
         Assert.Contains("\"manifest_version\":\"1.0\"", result);
         Assert.Contains("\"name\":\"Test Model\"", result);
         Assert.Contains("\"license_type\":\"CC0\"", result);
-        Assert.Contains("\"model_type\":\"Aivmx\"", result);
+        Assert.Contains("\"model_type\":\"AIVMX\"", result);
         Assert.Contains("\"model_architecture\":\"Style-Bert-VITS2 (JP-Extra)\"", result);
         Assert.Contains("\"model_format\":\"Onnx\"", result);
     }
