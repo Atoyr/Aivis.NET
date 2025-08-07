@@ -43,14 +43,14 @@ public class AivisTTSClient : ITalkToSpeech
 
         // Content-Dispositionヘッダーの取得
         string contentDisposition = response.Content.Headers.ContentDisposition?.ToString() ?? string.Empty;
-        string fileName = HttpUtility.ExtractFileName(contentDisposition);
+        string fileName = HttpHelper.ExtractFileName(contentDisposition);
 
         // カスタムヘッダーの取得
-        string billingMode = HttpUtility.GetHeaderValue(response, "X-Aivis-Billing-Mode");
-        uint characterCount = HttpUtility.GetHeaderValueAsUInt(response, "X-Aivis-Character-Count");
-        uint creditsRemaining = HttpUtility.GetHeaderValueAsUInt(response, "X-Aivis-Credits-Remaining");
-        uint creditsUsed = HttpUtility.GetHeaderValueAsUInt(response, "X-Aivis-Credits-Used");
-        uint rateLimitRemaining = HttpUtility.GetHeaderValueAsUInt(response, "X-Aivis-Rate-Limit-Remaining");
+        string billingMode = HttpHelper.GetHeaderValue(response, "X-Aivis-Billing-Mode");
+        uint characterCount = HttpHelper.GetHeaderValueAsUInt(response, "X-Aivis-Character-Count");
+        uint creditsRemaining = HttpHelper.GetHeaderValueAsUInt(response, "X-Aivis-Credits-Remaining");
+        uint creditsUsed = HttpHelper.GetHeaderValueAsUInt(response, "X-Aivis-Credits-Used");
+        uint rateLimitRemaining = HttpHelper.GetHeaderValueAsUInt(response, "X-Aivis-Rate-Limit-Remaining");
 
         return new TTSContents(
                 await audioTask,
