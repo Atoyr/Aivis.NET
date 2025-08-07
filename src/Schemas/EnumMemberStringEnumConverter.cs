@@ -19,11 +19,13 @@ public class EnumMemberStringEnumConverter : JsonConverterFactory
     private static readonly ConcurrentDictionary<Type, ConcurrentDictionary<object, string>> _enumNameCache
         = new ConcurrentDictionary<Type, ConcurrentDictionary<object, string>>();
 
+    /// <inheritdoc />
     public override bool CanConvert(Type typeToConvert)
     {
         return typeToConvert.IsEnum;
     }
 
+    /// <inheritdoc />
     public override JsonConverter CreateConverter(Type typeToConvert, JsonSerializerOptions options)
     {
         return (JsonConverter)Activator.CreateInstance(
@@ -138,6 +140,7 @@ public class EnumMemberStringEnumConverter<T> : JsonConverter<T> where T : struc
     private static readonly Lazy<Dictionary<string, T>> _valueMap = new Lazy<Dictionary<string, T>>(BuildValueMap);
     private static readonly Lazy<Dictionary<T, string>> _nameMap = new Lazy<Dictionary<T, string>>(BuildNameMap);
 
+    /// <inheritdoc />
     public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.TokenType != JsonTokenType.String)
@@ -160,6 +163,7 @@ public class EnumMemberStringEnumConverter<T> : JsonConverter<T> where T : struc
             $"Valid values are: {string.Join(", ", _valueMap.Value.Keys)}");
     }
 
+    /// <inheritdoc />
     public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
     {
         if (_nameMap.Value.TryGetValue(value, out var name))

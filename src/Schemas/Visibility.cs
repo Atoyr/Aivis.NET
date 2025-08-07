@@ -3,6 +3,9 @@ using System.Text.Json.Serialization;
 
 namespace Aivis.Schemas;
 
+/// <summary>
+/// 表示区分
+/// </summary>
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum Visibility
 {
