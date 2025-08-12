@@ -18,7 +18,7 @@ public class MP3Speaker : ISpeaker, IDisposable
     // パイプライン
     private Process? _ffmpeg;
     private Task? _pumpInTask;
-    private Task? _playTask;
+    private readonly Task? _playTask;
     private volatile bool _running;
 
     // 設定
@@ -59,7 +59,7 @@ public class MP3Speaker : ISpeaker, IDisposable
     private void InitializeOpenAL()
     {
         // OpenAL 初期化
-        _device  = ALC.OpenDevice(null);
+        _device = ALC.OpenDevice(null);
         if (_device == IntPtr.Zero) throw new InvalidOperationException("OpenAL device を開けません。");
         _context = ALC.CreateContext(_device, Array.Empty<int>());
         if (_context == ALContext.Null) throw new InvalidOperationException("OpenAL context 作成に失敗。");
@@ -92,10 +92,10 @@ public class MP3Speaker : ISpeaker, IDisposable
         // FFmpeg stderr（任意でログ）
         _ = Task.Run(async () =>
         {
-            try 
-            { 
-                while (true) 
-                { 
+            try
+            {
+                while (true)
+                {
                     var line = await _ffmpeg.StandardError.ReadLineAsync();
                     if (line == null)
                     {
@@ -122,12 +122,12 @@ public class MP3Speaker : ISpeaker, IDisposable
                 }
             }
             catch { /* cancel/EOF */ }
-            finally 
-            { 
-                try 
-                { 
+            finally
+            {
+                try
+                {
                     stdin.Close();
-                } 
+                }
                 catch { }
             }
         }, cancellationToken);
@@ -144,9 +144,9 @@ public class MP3Speaker : ISpeaker, IDisposable
         var pcm = _ffmpeg.StandardOutput.BaseStream;
         _audioThread = new Thread(() =>
         {
-            try 
+            try
             {
-                AudioLoop(pcm, cancellationToken); 
+                AudioLoop(pcm, cancellationToken);
                 CompleteOnceSuccess();
             }
             catch (Exception ex) { CompleteOnceError(ex); }
@@ -159,9 +159,9 @@ public class MP3Speaker : ISpeaker, IDisposable
         await _playbackTcs.Task;
         // 後片付け（明示）
         try
-        { 
+        {
             _audioThread.Join();
-        } 
+        }
         catch { }
         _running = false;
     }
@@ -187,7 +187,7 @@ public class MP3Speaker : ISpeaker, IDisposable
             int primed = 0;
             for (int i = 0; i < _buffers.Length; i++)
             {
-                var ok = FillAndQueue(_buffers[i], pcmS16, work, format, frameBytes); 
+                var ok = FillAndQueue(_buffers[i], pcmS16, work, format, frameBytes);
                 if (!ok)
                 {
                     eof = true; // データがもう来ない
@@ -212,7 +212,7 @@ public class MP3Speaker : ISpeaker, IDisposable
 
                     if (!eof)
                     {
-                        var ok = FillAndQueue(bid, pcmS16, work, format, frameBytes); 
+                        var ok = FillAndQueue(bid, pcmS16, work, format, frameBytes);
                         if (!ok)
                         {
                             eof = true; // データがもう来ない

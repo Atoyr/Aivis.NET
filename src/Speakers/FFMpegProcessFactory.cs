@@ -5,7 +5,7 @@ namespace Aivis.Speakers;
 /// <summary>
 /// FFmpegプロセスを生成するファクトリクラス
 /// </summary>
-public static class FFmpegProcessFactory 
+public static class FFmpegProcessFactory
 {
     public static Process CreateProcess(FFMpegDecodeOptions? options = null)
     {
@@ -14,8 +14,10 @@ public static class FFmpegProcessFactory
             options = new FFMpegDecodeOptions();
         }
 
-        return new Process {
-            StartInfo = new ProcessStartInfo {
+        return new Process
+        {
+            StartInfo = new ProcessStartInfo
+            {
                 FileName = options.FFMpegPath,
                 Arguments = options.BuildArgs(),
                 RedirectStandardInput = true,

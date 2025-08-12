@@ -4,17 +4,17 @@ public sealed class FFMpegDecodeOptions
 {
     public string FFMpegPath { get; private set; } = "ffmpeg";
 
-    public string LogLevel   { get; private set; } = "error"; // quiet/error/warning/info
+    public string LogLevel { get; private set; } = "error"; // quiet/error/warning/info
 
-    public int    SampleRate { get; private set; } = 48000;
+    public int SampleRate { get; private set; } = 48000;
 
-    public int    Channels   { get; private set; } = 2;       // 1 or 2
+    public int Channels { get; private set; } = 2;       // 1 or 2
 
     public string? InputFormat { get; init; } = "mp3"; // 入力がMP3等と分かっているなら指定
 
-    public string  ExtraInputArgs  { get; private set; } = ""; // 例: "-re" など
+    public string ExtraInputArgs { get; private set; } = ""; // 例: "-re" など
 
-    public string  ExtraOutputArgs { get; private set; } = ""; // 例: "-af aresample=async=1"
+    public string ExtraOutputArgs { get; private set; } = ""; // 例: "-af aresample=async=1"
 
     public string BuildArgs()
     {

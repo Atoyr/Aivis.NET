@@ -1,6 +1,6 @@
-using NAudio.Wave;
-
 using Aivis.Speakers;
+
+using NAudio.Wave;
 
 namespace Aivis.Sample.NAudio;
 
