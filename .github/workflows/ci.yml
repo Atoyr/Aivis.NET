@@ -20,6 +20,31 @@ env:
 jobs:
   format-check:
     runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8.0
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Setup .NET 9.0
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Install dotnet-format
+        run: dotnet tool install --global dotnet-format
+
+      - name: format lib
+        run: dotnet format ${{ env.PROJECT_PATH }} --verify-no-changes 
+
+      - name: format test
+        run: dotnet format ${{ env.TEST_PATH }} --verify-no-changes 
+
+  format-check-for-sample:
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
@@ -49,17 +74,40 @@ jobs:
       - name: Install dotnet-format
         run: dotnet tool install --global dotnet-format
 
-      - name: format lib
-        run: dotnet format ${{ env.PROJECT_PATH }} --verify-no-changes 
-
-      - name: format test
-        run: dotnet format ${{ env.TEST_PATH }} --verify-no-changes 
-
       - name: format ${{ matrix.sample.name }}
         run: dotnet format ${{ matrix.sample.folder }} --verify-no-changes 
 
   build-and-test:
     name: Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup .NET 8.0
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Setup .NET 9.0
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore ${{ env.PROJECT_PATH }}
+      - name: Build project  
+        run: dotnet build ${{ env.PROJECT_PATH }} --no-restore --configuration Release
+
+      - name: Restore dependencies for tests
+        run: dotnet restore ${{ env.TEST_PATH }}
+      - name: Build project for tests
+        run: dotnet build ${{ env.TEST_PATH }} --no-restore --configuration Release
+      - name: Run tests
+        run: dotnet test ${{ env.TEST_PATH }} --no-build --configuration Release --verbosity normal
+
+  build-for-sample:
+    name: Build and Test for sample
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -87,20 +135,8 @@ jobs:
         with:
           dotnet-version: '9.0.x'
 
-      - name: Restore dependencies
-        run: dotnet restore ${{ env.PROJECT_PATH }}
-      - name: Build project  
-        run: dotnet build ${{ env.PROJECT_PATH }} --no-restore --configuration Release
-
       - name: Restore dependencies for sample
         run: dotnet restore ${{ matrix.sample.folder }}
       - name: Build project for sample
         run: dotnet build ${{ matrix.sample.folder }} --no-restore --configuration Release
-
-      - name: Restore dependencies for tests
-        run: dotnet restore ${{ env.TEST_PATH }}
-      - name: Build project for tests
-        run: dotnet build ${{ env.TEST_PATH }} --no-restore --configuration Release
-      - name: Run tests
-        run: dotnet test ${{ env.TEST_PATH }} --no-build --configuration Release --verbosity normal
 
