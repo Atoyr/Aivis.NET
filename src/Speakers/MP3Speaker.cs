@@ -24,6 +24,19 @@ public class MP3Speaker : ISpeaker, IDisposable
     private readonly int _bytesPerSample = 2; // s16
     private readonly int _bufferMillis;
 
+
+    // 再生時の並列処理制御用
+    // FFmpegプロデューサ終了通知（Stopはしない）
+    private volatile bool _producerExited;
+    // 再生専用スレッド
+    private Thread? _audioThread;
+    // 再生完了通知（PlayAsyncで待つ）
+    private TaskCompletionSource<bool> _playbackTcs =
+        new(TaskCreationOptions.RunContinuationsAsynchronously);
+    // 完了ヘルパ
+    private void CompleteOnceSuccess() => _playbackTcs.TrySetResult(true);
+    private void CompleteOnceError(Exception ex) => _playbackTcs.TrySetException(ex);
+
     public float Volume
     {
         get { AL.GetSource(_source, ALSourcef.Gain, out float g); return g; }
@@ -59,12 +72,30 @@ public class MP3Speaker : ISpeaker, IDisposable
         if (_running) throw new InvalidOperationException("すでに再生中です。");
         _running = true;
 
+        _playbackTcs = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        _producerExited = false;
+
         // FFmpeg 起動（stdin:エンコード済み, stdout:PCM s16le）
         _ffmpeg = FFmpegProcessFactory.CreateProcess(_opt);
         if (!_ffmpeg.Start()) throw new InvalidOperationException("ffmpeg起動に失敗しました。");
 
-        // ログは読み捨て（必要なら保存）
-        _ = Task.Run(async () => { try { await _ffmpeg.StandardError.ReadToEndAsync(); } catch { } }, cancellationToken);
+        // FFmpeg stderr（任意でログ）
+        _ = Task.Run(async () =>
+        {
+            try 
+            { 
+                while (true) 
+                { 
+                    var line = await _ffmpeg.StandardError.ReadLineAsync();
+                    if (line == null)
+                    {
+                        break;
+                    }
+                    Console.Error.WriteLine("[ffmpeg] " + line);
+                }
+            }
+            catch { /* ignore */ }
+        });
 
         // 入力ポンプ（エンコード済み→ffmpeg stdin）
         var stdin = _ffmpeg.StandardInput.BaseStream;
@@ -81,85 +112,141 @@ public class MP3Speaker : ISpeaker, IDisposable
                 }
             }
             catch { /* cancel/EOF */ }
-            finally { try { stdin.Close(); } catch { } }
+            finally 
+            { 
+                try 
+                { 
+                    stdin.Close();
+                } 
+                catch { }
+            }
         }, cancellationToken);
-
-        // 出力読み取り→OpenAL 再生ループ
-        var pcm = _ffmpeg.StandardOutput.BaseStream;
-        _playTask = PlayPcmAsync(pcm, cancellationToken);
 
         // 背景でFFmpeg終了監視（先に終わったら再生も止める）
         _ = Task.Run(async () =>
         {
-            try { await _ffmpeg.WaitForExitAsync(cancellationToken); }
+            try { await _ffmpeg.WaitForExitAsync(); }
             catch { }
-            finally { Stop(); }
-        }, cancellationToken);
+            finally { _producerExited = true; }
+        });
 
-        // NOTE: 必要か不明なので検証する
-        await Task.WhenAll(_pumpInTask, _playTask);
+        // 出力読み取り→OpenAL 再生ループ
+        var pcm = _ffmpeg.StandardOutput.BaseStream;
+        _audioThread = new Thread(() =>
+        {
+            try 
+            {
+                AudioLoop(pcm, cancellationToken); 
+                CompleteOnceSuccess();
+            }
+            catch (Exception ex) { CompleteOnceError(ex); }
+        })
+        {
+            Name = "OpenAL-Audio"
+        };
+        _audioThread.Start();
+
+        await _playbackTcs.Task;
+        // 後片付け（明示）
+        try
+        { 
+            _audioThread.Join();
+        } 
+        catch { }
+        _running = false;
     }
 
-    private async Task PlayPcmAsync(Stream pcmS16, CancellationToken cancellationToken)
+    private void AudioLoop(Stream pcmS16, CancellationToken cancellationToken)
     {
-        var format = (_opt.Channels, _bytesPerSample) switch
+        InitializeOpenAL();
+        try
         {
-            (1, 2) => ALFormat.Mono16,
-            (2, 2) => ALFormat.Stereo16,
-            _ => throw new NotSupportedException("このチャンネル数は未対応です。")
-        };
-
-        int frameBytes = _bytesPerSample * _opt.Channels;
-        int bufferBytes = Math.Max(frameBytes, (_opt.SampleRate * _bufferMillis / 1000) * frameBytes);
-        var work = new byte[bufferBytes];
-
-        // 事前に数バッファをプライムしてから再生
-        int primed = 0;
-        for (int i = 0; i < _buffers.Length; i++)
-        {
-            if (!await FillAndQueueAsync(_buffers[i], pcmS16, work, format, cancellationToken)) break;
-            primed++;
-        }
-        if (primed > 0)
-        {
-            AL.SourcePlay(_source);
-            CheckALError();
-        }
-
-        while (_running && !cancellationToken.IsCancellationRequested)
-        {
-            AL.GetSource(_source, ALGetSourcei.BuffersProcessed, out int processed);
-            while (processed-- > 0)
+            var format = (_opt.Channels, _bytesPerSample) switch
             {
-                int bid = AL.SourceUnqueueBuffer(_source);
-                CheckALError();
+                (1, 2) => ALFormat.Mono16,
+                (2, 2) => ALFormat.Stereo16,
+                _ => throw new NotSupportedException("このチャンネル数は未対応です。")
+            };
 
-                if (!await FillAndQueueAsync(bid, pcmS16, work, format, cancellationToken))
+            int frameBytes = _bytesPerSample * _opt.Channels;
+            int bufferBytes = Math.Max(frameBytes, (_opt.SampleRate * _bufferMillis / 1000) * frameBytes);
+            var work = new byte[bufferBytes];
+            var eof = false;
+
+            // 事前に数バッファをプライムしてから再生
+            int primed = 0;
+            for (int i = 0; i < _buffers.Length; i++)
+            {
+                var ok = FillAndQueue(_buffers[i], pcmS16, work, format, frameBytes); 
+                if (!ok)
                 {
-                    _running = false; // データ枯渇
+                    eof = true; // データがもう来ない
                     break;
                 }
+                primed++;
+            }
+            if (primed > 0)
+            {
+                AL.SourcePlay(_source);
+                CheckALError();
             }
 
-            // アンダーランで止まっていたら再開
-            AL.GetSource(_source, ALGetSourcei.SourceState, out int st);
-            if ((ALSourceState)st != ALSourceState.Playing && _running)
-                AL.SourcePlay(_source);
+            while (_running && !cancellationToken.IsCancellationRequested)
+            {
+                AL.GetSource(_source, ALGetSourcei.BuffersProcessed, out int processed);
+                while (processed-- > 0)
+                {
+                    int bid = AL.SourceUnqueueBuffer(_source);
+                    CheckALError();
 
-            await Task.Delay(10, cancellationToken);
+
+                    if (!eof)
+                    {
+                        var ok = FillAndQueue(bid, pcmS16, work, format, frameBytes); 
+                        if (!ok)
+                        {
+                            eof = true; // データがもう来ない
+                        }
+                    }
+
+                }
+
+                if (eof)
+                {
+                    AL.GetSource(_source, ALGetSourcei.BuffersQueued, out int queued);
+                    if (queued == 0) break;
+                }
+
+                // アンダーランで止まっていたら再開
+                AL.GetSource(_source, ALGetSourcei.SourceState, out int st);
+                if ((ALSourceState)st != ALSourceState.Playing && (!_producerExited || !eof))
+                {
+                    AL.SourcePlay(_source);
+                }
+                Thread.Sleep(10); // 少し待機
+            }
+        }
+        finally
+        {
+            ALC.MakeContextCurrent(ALContext.Null);
+            _running = false;
         }
     }
 
-    private async Task<bool> FillAndQueueAsync(int bufferId, Stream src, byte[] work, ALFormat fmt, CancellationToken ct)
+    private bool FillAndQueue(int bufferId, Stream src, byte[] work, ALFormat fmt, int frameBytes)
     {
         int read = 0;
         while (read < work.Length)
         {
-            int n = await src.ReadAsync(work.AsMemory(read, work.Length - read), ct);
+            int n = src.Read(work, read, work.Length - read);
             if (n <= 0) break;
             read += n;
+            if (read >= frameBytes * 512) break; // 例: 512フレームで一旦キュー
         }
-        if (read == 0) return false; // データがもう来ない
+        if (read <= 0) return false; // データがもう来ない
+
+        int size = read - (read % frameBytes);
+        if (size <= 0) return true;
 
         // 端数は無音で埋める（クリック抑制）
         if (read < work.Length) Array.Clear(work, read, work.Length - read);
@@ -172,27 +259,23 @@ public class MP3Speaker : ISpeaker, IDisposable
 
     public void Stop()
     {
+        if (!_running) return;
         _running = false;
-        AL.SourceStop(_source);
+
+        try
+        {
+            AL.SourceStop(_source);
+        }
+        catch { /* ignore */ }
+
         // 残バッファ破棄
-        int queued;
-        AL.GetSource(_source, ALGetSourcei.BuffersQueued, out queued);
+        AL.GetSource(_source, ALGetSourcei.BuffersQueued, out int queued);
         while (queued-- > 0)
         {
             _ = AL.SourceUnqueueBuffer(_source);
         }
-    }
 
-    public static IEnumerable<string> ListPlaybackDevices()
-    {
-        // ALC_ENUMERATE_ALL_EXT があれば “すべての再生デバイス” を取得
-        // ない場合は ALC_ENUMERATION_EXT の通常列挙
-        foreach (var name in ALC.GetStringList(GetEnumerationStringList.CaptureDeviceSpecifier))
-            yield return name;
-
-        // 互換（環境によって AllDevices が空のこともある）
-        foreach (var name in ALC.GetStringList(GetEnumerationStringList.DeviceSpecifier))
-            yield return name;
+        CompleteOnceSuccess();
     }
 
     public void Dispose()

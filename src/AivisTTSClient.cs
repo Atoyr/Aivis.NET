@@ -39,7 +39,7 @@ public class AivisTTSClient : ITalkToSpeech
     public async Task<TTSContents> SynthesizeWithContentsAsync(string modelUuid, string text, string format = "mp3")
     {
         var response = await PostSynthesizeAsync(modelUuid, text, format);
-        var audioTask = response.Content.ReadAsByteArrayAsync();
+        var audioStream = response.Content.ReadAsStreamAsync();
 
         // Content-Dispositionヘッダーの取得
         string contentDisposition = response.Content.Headers.ContentDisposition?.ToString() ?? string.Empty;
@@ -53,7 +53,7 @@ public class AivisTTSClient : ITalkToSpeech
         uint rateLimitRemaining = HttpHelper.GetHeaderValueAsUInt(response, "X-Aivis-Rate-Limit-Remaining");
 
         return new TTSContents(
-                await audioTask,
+                await audioStream,
                 fileName,
                 billingMode,
                 characterCount,
