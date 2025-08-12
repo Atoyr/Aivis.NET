@@ -17,41 +17,30 @@ env:
   PROJECT_PATH: 'src/Aivis.Net.csproj'
   TEST_PATH: 'tests/Aivis.Tests.csproj'
 
-# dotnetのバージョン
-x-dotnet-versions: &dotnet-versions
-  - version: '8.0.x'
-    is-lts: true
-  - version: '9.0.x'
-    is-lts: false
-
-x-lib-projects: &lib-projects
-  - name: 'Aivis.NET Lib'
-    folder: 'src/Aivis.Net.csproj'
-
-x-test-projects: &tests-projects
-  - name: 'Aivis.NET Test'
-    folder: 'tests/Aivis.Tests.csproj'
-
-x-sample-projects: &sample-projects
-  - name: 'sample: Contents'
-    folder: 'sample/Contents/Aivis.Sample.Contents.csproj'
-  - name: 'sample: StreamPlay'
-    folder: 'sample/StreamPlay/Aivis.Sample.StreamPlay.csproj'
-  - name: 'sample: SearchModels'
-    folder: 'sample/SearchModels/Aivis.Sample.SearchModels.csproj'
-  - name: 'sample: NAudio'
-    folder: 'sample/NAudio/Aivis.Sample.NAudio.csproj'
-
 jobs:
   format-check:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        dotnet: *dotnet-versions
-        lib: *lib-projects
-        sample: *sample-projects
-        tests: *tests-projects
+        dotnet:
+          - version: '8.0.x'
+          - version: '9.0.x'
+        lib: 
+          - name: 'Aivis.NET Lib'
+            folder: 'src/Aivis.Net.csproj'
+        sample:
+          - name: 'sample: Contents'
+            folder: 'sample/Contents/Aivis.Sample.Contents.csproj'
+          - name: 'sample: StreamPlay'
+            folder: 'sample/StreamPlay/Aivis.Sample.StreamPlay.csproj'
+          - name: 'sample: SearchModels'
+            folder: 'sample/SearchModels/Aivis.Sample.SearchModels.csproj'
+          - name: 'sample: NAudio'
+            folder: 'sample/NAudio/Aivis.Sample.NAudio.csproj'
+        tests:
+          - name: 'Aivis.NET Test'
+            folder: 'tests/Aivis.Tests.csproj'
 
     steps:
       - name: Checkout code
@@ -80,10 +69,24 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        dotnet: *dotnet-versions
-        lib: *lib-projects
-        sample: *sample-projects
-        tests: *tests-projects
+        dotnet:
+          - version: '8.0.x'
+          - version: '9.0.x'
+        lib: 
+          - name: 'Aivis.NET Lib'
+            folder: 'src/Aivis.Net.csproj'
+        sample:
+          - name: 'sample: Contents'
+            folder: 'sample/Contents/Aivis.Sample.Contents.csproj'
+          - name: 'sample: StreamPlay'
+            folder: 'sample/StreamPlay/Aivis.Sample.StreamPlay.csproj'
+          - name: 'sample: SearchModels'
+            folder: 'sample/SearchModels/Aivis.Sample.SearchModels.csproj'
+          - name: 'sample: NAudio'
+            folder: 'sample/NAudio/Aivis.Sample.NAudio.csproj'
+        tests:
+          - name: 'Aivis.NET Test'
+            folder: 'tests/Aivis.Tests.csproj'
     
     steps:
       - name: Checkout code
