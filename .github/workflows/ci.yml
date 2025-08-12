@@ -14,82 +14,100 @@ on:
   workflow_dispatch:
 
 env:
-  DOTNET_VERSION_1: '8.0.x'
-  DOTNET_VERSION_2: '9.0.x'
   PROJECT_PATH: 'src/Aivis.Net.csproj'
-  SAMPLE_CONSOLE_PATH: 'sample/Console/Aivis.Sample.Console.csproj'
-  SAMPLE_STREAM_PLAY_PATH: 'sample/StreamPlay/Aivis.Sample.StreamPlay.csproj'
   TEST_PATH: 'tests/Aivis.Tests.csproj'
+
+# dotnetのバージョン
+x-dotnet-versions: &dotnet-versions
+  - version: '8.0.x'
+    is-lts: true
+  - version: '9.0.x'
+    is-lts: false
+
+x-lib-projects: &lib-projects
+  - name: 'Aivis.NET Lib'
+    folder: 'src/Aivis.Net.csproj'
+
+x-test-projects: &tests-projects
+  - name: 'Aivis.NET Test'
+    folder: 'tests/Aivis.Tests.csproj'
+
+x-sample-projects: &sample-projects
+  - name: 'sample: Contents'
+    folder: 'sample/Contents/Aivis.Sample.Contents.csproj'
+  - name: 'sample: StreamPlay'
+    folder: 'sample/StreamPlay/Aivis.Sample.StreamPlay.csproj'
+  - name: 'sample: SearchModels'
+    folder: 'sample/SearchModels/Aivis.Sample.SearchModels.csproj'
+  - name: 'sample: NAudio'
+    folder: 'sample/NAudio/Aivis.Sample.NAudio.csproj'
 
 jobs:
   format-check:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        dotnet: *dotnet-versions
+        lib: *lib-projects
+        sample: *sample-projects
+        tests: *tests-projects
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup .NET 8.0
+      - name: Setup .NET ${{ matrix.dotnet.version }}
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: ${{ env.DOTNET_VERSION_1 }}
-
-      - name: Setup .NET 9.0
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION_2 }}
+          dotnet-version: ${{ matrix.dotnet.version }}
 
       - name: Install dotnet-format
         run: dotnet tool install --global dotnet-format
-      - name: Run formatter for lib
-        run: dotnet format ${{ env.PROJECT_PATH }} --verify-no-changes 
-      - name: Run formatter for sample Console
-        run: dotnet format ${{ env.SAMPLE_CONSOLE_PATH }} --verify-no-changes 
-      - name: Run formatter for sample StreamPlay
-        run: dotnet format ${{ env.SAMPLE_STREAM_PLAY_PATH }} --verify-no-changes 
-      - name: Run formatter for tests
-        run: dotnet format ${{ env.TEST_PATH }} --verify-no-changes 
+
+      - name: format ${{ matrix.lib.name }}
+        run: dotnet format ${{ matrix.lib.folder }} --verify-no-changes 
+
+      - name: format ${{ matrix.tests.name }}
+        run: dotnet format ${{ matrix.tests.folder }} --verify-no-changes 
+
+      - name: format ${{ matrix.sample.name }}
+        run: dotnet format ${{ matrix.sample.folder }} --verify-no-changes 
+
   build-and-test:
     name: Build and Test
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        dotnet: *dotnet-versions
+        lib: *lib-projects
+        sample: *sample-projects
+        tests: *tests-projects
     
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         
-      - name: Setup .NET 8.0
+      - name: Setup .NET ${{ matrix.dotnet.version }}
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: ${{ env.DOTNET_VERSION_1 }}
+          dotnet-version: ${{ matrix.dotnet.version }}
 
-      - name: Setup .NET 9.0
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION_2 }}
+      - name: Restore dependencies
+        run: dotnet restore ${{ matrix.lib.folder }}
+      - name: Build project  
+        run: dotnet build ${{ matrix.lib.folder }} --no-restore --configuration Release
 
-      - name: Restore lib
-        run: dotnet restore ${{ env.PROJECT_PATH}}
+      - name: Restore dependencies for sample
+        run: dotnet restore ${{ matrix.sample.folder }}
+      - name: Build project for sample
+        run: dotnet build ${{ matrix.sample.folder }} --no-restore --configuration Release
 
-      - name: Build lib
-        run: dotnet build ${{ env.PROJECT_PATH}} --no-restore --configuration Release
-
-      - name: Restore sample console project
-        run: dotnet restore ${{ env.SAMPLE_CONSOLE_PATH}}
-
-      - name: Build sample console project
-        run: dotnet build ${{ env.SAMPLE_CONSOLE_PATH }} --no-restore --configuration Release
-
-      - name: Restore sample StreamPlay project
-        run: dotnet restore ${{ env.SAMPLE_STREAM_PLAY_PATH}}
-
-      - name: Build sample StreamPlay project
-        run: dotnet build ${{ env.SAMPLE_STREAM_PLAY_PATH }} --no-restore --configuration Release
-
-      - name: Restore test project
-        run: dotnet restore ${{ env.TEST_PATH }}
-
-      - name: Build test project
-        run: dotnet build ${{ env.TEST_PATH }} --no-restore --configuration Release
-
+      - name: Restore dependencies for tests
+        run: dotnet restore ${{ matrix.tests.folder }}
+      - name: Build project for tests
+        run: dotnet build ${{ matrix.tests.folder }} --no-restore --configuration Release
       - name: Run tests
-        run: dotnet test ${{ env.TEST_PATH }} --no-build --configuration Release --verbosity normal
-      
+        run: dotnet test ${{ matrix.tests.folder }} --no-build --configuration Release --verbosity normal
+
