@@ -4,6 +4,9 @@ using OpenTK.Audio.OpenAL;
 
 namespace Aivis.Speakers;
 
+/// <summary>
+/// MP3形式の音声をOpenALで再生するスピーカー
+/// </summary>
 public class MP3Speaker : ISpeaker, IDisposable
 {
     // OpenAL
@@ -37,6 +40,9 @@ public class MP3Speaker : ISpeaker, IDisposable
     private void CompleteOnceSuccess() => _playbackTcs.TrySetResult(true);
     private void CompleteOnceError(Exception ex) => _playbackTcs.TrySetException(ex);
 
+    /// <summary>
+    /// 音量制御
+    /// </summary>
     public float Volume
     {
         get { AL.GetSource(_source, ALSourcef.Gain, out float g); return g; }
@@ -65,8 +71,12 @@ public class MP3Speaker : ISpeaker, IDisposable
         CheckALError();
     }
 
+    /// <summary>
+    /// FFmpegのデコードオプションを設定します。
+    /// </summary>
     public void ConfigureBuildOptions(Action<FFMpegDecodeOptions> configure) => configure(_opt);
 
+    /// <inheritdoc />
     public async Task PlayAsync(Stream audioStream, CancellationToken cancellationToken = default)
     {
         if (_running) throw new InvalidOperationException("すでに再生中です。");
