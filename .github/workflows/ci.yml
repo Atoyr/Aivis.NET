@@ -54,7 +54,7 @@ jobs:
           - name: 'sample: StreamPlay'
             folder: 'sample/StreamPlay/Aivis.Sample.StreamPlay.csproj'
           - name: 'sample: SearchModels'
-            folder: 'sample/SearchModels/Aivis.Sample.SearchModels.csproj'
+            folder: 'sample/SearchModels/Aivis.Sample.Models.csproj'
           - name: 'sample: NAudio'
             folder: 'sample/NAudio/Aivis.Sample.NAudio.csproj'
 
@@ -118,7 +118,7 @@ jobs:
           - name: 'sample: StreamPlay'
             folder: 'sample/StreamPlay/Aivis.Sample.StreamPlay.csproj'
           - name: 'sample: SearchModels'
-            folder: 'sample/SearchModels/Aivis.Sample.SearchModels.csproj'
+            folder: 'sample/SearchModels/Aivis.Sample.Models.csproj'
           - name: 'sample: NAudio'
             folder: 'sample/NAudio/Aivis.Sample.NAudio.csproj'
     
