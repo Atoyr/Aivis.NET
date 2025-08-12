@@ -22,6 +22,47 @@
 </div>
 Aivis.NET は Aivis APIの非公式ライブラリです。(https://aivis-project.com)
 
+
+
+# Getting Start.
+
+## 対応バージョン
+`.NET 8.0`
+`.NET 9.0`
+
+## パッケージの追加
+
+
+``` 
+dotnet add package Aivis.Net
+```
+
+## 使用例
+
+Text-to-Speech (ストリーミング再生)
+> FFmpegとOpenALがインストールされている必要があります。
+> インストール方法は[音声再生の利用](#音声再生の利用)を参照してください。
+``` C#
+Aivis.AivisClientOptions options = new(apiKey);
+Aivis.AivisTTSClient ttsClient = new(options);
+using var stream = await ttsClient.SynthesizeStreamAsync(modelUuid, text);
+
+Aivis.Speakers.ISpeaker speaker = new Aivis.Speakers.MP3Speaker();
+await speaker.PlayAsync(contents.AudioStream);
+```
+
+
+NAudioを使った音声再生
+> NAudioのSpeakerのサンプルは[sample/NAudio/NAudioSpeaker](./sample/NAudio/NAudioSpeaker.cs)にあります。
+``` C#
+Aivis.AivisClientOptions options = new(apiKey!.Trim());
+Aivis.AivisTTSClient ttsClient = new(options);
+using var stream = await ttsClient.SynthesizeStreamAsync(modelUuid, text);
+
+Aivis.Speakers.ISpeaker speaker = new Aivis.Sample.NAudio.NAudioSpeaker();
+await speaker.PlayAsync(stream);
+```
+
 # 音声再生の利用
 同封している`MP3Speaker`は`ffmpeg`と`OpenAL`を使用しています。
 そのため、`ffmpeg`と`OpenAL`のインストールが必要となります。
@@ -66,44 +107,7 @@ sudo pacman -S openal
 ```
 
 ## NAudioを使った音声再生
-
-
-# Getting Start.
-
-## 対応バージョン
-`.NET 8.0`
-`.NET 9.0`
-
-## パッケージの追加
-
-
-``` 
-dotnet add package Aivis.Net
-```
-
-
-
-## 使用例
-
-Text-to-Speech
-``` C#
-Aivis.AivisClientOptions options = new(apiKey);
-Aivis.AivisTTSClient ttsClient = new(options);
-var stream = await ttsClient.SynthesizeAsync(modelUuid, text);
-
-Aivis.Speaker speaker = new();
-await speaker.PlayAsync(Aivis.MediaType.MP3, stream);
-```
-
-ストリーミング再生
-``` C#
-Aivis.AivisClientOptions options = new(apiKey);
-Aivis.AivisTTSClient ttsClient = new(options);
-var stream = await ttsClient.SynthesizeStreamAsync(modelUuid, text);
-
-Aivis.Speaker speaker = new();
-await speaker.PlayAsync(Aivis.MediaType.MP3, stream);
-```
+NAudioのSpeakerのサンプルアプリは[sample/NAudio](./sample/NAudio)にあります。
 
 ## ❓ 質問・不具合の報告
 
