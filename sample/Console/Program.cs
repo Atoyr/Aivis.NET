@@ -38,5 +38,5 @@ else
     Console.WriteLine($"Rate Limit        : {contents.RateLimitRemaining}");
 }
 
-Aivis.Speaker speaker = new();
-await speaker.PlayAsync(Aivis.MediaType.MP3, contents.Audio);
+Aivis.Speakers.ISpeaker speaker = new Aivis.Speakers.MP3Speaker();
+await speaker.PlayAsync(new MemoryStream(contents.Audio));

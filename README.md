@@ -22,6 +22,52 @@
 </div>
 Aivis.NET は Aivis APIの非公式ライブラリです。(https://aivis-project.com)
 
+# 音声再生の利用
+同封している`MP3Speaker`は`ffmpeg`と`OpenAL`を使用しています。
+そのため、`ffmpeg`と`OpenAL`のインストールが必要となります。
+また、Windowsに限り`NAudio`を使用することで各種ツールのインストールが不要です。
+
+## ffmpegのインストール
+> どのOSでも最後に`ffmepg -version`で確認してください。
+
+### windows
+コンソールから`winget`コマンドでインストールできます。
+```
+winget install -e --id Gyan.FFmpeg
+
+winget install --id=CreativeTechnology.OpenAL -e
+```
+
+手動インストールを行う場合は、[ffmpegのダウンロードページ](https://ffmpeg.org/download.html#build-windows)からダウンロード・インストールを行い、環境変数PATHに追加してください。
+
+### macOS
+Homebrewを使ってインストールできます。
+```
+brew install ffmpeg
+
+brew install openal-soft
+```
+
+### Linux
+
+**Ubuntu / Debian 系**
+```
+sudo apt update
+
+sudo apt install ffmpeg
+sudo apt install -y libopenal1
+```
+
+**Arch Linux**
+```
+
+sudo pacman -S ffmpeg
+sudo pacman -S openal
+```
+
+## NAudioを使った音声再生
+
+
 # Getting Start.
 
 ## 対応バージョン
@@ -34,6 +80,7 @@ Aivis.NET は Aivis APIの非公式ライブラリです。(https://aivis-projec
 ``` 
 dotnet add package Aivis.Net
 ```
+
 
 
 ## 使用例
