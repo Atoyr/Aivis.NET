@@ -1,23 +1,20 @@
-﻿foreach( var device in Aivis.Speakers.MP3Speaker.ListPlaybackDevices())
-{
-    Console.WriteLine($"Playback Device: {device}");
-}
-
-Console.WriteLine("input api key");
-string? apiKey;
+﻿string? apiKey;
 string? modelUuid;
 string? text;
 
+Console.WriteLine("input api key");
 while (string.IsNullOrWhiteSpace(apiKey = Console.ReadLine()))
 {
     Console.WriteLine("api key is invalid");
 }
 
+Console.WriteLine("input model uuid");
 while (string.IsNullOrWhiteSpace(modelUuid = Console.ReadLine()))
 {
     Console.WriteLine("model uuid is invalid");
 }
 
+Console.WriteLine("input text");
 while (string.IsNullOrWhiteSpace(text = Console.ReadLine()))
 {
     Console.WriteLine("text is invalid");
@@ -26,8 +23,6 @@ while (string.IsNullOrWhiteSpace(text = Console.ReadLine()))
 Aivis.AivisClientOptions options = new(apiKey!.Trim());
 Aivis.AivisTTSClient ttsClient = new(options);
 
-// use audio data only.
-// var stream = await ttsCient.SynthesizeAsync(modelUuid!.Replace("\n", "").Trim(), text!);
 var contents = await ttsClient.SynthesizeWithContentsAsync(modelUuid!.Replace("\n", "").Trim(), text!.Trim());
 
 Console.WriteLine($"File Name         : {contents.ContentDisposition}");
@@ -43,6 +38,5 @@ else
     Console.WriteLine($"Rate Limit        : {contents.RateLimitRemaining}");
 }
 
-
 Aivis.Speakers.ISpeaker speaker = new Aivis.Speakers.MP3Speaker();
-await speaker.PlayAsync(new MemoryStream(contents.Audio));
+await speaker.PlayAsync(contents.AudioStream);
