@@ -23,12 +23,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        dotnet:
-          - version: '8.0.x'
-          - version: '9.0.x'
-        lib: 
-          - name: 'Aivis.NET Lib'
-            folder: 'src/Aivis.Net.csproj'
         sample:
           - name: 'sample: Contents'
             folder: 'sample/Contents/Aivis.Sample.Contents.csproj'
@@ -38,27 +32,28 @@ jobs:
             folder: 'sample/SearchModels/Aivis.Sample.SearchModels.csproj'
           - name: 'sample: NAudio'
             folder: 'sample/NAudio/Aivis.Sample.NAudio.csproj'
-        tests:
-          - name: 'Aivis.NET Test'
-            folder: 'tests/Aivis.Tests.csproj'
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup .NET ${{ matrix.dotnet.version }}
+      - name: Setup .NET 8.0
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: ${{ matrix.dotnet.version }}
+          dotnet-version: '8.0.x'
+      - name: Setup .NET 9.0
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
 
       - name: Install dotnet-format
         run: dotnet tool install --global dotnet-format
 
-      - name: format ${{ matrix.lib.name }}
-        run: dotnet format ${{ matrix.lib.folder }} --verify-no-changes 
+      - name: format lib
+        run: dotnet format ${{ env.PROJECT_PATH }} --verify-no-changes 
 
-      - name: format ${{ matrix.tests.name }}
-        run: dotnet format ${{ matrix.tests.folder }} --verify-no-changes 
+      - name: format test
+        run: dotnet format ${{ env.TEST_PATH }} --verify-no-changes 
 
       - name: format ${{ matrix.sample.name }}
         run: dotnet format ${{ matrix.sample.folder }} --verify-no-changes 
@@ -69,12 +64,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        dotnet:
-          - version: '8.0.x'
-          - version: '9.0.x'
-        lib: 
-          - name: 'Aivis.NET Lib'
-            folder: 'src/Aivis.Net.csproj'
         sample:
           - name: 'sample: Contents'
             folder: 'sample/Contents/Aivis.Sample.Contents.csproj'
@@ -84,23 +73,24 @@ jobs:
             folder: 'sample/SearchModels/Aivis.Sample.SearchModels.csproj'
           - name: 'sample: NAudio'
             folder: 'sample/NAudio/Aivis.Sample.NAudio.csproj'
-        tests:
-          - name: 'Aivis.NET Test'
-            folder: 'tests/Aivis.Tests.csproj'
     
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         
-      - name: Setup .NET ${{ matrix.dotnet.version }}
+      - name: Setup .NET 8.0
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: ${{ matrix.dotnet.version }}
+          dotnet-version: '8.0.x'
+      - name: Setup .NET 9.0
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore ${{ matrix.lib.folder }}
+        run: dotnet restore ${{ env.PROJECT_PATH }}
       - name: Build project  
-        run: dotnet build ${{ matrix.lib.folder }} --no-restore --configuration Release
+        run: dotnet build ${{ env.PROJECT_PATH }} --no-restore --configuration Release
 
       - name: Restore dependencies for sample
         run: dotnet restore ${{ matrix.sample.folder }}
@@ -108,9 +98,9 @@ jobs:
         run: dotnet build ${{ matrix.sample.folder }} --no-restore --configuration Release
 
       - name: Restore dependencies for tests
-        run: dotnet restore ${{ matrix.tests.folder }}
+        run: dotnet restore ${{ env.TEST_PATH }}
       - name: Build project for tests
-        run: dotnet build ${{ matrix.tests.folder }} --no-restore --configuration Release
+        run: dotnet build ${{ env.TEST_PATH }} --no-restore --configuration Release
       - name: Run tests
-        run: dotnet test ${{ matrix.tests.folder }} --no-build --configuration Release --verbosity normal
+        run: dotnet test ${{ env.TEST_PATH }} --no-build --configuration Release --verbosity normal
 
