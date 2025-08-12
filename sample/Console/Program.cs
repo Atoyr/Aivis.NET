@@ -1,4 +1,9 @@
-﻿Console.WriteLine("input api key");
+﻿foreach( var device in Aivis.Speakers.MP3Speaker.ListPlaybackDevices())
+{
+    Console.WriteLine($"Playback Device: {device}");
+}
+
+Console.WriteLine("input api key");
 string? apiKey;
 string? modelUuid;
 string? text;
@@ -37,6 +42,7 @@ else
 {
     Console.WriteLine($"Rate Limit        : {contents.RateLimitRemaining}");
 }
+
 
 Aivis.Speakers.ISpeaker speaker = new Aivis.Speakers.MP3Speaker();
 await speaker.PlayAsync(new MemoryStream(contents.Audio));

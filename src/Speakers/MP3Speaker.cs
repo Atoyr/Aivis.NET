@@ -183,6 +183,18 @@ public class MP3Speaker : ISpeaker, IDisposable
         }
     }
 
+    public static IEnumerable<string> ListPlaybackDevices()
+    {
+        // ALC_ENUMERATE_ALL_EXT があれば “すべての再生デバイス” を取得
+        // ない場合は ALC_ENUMERATION_EXT の通常列挙
+        foreach (var name in ALC.GetStringList(GetEnumerationStringList.CaptureDeviceSpecifier))
+            yield return name;
+
+        // 互換（環境によって AllDevices が空のこともある）
+        foreach (var name in ALC.GetStringList(GetEnumerationStringList.DeviceSpecifier))
+            yield return name;
+    }
+
     public void Dispose()
     {
         try { Stop(); } catch { }
