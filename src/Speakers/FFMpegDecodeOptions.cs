@@ -1,8 +1,8 @@
 namespace Aivis.Speakers;
 
-public sealed class FFMpegDecodeOptions
+public sealed class FFmpegDecodeOptions
 {
-    public string FFMpegPath { get; private set; } = "ffmpeg";
+    public string FFmpegPath { get; private set; } = "ffmpeg";
 
     public string LogLevel { get; private set; } = "error"; // quiet/error/warning/info
 
@@ -23,37 +23,39 @@ public sealed class FFMpegDecodeOptions
                $"-f s16le -ac {Channels} -ar {SampleRate} {ExtraOutputArgs} -acodec pcm_s16le -"; // PCM raw
     }
 
-    public FFMpegDecodeOptions SetFFMpegPath(string path)
+    public FFmpegDecodeOptions SetFFmpegPath(string path)
     {
-        FFMpegPath = path;
+        FFmpegPath = path;
         return this;
     }
 
-    public FFMpegDecodeOptions SetLogLevel(string level)
+    public FFmpegDecodeOptions SetLogLevel(string level)
     {
         LogLevel = level;
         return this;
     }
 
-    public FFMpegDecodeOptions SetSampleRate(int rate)
+    public FFmpegDecodeOptions SetSampleRate(int rate)
     {
+        if (rate <= 0) throw new ArgumentOutOfRangeException(nameof(rate), "SampleRate must be positive.");
         SampleRate = rate;
         return this;
     }
 
-    public FFMpegDecodeOptions SetChannels(int channels)
+    public FFmpegDecodeOptions SetChannels(int channels)
     {
+        if (channels is not 1 and not 2) throw new ArgumentOutOfRangeException(nameof(channels), "Channels must be 1 (mono) or 2 (stereo).");
         Channels = channels;
         return this;
     }
 
-    public FFMpegDecodeOptions SetExtraInputArgs(string args)
+    public FFmpegDecodeOptions SetExtraInputArgs(string args)
     {
         ExtraInputArgs = args;
         return this;
     }
 
-    public FFMpegDecodeOptions SetExtraOutputArgs(string args)
+    public FFmpegDecodeOptions SetExtraOutputArgs(string args)
     {
         ExtraOutputArgs = args;
         return this;

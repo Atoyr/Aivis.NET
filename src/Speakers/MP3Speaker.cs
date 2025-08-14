@@ -22,7 +22,7 @@ public class MP3Speaker : ISpeaker, IDisposable
     private volatile bool _running;
 
     // 設定
-    private readonly FFMpegDecodeOptions _opt;
+    private readonly FFmpegDecodeOptions _opt;
     private readonly int _bufferCount;
     private readonly int _bytesPerSample = 2; // s16
     private readonly int _bufferMillis;
@@ -51,7 +51,7 @@ public class MP3Speaker : ISpeaker, IDisposable
 
     public MP3Speaker(int bufferCount = 4, int bufferMillis = 100)
     {
-        _opt = new FFMpegDecodeOptions();
+        _opt = new FFmpegDecodeOptions();
         _bufferCount = Math.Max(1, bufferCount);
         _bufferMillis = Math.Max(10, bufferMillis);
     }
@@ -74,7 +74,7 @@ public class MP3Speaker : ISpeaker, IDisposable
     /// <summary>
     /// FFmpegのデコードオプションを設定します。
     /// </summary>
-    public void ConfigureBuildOptions(Action<FFMpegDecodeOptions> configure) => configure(_opt);
+    public void ConfigureBuildOptions(Action<FFmpegDecodeOptions> configure) => configure(_opt);
 
     /// <inheritdoc />
     public async Task PlayAsync(Stream audioStream, CancellationToken cancellationToken = default)
