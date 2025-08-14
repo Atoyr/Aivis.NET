@@ -5,11 +5,11 @@ on:
   push:
     branches-ignore:
       - dependabot/**
-  
+ 
   # プルリク時にビルド
   pull_request:
     branches: [ main ]
-  
+ 
   # ブランチマージ時にビルド (mainブランチへのpushで対応)
   workflow_dispatch:
 
@@ -38,10 +38,10 @@ jobs:
         run: dotnet tool install --global dotnet-format
 
       - name: format lib
-        run: dotnet format ${{ env.PROJECT_PATH }} --verify-no-changes 
+        run: dotnet format ${{ env.PROJECT_PATH }} --verify-no-changes
 
       - name: format test
-        run: dotnet format ${{ env.TEST_PATH }} --verify-no-changes 
+        run: dotnet format ${{ env.TEST_PATH }} --verify-no-changes
 
   format-check-for-sample:
     runs-on: ubuntu-latest
@@ -75,7 +75,7 @@ jobs:
         run: dotnet tool install --global dotnet-format
 
       - name: format ${{ matrix.sample.name }}
-        run: dotnet format ${{ matrix.sample.folder }} --verify-no-changes 
+        run: dotnet format ${{ matrix.sample.folder }} --verify-no-changes
 
   build-and-test:
     name: Build and Test
@@ -84,7 +84,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
+       
       - name: Setup .NET 8.0
         uses: actions/setup-dotnet@v4
         with:
@@ -101,7 +101,7 @@ jobs:
 
       - name: Restore dependencies
         run: dotnet restore ${{ env.PROJECT_PATH }}
-      - name: Build project  
+      - name: Build project 
         run: dotnet build ${{ env.PROJECT_PATH }} --no-restore --configuration Release
 
       - name: Restore dependencies for tests
@@ -126,11 +126,11 @@ jobs:
             folder: 'sample/SearchModels/Aivis.Sample.Models.csproj'
           - name: 'sample: NAudio'
             folder: 'sample/NAudio/Aivis.Sample.NAudio.csproj'
-    
+   
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
+       
       - name: Setup .NET 8.0
         uses: actions/setup-dotnet@v4
         with:
