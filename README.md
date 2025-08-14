@@ -55,7 +55,7 @@ await speaker.PlayAsync(contents.AudioStream);
 NAudioを使った音声再生
 > NAudioのSpeakerのサンプルは[sample/NAudio/NAudioSpeaker](./sample/NAudio/NAudioSpeaker.cs)にあります。
 ``` C#
-Aivis.AivisClientOptions options = new(apiKey!.Trim());
+Aivis.AivisClientOptions options = new(apiKey!);
 Aivis.AivisTTSClient ttsClient = new(options);
 using var stream = await ttsClient.SynthesizeStreamAsync(modelUuid, text);
 
