@@ -5,8 +5,9 @@ public class TTSContentsTests
     [Fact]
     public void TTSContents_PayAsYouGo_IsPayAsYouGoReturnsTrue()
     {
+        using var audioStream = new MemoryStream(new byte[] { 1, 2, 3 });
         var contents = new TTSContents(
-            new byte[] { 1, 2, 3 },
+            audioStream,
             "test.mp3",
             "PayAsYouGo",
             100
@@ -19,8 +20,9 @@ public class TTSContentsTests
     [Fact]
     public void TTSContents_Subscription_IsSubscriptionReturnsTrue()
     {
+        using var audioStream = new MemoryStream(new byte[] { 1, 2, 3 });
         var contents = new TTSContents(
-            new byte[] { 1, 2, 3 },
+            audioStream,
             "test.mp3",
             "Subscription",
             100
@@ -33,8 +35,9 @@ public class TTSContentsTests
     [Fact]
     public void TTSContents_OtherBillingMode_BothReturnFalse()
     {
+        using var audioStream = new MemoryStream(new byte[] { 1, 2, 3 });
         var contents = new TTSContents(
-            new byte[] { 1, 2, 3 },
+            audioStream,
             "test.mp3",
             "Unknown",
             100
@@ -47,8 +50,9 @@ public class TTSContentsTests
     [Fact]
     public void TTSContents_DefaultValues_AreSetCorrectly()
     {
+        using var audioStream = new MemoryStream(new byte[] { 1, 2, 3 });
         var contents = new TTSContents(
-            new byte[] { 1, 2, 3 },
+            audioStream,
             "test.mp3",
             "PayAsYouGo",
             100
@@ -62,9 +66,9 @@ public class TTSContentsTests
     [Fact]
     public void TTSContents_AllParameters_AreSetCorrectly()
     {
-        var audio = new byte[] { 1, 2, 3, 4, 5 };
+        using var audioStream = new MemoryStream(new byte[] { 1, 2, 3, 4, 5 });
         var contents = new TTSContents(
-            audio,
+            audioStream,
             "test.wav",
             "Subscription",
             250,
@@ -73,7 +77,7 @@ public class TTSContentsTests
             100
         );
 
-        Assert.Equal(audio, contents.Audio);
+        Assert.Equal(audioStream, contents.AudioStream);
         Assert.Equal("test.wav", contents.ContentDisposition);
         Assert.Equal("Subscription", contents.BillingMode);
         Assert.Equal(250u, contents.CharacterCount);
