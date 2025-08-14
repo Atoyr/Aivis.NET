@@ -22,7 +22,7 @@ using var audioStream = await client.SynthesizeStreamAsync("model-uuid", "こん
 
 // 音声を再生
 Aivis.Speakers.ISpeaker speaker = new Aivis.Speakers.MP3Speaker();
-await speaker.PlayAsync(contents.AudioStream);
+await speaker.PlayAsync(audioStream);
 ```
 
 ## 機能
@@ -97,7 +97,7 @@ using var audioStream = await client.SynthesizeStreamAsync("model-uuid", "こん
 
 // Play audio
 Aivis.Speakers.ISpeaker speaker = new Aivis.Speakers.MP3Speaker();
-await speaker.PlayAsync(contents.AudioStream);
+await speaker.PlayAsync(audioStream);
 ```
 
 ## Features

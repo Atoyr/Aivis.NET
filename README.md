@@ -69,7 +69,7 @@ await speaker.PlayAsync(stream);
 また、Windowsに限り`NAudio`を使用することで各種ツールのインストールが不要です。
 
 ## ffmpegのインストール
-> どのOSでも最後に`ffmepg -version`で確認してください。
+> どのOSでも最後に`ffmpeg -version`で確認してください。
 
 ### windows
 コンソールから`winget`コマンドでインストールできます。
