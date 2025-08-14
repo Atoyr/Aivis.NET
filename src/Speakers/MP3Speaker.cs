@@ -18,7 +18,6 @@ public class MP3Speaker : ISpeaker, IDisposable
     // パイプライン
     private Process? _ffmpeg;
     private Task? _pumpInTask;
-    private readonly Task? _playTask;
     private volatile bool _running;
 
     // 設定
