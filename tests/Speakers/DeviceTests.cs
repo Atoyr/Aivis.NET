@@ -8,7 +8,7 @@ public class DeviceTests
     public void ListPlaybackDevices_ReturnsEnumerable()
     {
         var devices = Device.ListPlaybackDevices();
-        
+
         Assert.NotNull(devices);
         // Note: We can't test the actual device list contents as it depends on the system
     }
@@ -17,7 +17,7 @@ public class DeviceTests
     public void DefaultPlaybackDevice_ReturnsString()
     {
         var defaultDevice = Device.DefaultPlaybackDevice();
-        
+
         Assert.NotNull(defaultDevice);
         // Note: The actual value depends on the system configuration
     }

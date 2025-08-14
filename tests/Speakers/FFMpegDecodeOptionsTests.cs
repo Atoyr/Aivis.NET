@@ -8,7 +8,7 @@ public class FFMpegDecodeOptionsTests
     public void FFMpegDecodeOptions_DefaultValues_AreSetCorrectly()
     {
         var options = new FFMpegDecodeOptions();
-        
+
         Assert.Equal("ffmpeg", options.FFMpegPath);
         Assert.Equal("error", options.LogLevel);
         Assert.Equal(48000, options.SampleRate);
@@ -23,7 +23,7 @@ public class FFMpegDecodeOptionsTests
     {
         var options = new FFMpegDecodeOptions();
         options.SetFFMpegPath("/usr/bin/ffmpeg");
-        
+
         Assert.Equal("/usr/bin/ffmpeg", options.FFMpegPath);
     }
 
@@ -32,7 +32,7 @@ public class FFMpegDecodeOptionsTests
     {
         var options = new FFMpegDecodeOptions();
         options.SetLogLevel("debug");
-        
+
         Assert.Equal("debug", options.LogLevel);
     }
 
@@ -41,7 +41,7 @@ public class FFMpegDecodeOptionsTests
     {
         var options = new FFMpegDecodeOptions();
         options.SetSampleRate(44100);
-        
+
         Assert.Equal(44100, options.SampleRate);
     }
 
@@ -50,7 +50,7 @@ public class FFMpegDecodeOptionsTests
     {
         var options = new FFMpegDecodeOptions();
         options.SetChannels(1);
-        
+
         Assert.Equal(1, options.Channels);
     }
 
@@ -59,7 +59,7 @@ public class FFMpegDecodeOptionsTests
     {
         var options = new FFMpegDecodeOptions();
         options.SetExtraInputArgs("-re");
-        
+
         Assert.Equal("-re", options.ExtraInputArgs);
     }
 
@@ -68,7 +68,7 @@ public class FFMpegDecodeOptionsTests
     {
         var options = new FFMpegDecodeOptions();
         options.SetExtraOutputArgs("-af aresample=async=1");
-        
+
         Assert.Equal("-af aresample=async=1", options.ExtraOutputArgs);
     }
 
@@ -77,7 +77,7 @@ public class FFMpegDecodeOptionsTests
     {
         var options = new FFMpegDecodeOptions();
         var args = options.BuildArgs();
-        
+
         Assert.Equal("-v error -f mp3  -i pipe:0 -vn -f s16le -ac 2 -ar 48000  -acodec pcm_s16le -", args);
     }
 
@@ -90,9 +90,9 @@ public class FFMpegDecodeOptionsTests
                .SetSampleRate(44100)
                .SetExtraInputArgs("-re")
                .SetExtraOutputArgs("-af volume=0.5");
-        
+
         var args = options.BuildArgs();
-        
+
         Assert.Equal("-v debug -f mp3 -re -i pipe:0 -vn -f s16le -ac 1 -ar 44100 -af volume=0.5 -acodec pcm_s16le -", args);
     }
 
@@ -101,7 +101,7 @@ public class FFMpegDecodeOptionsTests
     {
         var options = new FFMpegDecodeOptions { InputFormat = null };
         var args = options.BuildArgs();
-        
+
         Assert.Equal("-v error  -i pipe:0 -vn -f s16le -ac 2 -ar 48000  -acodec pcm_s16le -", args);
     }
 
@@ -110,7 +110,7 @@ public class FFMpegDecodeOptionsTests
     {
         var options = new FFMpegDecodeOptions { InputFormat = "" };
         var args = options.BuildArgs();
-        
+
         Assert.Equal("-v error  -i pipe:0 -vn -f s16le -ac 2 -ar 48000  -acodec pcm_s16le -", args);
     }
 }

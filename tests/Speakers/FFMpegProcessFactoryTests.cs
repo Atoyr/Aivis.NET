@@ -1,4 +1,5 @@
 using System.Diagnostics;
+
 using Aivis.Speakers;
 
 namespace Aivis.Tests.Speakers;
@@ -9,7 +10,7 @@ public class FFMpegProcessFactoryTests
     public void CreateProcess_WithDefaultOptions_CreatesValidProcess()
     {
         var process = FFmpegProcessFactory.CreateProcess();
-        
+
         Assert.NotNull(process);
         Assert.Equal("ffmpeg", process.StartInfo.FileName);
         Assert.True(process.StartInfo.RedirectStandardInput);
@@ -27,9 +28,9 @@ public class FFMpegProcessFactoryTests
                .SetLogLevel("debug")
                .SetSampleRate(44100)
                .SetChannels(1);
-               
+
         var process = FFmpegProcessFactory.CreateProcess(options);
-        
+
         Assert.NotNull(process);
         Assert.Equal("/custom/ffmpeg", process.StartInfo.FileName);
         Assert.Contains("debug", process.StartInfo.Arguments);
@@ -41,7 +42,7 @@ public class FFMpegProcessFactoryTests
     public void CreateProcess_WithNullOptions_UsesDefaults()
     {
         var process = FFmpegProcessFactory.CreateProcess(null);
-        
+
         Assert.NotNull(process);
         Assert.Equal("ffmpeg", process.StartInfo.FileName);
         Assert.Contains("-v error", process.StartInfo.Arguments);

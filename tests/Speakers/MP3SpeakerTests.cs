@@ -8,7 +8,7 @@ public class MP3SpeakerTests
     public void MP3Speaker_Constructor_WithDefaults_CreatesInstance()
     {
         using var speaker = new MP3Speaker();
-        
+
         Assert.NotNull(speaker);
         // Note: Volume property requires OpenAL initialization
         // which may not be available in test environments
@@ -18,7 +18,7 @@ public class MP3SpeakerTests
     public void MP3Speaker_Constructor_WithCustomBuffers_CreatesInstance()
     {
         using var speaker = new MP3Speaker(bufferCount: 8, bufferMillis: 200);
-        
+
         Assert.NotNull(speaker);
     }
 
@@ -42,10 +42,10 @@ public class MP3SpeakerTests
     public void ConfigureBuildOptions_ModifiesOptions()
     {
         using var speaker = new MP3Speaker();
-        
+
         // This test verifies that the configuration method works without errors
         speaker.ConfigureBuildOptions(opt => opt.SetLogLevel("debug"));
-        
+
         // We can't easily verify the internal state without making the options public,
         // but at least we verify the method doesn't throw
         Assert.True(true);
@@ -56,7 +56,7 @@ public class MP3SpeakerTests
     {
         using var speaker = new MP3Speaker();
         using var emptyStream = new MemoryStream();
-        
+
         // Note: This test might throw due to OpenAL initialization in test environments
         // In a real test environment, you might want to mock the OpenAL dependencies
         try
@@ -75,7 +75,7 @@ public class MP3SpeakerTests
     public void Stop_WithoutPlaying_DoesNotThrow()
     {
         using var speaker = new MP3Speaker();
-        
+
         // Should not throw even if not playing
         speaker.Stop();
         Assert.True(true);
@@ -85,10 +85,10 @@ public class MP3SpeakerTests
     public void Dispose_MultipleTimes_DoesNotThrow()
     {
         var speaker = new MP3Speaker();
-        
+
         speaker.Dispose();
         speaker.Dispose(); // Should not throw on multiple dispose calls
-        
+
         Assert.True(true);
     }
 }
