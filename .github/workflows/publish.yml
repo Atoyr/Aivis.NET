@@ -45,20 +45,16 @@ jobs:
       - name: Build the project
         run: dotnet build ${{ env.PROJECT_PATH }} --configuration Release --no-restore
 
-      # Pack: PowerShell で安全に多行文字列を渡す
+      # Pack: 環境変数からリリースノートを渡す（多行対応）
       - name: Pack the NuGet package (safe)
         shell: pwsh
         run: |
-          $notes = @'
-      ${{ steps.notes.outputs.notes }}
-      '@
           dotnet pack $env:PROJECT_PATH `
             --configuration Release `
             --no-build `
             --output ./nupkg `
             -p:Version='${{ steps.version.outputs.version }}' `
-            -p:PackageReleaseNotes="$notes"
-
+            -p:PackageReleaseNotes="$env:RELEASE_NOTES"
       - name: Publish to NuGet
         run: dotnet nuget push ./nupkg/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
 
