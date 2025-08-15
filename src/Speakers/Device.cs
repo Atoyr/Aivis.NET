@@ -25,6 +25,8 @@ public static class Device
     /// デフォルトの再生デバイスを取得します。
     /// </summary>
     /// <return>デフォルトの再生デバイス名。</return>
+    /// </summary>
+    /// <returns>デフォルトの再生デバイス名。</returns>
     public static string DefaultPlaybackDevice()
     {
         // デフォルトの再生デバイス名を取得
