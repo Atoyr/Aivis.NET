@@ -1,15 +1,15 @@
 ﻿Console.WriteLine("input mode");
-Console.WriteLine(" 1: GetMe, 2: GetUser");
+Console.WriteLine(" 1: GetMe, 2: GetUserInfo");
 
 var mode = Console.ReadLine();
 
 switch (mode)
 {
     case "1":
-        await SearchModels();
+        await GetMe();
         break;
     case "2":
-        throw new NotImplementedException("GetUser is not implemented in this sample.");
+        await GetUserInfo();
         break;
     default:
         Console.WriteLine("Invalid mode selected.");
@@ -17,7 +17,7 @@ switch (mode)
 }
 
 
-async Task SearchModels()
+async Task GetMe()
 {
     string? apiKey = null;
     var searchOptions = new Aivis.SearchVoiceModelsOptions();
@@ -37,4 +37,23 @@ async Task SearchModels()
     Console.WriteLine($"Email: {contents.Email}");
 
     Console.WriteLine($"CreditBalance: {contents.CreditBalance}");
+}
+
+async Task GetUserInfo()
+{
+    string? handle = null;
+    var searchOptions = new Aivis.SearchVoiceModelsOptions();
+    while(string.IsNullOrWhiteSpace(handle))
+    {
+        Console.WriteLine("input handle");
+        handle = Console.ReadLine();
+    }
+
+    Aivis.AivisClientOptions options = new();
+    Aivis.AivisUsersClient usersClient = new(options);
+    var contents = await usersClient.GetUserInfo(handle);
+
+    Console.WriteLine("User Information:");
+    Console.WriteLine($"HandleName: {contents.Handle}");
+    Console.WriteLine($"Name: {contents.Name}");
 }
