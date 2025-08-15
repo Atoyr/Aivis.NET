@@ -3,10 +3,10 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 
+using Aivis.Schemas;
+
 using Moq;
 using Moq.Protected;
-
-using Aivis.Schemas;
 
 namespace Aivis.Tests;
 
