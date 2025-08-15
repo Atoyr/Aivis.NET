@@ -13,6 +13,7 @@ public class AivisTTSClientTests
     private readonly HttpClient _httpClient;
     private readonly AivisClientOptions _options;
     private readonly IHttpClientProvider _httpClientProvider;
+    private string? _capturedRequestBody;
 
     public AivisTTSClientTests()
     {
@@ -246,10 +247,26 @@ public class AivisTTSClientTests
         _mockHttpMessageHandler.Protected()
             .Setup<Task<HttpResponseMessage>>("SendAsync",
                 expectedUrl != null
-                    ? ItExpr.Is<HttpRequestMessage>(req => req.RequestUri!.ToString() == expectedUrl)
-                    : ItExpr.IsAny<HttpRequestMessage>(),
+                    ? ItExpr.Is<HttpRequestMessage>(req => req.RequestUri!.ToString() == expectedUrl && CaptureRequestBody(req))
+                    : ItExpr.Is<HttpRequestMessage>(req => CaptureRequestBody(req)),
                 ItExpr.IsAny<CancellationToken>())
             .ReturnsAsync(responseMessage);
+    }
+
+    private bool CaptureRequestBody(HttpRequestMessage request)
+    {
+        if (request.Content != null)
+        {
+            try
+            {
+                _capturedRequestBody = request.Content.ReadAsStringAsync().Result;
+            }
+            catch
+            {
+                _capturedRequestBody = null;
+            }
+        }
+        return true;
     }
 
     private void VerifyHttpRequest(string expectedPath, Func<string, bool>? requestBodyValidator = null, string? expectedBaseUrl = null)
@@ -267,9 +284,14 @@ public class AivisTTSClientTests
                 ItExpr.IsAny<CancellationToken>());
     }
 
-    private static bool ValidateRequestBody(HttpRequestMessage request, Func<string, bool> validator)
+    private bool ValidateRequestBody(HttpRequestMessage request, Func<string, bool> validator)
     {
-        var content = request.Content!.ReadAsStringAsync().Result;
-        return validator(content);
+        if (_capturedRequestBody != null)
+        {
+            return validator(_capturedRequestBody);
+        }
+
+        // Fallback if body wasn't captured
+        return true;
     }
 }

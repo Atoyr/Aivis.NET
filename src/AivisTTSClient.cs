@@ -12,7 +12,7 @@ public class AivisTTSClient : ITalkToSpeech
 {
     private readonly AivisClientOptions _options;
 
-    private const string TTSEndpoint = "/v1/tts");
+    private const string TTSEndpoint = "/v1/tts";
 
     private string SynthetizeEndpoint() => GetApiUrl($"{TTSEndpoint}/synthesize");
 
