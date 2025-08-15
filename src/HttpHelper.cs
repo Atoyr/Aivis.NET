@@ -1,5 +1,7 @@
 using System.Reflection;
 using System.Web;
+using System.Text;
+using System.Net.Http.Headers;
 
 namespace Aivis;
 
@@ -222,5 +224,77 @@ public static class HttpHelper
                 }
             }
         }
+    }
+
+    private static HttpRequestMessage SetHeaders(this HttpRequestMessage request, string? apiKey = null)
+    {
+        if (!string.IsNullOrWhiteSpace(apiKey))
+        {
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
+        }
+        request.Headers.Add("Accept", "application/json");
+        return request;
+    }
+
+    /// <summary>
+    /// GETリクエストを送信し、クエリオブジェクトをクエリパラメータに変換します
+    /// </summary>
+    /// <param name="client">HttpClient</param>
+    /// <param name="endpoint">APIエンドポイント</param>
+    /// <param name="query">クエリパラメータとして使用するオブジェクト</param>
+    /// <returns>HTTPレスポンス</returns>
+    public static async Task<HttpResponseMessage> GetAsync(this HttpClient client, string endpoint, object? query = null)
+    {
+        if (string.IsNullOrWhiteSpace(endpoint))
+        {
+            throw new ArgumentException("Endpoint cannot be null or empty.", nameof(endpoint));
+        }
+
+        var url = HttpHelper.BuildUrl(endpoint, query);
+        using var request = new HttpRequestMessage(HttpMethod.Get, url);
+        request.SetHeaders();
+        return await client.SendAsync(request);
+    }
+
+    /// <summary>
+    /// GETリクエストを送信し、クエリオブジェクトをクエリパラメータに変換します
+    /// </summary>
+    /// <param name="client">HttpClient</param>
+    /// <param name="endpoint">APIエンドポイント</param>
+    /// <param name="query">クエリパラメータとして使用するオブジェクト</param>
+    /// <returns>HTTPレスポンス</returns>
+    public static async Task<HttpResponseMessage> GetWithAuthAsync(this HttpClient client, string apiKey, string endpoint, object? query = null)
+    {
+        if (string.IsNullOrWhiteSpace(endpoint))
+        {
+            throw new ArgumentException("Endpoint cannot be null or empty.", nameof(endpoint));
+        }
+
+        var url = HttpHelper.BuildUrl(endpoint, query);
+        using var request = new HttpRequestMessage(HttpMethod.Get, url);
+        request.SetHeaders(apiKey);
+        return await client.SendAsync(request);
+    }
+
+    /// <summary>
+    /// POSTリクエストを送信します
+    /// </summary>
+    /// <param name="client">HttpClient</param>
+    /// <param name="endpoint">APIエンドポイント</param>
+    /// <param name="json">POSTするjson</param>
+    /// <param name="apiKey">APIキー</param>
+    /// <returns>HTTPレスポンス</returns>
+    public static async Task<HttpResponseMessage> PostWithAuthAsync(this HttpClient client, string apiKey, string endpoint, string json)
+    {
+        if (string.IsNullOrWhiteSpace(endpoint))
+        {
+            throw new ArgumentException("Endpoint cannot be null or empty.", nameof(endpoint));
+        }
+
+        using var request = new HttpRequestMessage(HttpMethod.Post, endpoint);
+        request.SetHeaders(apiKey);
+        request.Content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        return await client.SendAsync(request);
     }
 }
