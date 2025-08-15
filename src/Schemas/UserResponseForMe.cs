@@ -38,13 +38,13 @@ public record UserResponseForMe
     string IconUrl,
 
     [property: JsonPropertyName("birth_year")]
-    int? BirthYear, 
+    int? BirthYear,
 
     [property: JsonPropertyName("gender")]
-    Gender? Gender, 
+    Gender? Gender,
 
     [property: JsonPropertyName("email")]
-    string Email, 
+    string Email,
 
     [property: JsonPropertyName("account_type")]
     AccountType AccountType,
@@ -53,22 +53,22 @@ public record UserResponseForMe
     AccountStatus AccountStatus,
 
     [property: JsonPropertyName("social_links")]
-    SocialLink[] SocialLinks, 
+    SocialLink[] SocialLinks,
 
     [property: JsonPropertyName("credit_balance")]
     int CreditBalance,
 
     [property: JsonPropertyName("is_low_balance_notification_enabled")]
-    bool IsLowBalanceNotificationEnabled, 
+    bool IsLowBalanceNotificationEnabled,
 
     [property: JsonPropertyName("low_balance_threshold")]
-    int LowBalanceThreshold, 
+    int LowBalanceThreshold,
 
     [property: JsonPropertyName("liked_aivm_models")]
-    AivmModelsResponse[] LikedAivmModels, 
+    AivmModelsResponse[] LikedAivmModels,
 
     [property: JsonPropertyName("aivm_models")]
-    AivmModelsResponse[] AivmModels, 
+    AivmModelsResponse[] AivmModels,
 
     [property: JsonPropertyName("created_at")]
     DateTime CreatedAt,

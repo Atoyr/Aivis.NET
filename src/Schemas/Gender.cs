@@ -25,5 +25,5 @@ public enum Gender
     /// その他
     /// </summary>
     [EnumMember(Value = "Other")]
-    Other = 2, 
+    Other = 2,
 }

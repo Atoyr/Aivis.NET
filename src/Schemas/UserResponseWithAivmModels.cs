@@ -35,9 +35,8 @@ public record UserResponseWithAivmModels
     AccountStatus AccountStatus,
 
     [property: JsonPropertyName("social_links")]
-    SocialLink[] SocialLinks, 
+    SocialLink[] SocialLinks,
 
     [property: JsonPropertyName("aivm_models")]
     AivmModelsResponse[] AivmModels
 );
-
