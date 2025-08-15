@@ -10,5 +10,20 @@
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>git://github.com/atoyr/Aivis-net</RepositoryUrl>
         <PackageReadmeFile>NUGET_README.md</PackageReadmeFile>
+
+        <PackageReleaseNotes>
+          ## 0.5.0 - 2025-08-15
+          ### Added
+          - `FFmpeg`と`OpenAL`を使用した音声再生の仕組みを追加しました
+
+          ### Changed
+          - `TTSContents`の`audio`を`Stream audioStream`に変更しました
+
+          ### Removed
+          - NAudioを利用したSpeaker機能は廃止しました
+            - NAudioを利用する場合はサンプルアプリを参照してください
+          - `TextToSpeech`で`byte[]`を戻り値とするメソッドを廃止しました
+            - `Stream`を返す機能で利用してください
+        </PackageReleaseNotes>
     </PropertyGroup>
 </Project>

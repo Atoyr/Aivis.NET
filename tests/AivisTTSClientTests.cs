@@ -112,7 +112,11 @@ public class AivisTTSClientTests
         var client = new AivisTTSClient(_options);
         var result = await client.SynthesizeWithContentsAsync("550e8400-e29b-41d4-a716-446655440000", "テストテキスト");
 
-        Assert.Equal(expectedAudioData, result.Audio);
+        var audioData = new byte[result.AudioStream.Length];
+        result.AudioStream.Position = 0;
+        var bytesRead = await result.AudioStream.ReadAsync(audioData.AsMemory());
+        Assert.Equal(expectedAudioData.Length, bytesRead);
+        Assert.Equal(expectedAudioData, audioData[..bytesRead]);
         Assert.Equal("test.mp3", result.ContentDisposition);
         Assert.Equal("PayAsYouGo", result.BillingMode);
         Assert.Equal(10u, result.CharacterCount);

@@ -16,16 +16,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NAudio" Version="2.2.1" />
-  </ItemGroup>
-
-  <ItemGroup>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
       <_Parameter1>Aivis.Tests</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
 
   <ItemGroup>
-      <None Include="../NUGET_README.md" Pack="true" PackagePath=""/>
+      <None Include="../NUGET_README.md" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OpenTK" Version="4.9.4" />
   </ItemGroup>
 </Project>

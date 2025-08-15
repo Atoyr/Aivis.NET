@@ -1,7 +1,7 @@
 namespace Aivis;
 
 public record TTSContents(
-        byte[] Audio,
+        Stream AudioStream,
         string ContentDisposition,
         string BillingMode,
         uint CharacterCount,

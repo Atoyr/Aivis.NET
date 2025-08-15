@@ -22,6 +22,8 @@
 </div>
 Aivis.NET は Aivis APIの非公式ライブラリです。(https://aivis-project.com)
 
+
+
 # Getting Start.
 
 ## 対応バージョン
@@ -35,28 +37,77 @@ Aivis.NET は Aivis APIの非公式ライブラリです。(https://aivis-projec
 dotnet add package Aivis.Net
 ```
 
-
 ## 使用例
 
-Text-to-Speech
+Text-to-Speech (ストリーミング再生)
+> FFmpegとOpenALがインストールされている必要があります。
+> インストール方法は[音声再生の利用](#音声再生の利用)を参照してください。
 ``` C#
 Aivis.AivisClientOptions options = new(apiKey);
 Aivis.AivisTTSClient ttsClient = new(options);
-var stream = await ttsClient.SynthesizeAsync(modelUuid, text);
+using var stream = await ttsClient.SynthesizeStreamAsync(modelUuid, text);
 
-Aivis.Speaker speaker = new();
-await speaker.PlayAsync(Aivis.MediaType.MP3, stream);
+Aivis.Speakers.ISpeaker speaker = new Aivis.Speakers.MP3Speaker();
+await speaker.PlayAsync(contents.AudioStream);
 ```
 
-ストリーミング再生
+
+NAudioを使った音声再生
+> NAudioのSpeakerのサンプルは[sample/NAudio/NAudioSpeaker](./sample/NAudio/NAudioSpeaker.cs)にあります。
 ``` C#
-Aivis.AivisClientOptions options = new(apiKey);
+Aivis.AivisClientOptions options = new(apiKey!);
 Aivis.AivisTTSClient ttsClient = new(options);
-var stream = await ttsClient.SynthesizeStreamAsync(modelUuid, text);
+using var stream = await ttsClient.SynthesizeStreamAsync(modelUuid, text);
 
-Aivis.Speaker speaker = new();
-await speaker.PlayAsync(Aivis.MediaType.MP3, stream);
+Aivis.Speakers.ISpeaker speaker = new Aivis.Sample.NAudio.NAudioSpeaker();
+await speaker.PlayAsync(stream);
 ```
+
+# 音声再生の利用
+同封している`MP3Speaker`は`ffmpeg`と`OpenAL`を使用しています。
+そのため、`ffmpeg`と`OpenAL`のインストールが必要となります。
+また、Windowsに限り`NAudio`を使用することで各種ツールのインストールが不要です。
+
+## ffmpegのインストール
+> どのOSでも最後に`ffmpeg -version`で確認してください。
+
+### windows
+コンソールから`winget`コマンドでインストールできます。
+```
+winget install -e --id Gyan.FFmpeg
+
+winget install --id=CreativeTechnology.OpenAL -e
+```
+
+手動インストールを行う場合は、[ffmpegのダウンロードページ](https://ffmpeg.org/download.html#build-windows)からダウンロード・インストールを行い、環境変数PATHに追加してください。
+
+### macOS
+Homebrewを使ってインストールできます。
+```
+brew install ffmpeg
+
+brew install openal-soft
+```
+
+### Linux
+
+**Ubuntu / Debian 系**
+```
+sudo apt update
+
+sudo apt install ffmpeg
+sudo apt install -y libopenal1
+```
+
+**Arch Linux**
+```
+
+sudo pacman -S ffmpeg
+sudo pacman -S openal
+```
+
+## NAudioを使った音声再生
+NAudioのSpeakerのサンプルアプリは[sample/NAudio](./sample/NAudio)にあります。
 
 ## ❓ 質問・不具合の報告
 
