@@ -17,6 +17,7 @@ public class AivisUsersClient
 
     public AivisUsersClient(AivisClientOptions options)
     {
+        ArgumentNullException.ThrowIfNull(options);
         _options = options.Clone();
     }
 
@@ -35,12 +36,12 @@ public class AivisUsersClient
         }
 
         // OKレスポンス以外
-        var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
         switch (response.StatusCode)
         {
             case HttpStatusCode.Unauthorized:
                 throw new UnauthorizedAccessException("APIキーが無効です。AivisClientOptionsのApiKeyプロパティを確認してください。");
             default:
+                var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
                 throw new HttpRequestException($"Failed to get me: {response.StatusCode}: {errorResponse?.Detail ?? response.ReasonPhrase}");
         }
     }
@@ -54,18 +55,18 @@ public class AivisUsersClient
             return await response.Content.ReadFromJsonAsync<UserResponseWithAivmModels>() ?? throw new InvalidOperationException("Received empty user details.");
         }
 
-        var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
-
         switch (response.StatusCode)
         {
             case HttpStatusCode.Unauthorized:
                 throw new UnauthorizedAccessException("APIキーが無効です。AivisClientOptionsのApiKeyプロパティを確認してください。");
             case HttpStatusCode.NotFound:
-                throw new NotSupportedException($"{response.StatusCode} - {errorResponse?.Detail ?? "ユーザーが見つかりませんでした。"}");
+                var notFoundError = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+                throw new NotSupportedException($"{response.StatusCode} - {notFoundError?.Detail ?? "ユーザーが見つかりませんでした。"}");
             case HttpStatusCode.UnprocessableContent:
                 var validationError = await response.Content.ReadFromJsonAsync<HttpValidationError>();
                 throw new HttpRequestException($"Validation error: {string.Join(", ", validationError?.Detail?.Select(e => e.Msg) ?? Enumerable.Empty<string>())}");
             default:
+                var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
                 throw new HttpRequestException($"Failed to get user info: {response.StatusCode}: {errorResponse?.Detail ?? response.ReasonPhrase}");
         }
     }
