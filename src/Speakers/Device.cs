@@ -5,6 +5,9 @@ namespace Aivis.Speakers;
 /// <summary>
 /// OpenALを使用して、デバイスの情報を取得するクラスです。
 /// <summary>
+/// <summary>
+/// OpenALを使用して、デバイスの情報を取得するクラスです。
+/// </summary>
 public static class Device
 {
     /// <summary>
