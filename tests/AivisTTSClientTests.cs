@@ -247,19 +247,19 @@ public class AivisTTSClientTests
         _mockHttpMessageHandler.Protected()
             .Setup<Task<HttpResponseMessage>>("SendAsync",
                 expectedUrl != null
-                    ? ItExpr.Is<HttpRequestMessage>(req => req.RequestUri!.ToString() == expectedUrl && CaptureRequestBody(req))
-                    : ItExpr.Is<HttpRequestMessage>(req => CaptureRequestBody(req)),
+                    ? ItExpr.Is<HttpRequestMessage>(req => req.RequestUri!.ToString() == expectedUrl && CaptureRequestBodyAsync(req).Result)
+                    : ItExpr.Is<HttpRequestMessage>(req => CaptureRequestBodyAsync(req).Result),
                 ItExpr.IsAny<CancellationToken>())
             .ReturnsAsync(responseMessage);
     }
 
-    private bool CaptureRequestBody(HttpRequestMessage request)
+    private async Task<bool> CaptureRequestBodyAsync(HttpRequestMessage request)
     {
         if (request.Content != null)
         {
             try
             {
-                _capturedRequestBody = request.Content.ReadAsStringAsync().Result;
+                _capturedRequestBody = await request.Content.ReadAsStringAsync();
             }
             catch
             {
