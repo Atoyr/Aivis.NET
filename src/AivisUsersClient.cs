@@ -34,12 +34,14 @@ public class AivisUsersClient
             return await response.Content.ReadFromJsonAsync<UserResponseForMe>() ?? throw new InvalidOperationException("Received empty user details.");
         }
 
+        // OKレスポンス以外
+        var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
         switch (response.StatusCode)
         {
             case HttpStatusCode.Unauthorized:
                 throw new UnauthorizedAccessException("APIキーが無効です。AivisClientOptionsのApiKeyプロパティを確認してください。");
             default:
-                throw new HttpRequestException($"Failed to search models: {response.ReasonPhrase}");
+                throw new HttpRequestException($"Failed to get me: {response.StatusCode}: {errorResponse?.Detail ?? response.ReasonPhrase}");
         }
     }
 
@@ -52,16 +54,19 @@ public class AivisUsersClient
             return await response.Content.ReadFromJsonAsync<UserResponseWithAivmModels>() ?? throw new InvalidOperationException("Received empty user details.");
         }
 
+        var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+
         switch (response.StatusCode)
         {
             case HttpStatusCode.Unauthorized:
                 throw new UnauthorizedAccessException("APIキーが無効です。AivisClientOptionsのApiKeyプロパティを確認してください。");
             case HttpStatusCode.NotFound:
-                throw new NotSupportedException($"{response.StatusCode} - 指定されたモデルが見つかりません。モデルUUIDを確認してください。");
+                throw new NotSupportedException($"{response.StatusCode} - {errorResponse?.Detail ?? "ユーザーが見つかりませんでした。"}");
             case HttpStatusCode.UnprocessableContent:
-                throw new NotSupportedException($"Validation error: {await response.Content.ReadAsStringAsync()}");
+                var validationError = await response.Content.ReadFromJsonAsync<HttpValidationError>();
+                throw new HttpRequestException($"Validation error: {string.Join(", ", validationError?.Detail?.Select(e => e.Msg) ?? Enumerable.Empty<string>())}");
             default:
-                throw new HttpRequestException($"Failed to search models: {response.ReasonPhrase}");
+                throw new HttpRequestException($"Failed to get user info: {response.StatusCode}: {errorResponse?.Detail ?? response.ReasonPhrase}");
         }
     }
 
