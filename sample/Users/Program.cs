@@ -47,6 +47,10 @@ async Task GetUserInfo()
     string? handle = null;
     var searchOptions = new Aivis.SearchVoiceModelsOptions();
     while(string.IsNullOrWhiteSpace(handle))
+{
+    string? handle = null;
+    
+    while(string.IsNullOrWhiteSpace(handle))
     {
         Console.WriteLine("input handle");
         handle = Console.ReadLine();
