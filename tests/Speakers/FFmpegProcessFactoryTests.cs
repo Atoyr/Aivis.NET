@@ -4,7 +4,7 @@ using Aivis.Speakers;
 
 namespace Aivis.Tests.Speakers;
 
-public class FFMpegProcessFactoryTests
+public class FFmpegProcessFactoryTests
 {
     [Fact]
     public void CreateProcess_WithDefaultOptions_CreatesValidProcess()
@@ -23,8 +23,8 @@ public class FFMpegProcessFactoryTests
     [Fact]
     public void CreateProcess_WithCustomOptions_CreatesProcessWithCustomArgs()
     {
-        var options = new FFMpegDecodeOptions();
-        options.SetFFMpegPath("/custom/ffmpeg")
+        var options = new FFmpegDecodeOptions();
+        options.SetFFmpegPath("/custom/ffmpeg")
                .SetLogLevel("debug")
                .SetSampleRate(44100)
                .SetChannels(1);

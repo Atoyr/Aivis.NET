@@ -2,14 +2,14 @@ using Aivis.Speakers;
 
 namespace Aivis.Tests.Speakers;
 
-public class FFMpegDecodeOptionsTests
+public class FFmpegDecodeOptionsTests
 {
     [Fact]
-    public void FFMpegDecodeOptions_DefaultValues_AreSetCorrectly()
+    public void FFmpegDecodeOptions_DefaultValues_AreSetCorrectly()
     {
-        var options = new FFMpegDecodeOptions();
+        var options = new FFmpegDecodeOptions();
 
-        Assert.Equal("ffmpeg", options.FFMpegPath);
+        Assert.Equal("ffmpeg", options.FFmpegPath);
         Assert.Equal("error", options.LogLevel);
         Assert.Equal(48000, options.SampleRate);
         Assert.Equal(2, options.Channels);
@@ -19,18 +19,18 @@ public class FFMpegDecodeOptionsTests
     }
 
     [Fact]
-    public void SetFFMpegPath_SetsCorrectPath()
+    public void SetFFmpegPath_SetsCorrectPath()
     {
-        var options = new FFMpegDecodeOptions();
-        options.SetFFMpegPath("/usr/bin/ffmpeg");
+        var options = new FFmpegDecodeOptions();
+        options.SetFFmpegPath("/usr/bin/ffmpeg");
 
-        Assert.Equal("/usr/bin/ffmpeg", options.FFMpegPath);
+        Assert.Equal("/usr/bin/ffmpeg", options.FFmpegPath);
     }
 
     [Fact]
     public void SetLogLevel_SetsCorrectLogLevel()
     {
-        var options = new FFMpegDecodeOptions();
+        var options = new FFmpegDecodeOptions();
         options.SetLogLevel("debug");
 
         Assert.Equal("debug", options.LogLevel);
@@ -39,7 +39,7 @@ public class FFMpegDecodeOptionsTests
     [Fact]
     public void SetSampleRate_SetsCorrectSampleRate()
     {
-        var options = new FFMpegDecodeOptions();
+        var options = new FFmpegDecodeOptions();
         options.SetSampleRate(44100);
 
         Assert.Equal(44100, options.SampleRate);
@@ -48,7 +48,7 @@ public class FFMpegDecodeOptionsTests
     [Fact]
     public void SetChannels_SetsCorrectChannels()
     {
-        var options = new FFMpegDecodeOptions();
+        var options = new FFmpegDecodeOptions();
         options.SetChannels(1);
 
         Assert.Equal(1, options.Channels);
@@ -57,7 +57,7 @@ public class FFMpegDecodeOptionsTests
     [Fact]
     public void SetExtraInputArgs_SetsCorrectArgs()
     {
-        var options = new FFMpegDecodeOptions();
+        var options = new FFmpegDecodeOptions();
         options.SetExtraInputArgs("-re");
 
         Assert.Equal("-re", options.ExtraInputArgs);
@@ -66,7 +66,7 @@ public class FFMpegDecodeOptionsTests
     [Fact]
     public void SetExtraOutputArgs_SetsCorrectArgs()
     {
-        var options = new FFMpegDecodeOptions();
+        var options = new FFmpegDecodeOptions();
         options.SetExtraOutputArgs("-af aresample=async=1");
 
         Assert.Equal("-af aresample=async=1", options.ExtraOutputArgs);
@@ -75,7 +75,7 @@ public class FFMpegDecodeOptionsTests
     [Fact]
     public void BuildArgs_WithDefaults_ReturnsCorrectArgs()
     {
-        var options = new FFMpegDecodeOptions();
+        var options = new FFmpegDecodeOptions();
         var args = options.BuildArgs();
 
         Assert.Equal("-v error -f mp3  -i pipe:0 -vn -f s16le -ac 2 -ar 48000  -acodec pcm_s16le -", args);
@@ -84,7 +84,7 @@ public class FFMpegDecodeOptionsTests
     [Fact]
     public void BuildArgs_WithCustomValues_ReturnsCorrectArgs()
     {
-        var options = new FFMpegDecodeOptions();
+        var options = new FFmpegDecodeOptions();
         options.SetLogLevel("debug")
                .SetChannels(1)
                .SetSampleRate(44100)
@@ -99,7 +99,7 @@ public class FFMpegDecodeOptionsTests
     [Fact]
     public void BuildArgs_WithNullInputFormat_DoesNotIncludeFormat()
     {
-        var options = new FFMpegDecodeOptions { InputFormat = null };
+        var options = new FFmpegDecodeOptions { InputFormat = null };
         var args = options.BuildArgs();
 
         Assert.Equal("-v error  -i pipe:0 -vn -f s16le -ac 2 -ar 48000  -acodec pcm_s16le -", args);
@@ -108,7 +108,7 @@ public class FFMpegDecodeOptionsTests
     [Fact]
     public void BuildArgs_WithEmptyInputFormat_DoesNotIncludeFormat()
     {
-        var options = new FFMpegDecodeOptions { InputFormat = "" };
+        var options = new FFmpegDecodeOptions { InputFormat = "" };
         var args = options.BuildArgs();
 
         Assert.Equal("-v error  -i pipe:0 -vn -f s16le -ac 2 -ar 48000  -acodec pcm_s16le -", args);
