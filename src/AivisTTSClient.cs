@@ -1,17 +1,25 @@
 using System.Net;
-using System.Text;
 using System.Text.Json;
 
 using Aivis.Schemas;
 
 namespace Aivis;
 
+/// <summary>
+/// Aivisが提供するTalk to Speech (TTS) APIを操作するためのクライアントです。
+/// </summary>
 public class AivisTTSClient : ITalkToSpeech
 {
     private readonly AivisClientOptions _options;
 
-    private const string SynthetizeEndpoint = "/v1/tts/synthesize";
+    private const string TTSEndpoint = "/v1/tts";
 
+    private string SynthetizeEndpoint() => GetApiUrl($"{TTSEndpoint}/synthesize");
+
+    /// <summary>
+    /// AivisTTSClientのコンストラクタ。
+    /// </summary>
+    /// <param name="options">AivisClientOptionsオブジェクト。APIキーとHTTPクライアントプロバイダを含む。</param>
     public AivisTTSClient(AivisClientOptions options)
     {
         if (string.IsNullOrEmpty(options?.ApiKey))
@@ -65,10 +73,16 @@ public class AivisTTSClient : ITalkToSpeech
 
     private async Task<HttpResponseMessage> PostSynthesizeAsync(string modelUuid, string text, string format = "mp3")
     {
+        if (string.IsNullOrWhiteSpace(_options.ApiKey))
+        {
+            throw new ArgumentException("APIキーが設定されていません。AivisClientOptionsのApiKeyプロパティを設定してください。", nameof(_options));
+        }
+
+        // TODO: 設定できるパラメータを増やして柔軟に実行できるようにする
         TTSRequest requestBody = new(modelUuid, text) { OutputFormat = format };
         var jsonContent = JsonSerializer.Serialize(requestBody);
 
-        var response = await PostWithAuthAsync(SynthetizeEndpoint, jsonContent);
+        var response = await _options.HttpClientProvider.Instance.PostWithAuthAsync(_options.ApiKey!, SynthetizeEndpoint(), jsonContent);
         if (response.IsSuccessStatusCode)
         {
             return response;
@@ -100,15 +114,4 @@ public class AivisTTSClient : ITalkToSpeech
     }
 
     private string GetApiUrl(string path) => _options.BaseUrl.TrimEnd('/') + path;
-
-    private async Task<HttpResponseMessage> PostWithAuthAsync(string endpoint, string json)
-    {
-        HttpRequestMessage request = new(HttpMethod.Post, GetApiUrl(endpoint))
-        {
-            Content = new StringContent(json, Encoding.UTF8, "application/json")
-        };
-
-        request.Headers.Add("Authorization", $"Bearer {_options.ApiKey}");
-        return await _options.HttpClientProvider.Instance.SendAsync(request);
-    }
 }

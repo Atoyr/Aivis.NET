@@ -1,0 +1,126 @@
+{
+  "name": "Aivis.NET",
+  "description": "Unofficial C# library for the Aivis API providing Text-to-Speech functionality",
+  "version": "0.5.0",
+  "target_frameworks": ["net8.0", "net9.0"],
+  "main_project": "src/Aivis.Net.csproj",
+  "test_project": "tests/Aivis.Tests.csproj",
+  "build": {
+    "commands": {
+      "build": "dotnet build",
+      "test": "dotnet test",
+      "pack": "dotnet pack",
+      "clean": "dotnet clean"
+    }
+  },
+  "dependencies": {
+    "production": [
+      {
+        "name": "OpenTK",
+        "version": "4.9.4",
+        "purpose": "Audio playback with OpenAL"
+      }
+    ],
+    "development": [
+      {
+        "name": "Microsoft.NET.Test.Sdk",
+        "purpose": "Testing framework"
+      },
+      {
+        "name": "xunit",
+        "purpose": "Unit testing"
+      }
+    ]
+  },
+  "external_requirements": {
+    "ffmpeg": {
+      "purpose": "Audio decoding for MP3Speaker",
+      "installation": {
+        "windows": "winget install -e --id Gyan.FFmpeg",
+        "macos": "brew install ffmpeg",
+        "linux": "sudo apt install ffmpeg"
+      }
+    },
+    "openal": {
+      "purpose": "Audio playback",
+      "installation": {
+        "windows": "winget install --id=CreativeTechnology.OpenAL -e",
+        "macos": "brew install openal-soft",
+        "linux": "sudo apt install libopenal1"
+      }
+    }
+  },
+  "samples": [
+    {
+      "name": "Contents",
+      "path": "sample/Contents",
+      "description": "Basic TTS contents example"
+    },
+    {
+      "name": "NAudio",
+      "path": "sample/NAudio",
+      "description": "NAudio speaker implementation for Windows"
+    },
+    {
+      "name": "SearchModels",
+      "path": "sample/SearchModels",
+      "description": "Example of searching available voice models"
+    },
+    {
+      "name": "StreamPlay",
+      "path": "sample/StreamPlay",
+      "description": "Streaming audio playback example"
+    },
+    {
+      "name": "Users",
+      "path": "sample/Users",
+      "description": "User API usage example"
+    }
+  ],
+  "key_classes": [
+    {
+      "name": "AivisTTSClient",
+      "namespace": "Aivis",
+      "purpose": "Main TTS client for text-to-speech functionality"
+    },
+    {
+      "name": "AivisClientOptions",
+      "namespace": "Aivis",
+      "purpose": "Configuration options for API clients"
+    },
+    {
+      "name": "AivisModelClient",
+      "namespace": "Aivis",
+      "purpose": "Client for model-related operations"
+    },
+    {
+      "name": "AivisUsersClient",
+      "namespace": "Aivis",
+      "purpose": "Client for user-related operations"
+    },
+    {
+      "name": "TTSContents",
+      "namespace": "Aivis",
+      "purpose": "Response containing audio stream and metadata"
+    },
+    {
+      "name": "MP3Speaker",
+      "namespace": "Aivis.Speakers",
+      "purpose": "Audio playback using FFmpeg and OpenAL"
+    },
+    {
+      "name": "ISpeaker",
+      "namespace": "Aivis.Speakers",
+      "purpose": "Interface for audio playback implementations"
+    }
+  ],
+  "api_info": {
+    "base_url": "https://aivis-project.com",
+    "authentication": "API Key required",
+    "main_endpoints": ["TTS", "Models", "Users"]
+  },
+  "license": "MIT",
+  "repository": "https://github.com/Atoyr/Aivis-net",
+  "author": "UCHIYAMA Ryota",
+  "nuget_package": "Aivis.Net"
+}

@@ -5,6 +5,9 @@ using Aivis.Schemas;
 
 namespace Aivis;
 
+/// <summary>
+/// Aivisが提供するAIVMモデルを操作するためのクライアントです。
+/// </summary>
 public class AivisModelClient
 {
     private readonly AivisClientOptions _options;
@@ -17,14 +20,23 @@ public class AivisModelClient
 
     private string DownloadEndpoint(string modelId) => GetApiUrl($"{ModelEndpoint}/{modelId}/download");
 
+    /// <summary>
+    /// AivisModelClientのコンストラクタ。
+    /// </summary>
+    /// <param name="options">AivisClientOptionsオブジェクト。APIキーとHTTPクライアントプロバイダを含む。</param>
     public AivisModelClient(AivisClientOptions options)
     {
         _options = options.Clone();
     }
 
+    /// <summary>
+    /// Aivmモデルを検索します。
+    /// </summary>
+    /// <param name="options">検索オプションを含むSearchVoiceModelsOptionsオブジェクト。</param>
+    /// <returns>AivmModelsResponseオブジェクト。検索結果を含む。</returns>
     public async Task<AivmModelsResponse> SearchModels(SearchVoiceModelsOptions options)
     {
-        var response = await GetAsync(SearchEndpoint(), options);
+        var response = await _options.HttpClientProvider.Instance.GetAsync(SearchEndpoint(), options);
 
         if (response.StatusCode == HttpStatusCode.OK)
         {
@@ -40,6 +52,11 @@ public class AivisModelClient
         throw new HttpRequestException($"Failed to search models: {response.ReasonPhrase}");
     }
 
+    /// <summary>
+    /// Aivmモデルの詳細情報を取得します。
+    /// </summary>
+    /// <param name="modelId">モデルID</param>
+    /// <returns>AivmModelResponseオブジェクト。</returns>
     public async Task<AivmModelResponse> GetModelDetail(string modelId)
     {
         if (string.IsNullOrWhiteSpace(modelId))
@@ -47,7 +64,7 @@ public class AivisModelClient
             throw new ArgumentException("Model ID cannot be null or empty.", nameof(modelId));
         }
 
-        var response = await GetAsync(DetailsEndpoint(modelId));
+        var response = await _options.HttpClientProvider.Instance.GetAsync(DetailsEndpoint(modelId));
 
         if (response.StatusCode == HttpStatusCode.OK)
         {
@@ -78,7 +95,7 @@ public class AivisModelClient
             throw new ArgumentException("Model ID cannot be null or empty.", nameof(modelId));
         }
 
-        var response = await GetAsync(DownloadEndpoint(modelId), new { ModelType = modelType, Redirect = false });
+        var response = await _options.HttpClientProvider.Instance.GetAsync(DownloadEndpoint(modelId), new { ModelType = modelType, Redirect = false });
         if (response.StatusCode == HttpStatusCode.Created)
         {
             // LocationヘッダからURLを取得
@@ -99,24 +116,5 @@ public class AivisModelClient
         throw new HttpRequestException($"Failed to get model download url: {response.StatusCode} : {response.ReasonPhrase}");
     }
 
-
     private string GetApiUrl(string path) => _options.BaseUrl.TrimEnd('/') + path;
-
-
-    /// <summary>
-    /// GETリクエストを送信し、クエリオブジェクトをクエリパラメータに変換します
-    /// </summary>
-    /// <param name="endpoint">APIエンドポイント</param>
-    /// <param name="query">クエリパラメータとして使用するオブジェクト</param>
-    /// <returns>HTTPレスポンス</returns>
-    private async Task<HttpResponseMessage> GetAsync(string endpoint, object? query = null)
-    {
-        if (string.IsNullOrWhiteSpace(endpoint))
-        {
-            throw new ArgumentException("Endpoint cannot be null or empty.", nameof(endpoint));
-        }
-
-        var url = HttpHelper.BuildUrl(endpoint, query);
-        return await _options.HttpClientProvider.Instance.GetAsync(url);
-    }
 }
