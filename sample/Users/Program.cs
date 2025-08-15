@@ -22,6 +22,9 @@ async Task GetMe()
     string? apiKey = null;
     var searchOptions = new Aivis.SearchVoiceModelsOptions();
     while(string.IsNullOrWhiteSpace(apiKey))
+{
+    string? apiKey = null;
+    while(string.IsNullOrWhiteSpace(apiKey))
     {
         Console.WriteLine("input api key");
         apiKey = Console.ReadLine();
