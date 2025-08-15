@@ -15,6 +15,10 @@ public class AivisUsersClient
 
     private string UserInfoEndpoint(string handleName) => GetApiUrl($"{ModelEndpoint}/{handleName}");
 
+    /// <summary>
+    /// AivisUsersClientのコンストラクタ。
+    /// </summary>
+    /// <param name="options">AivisClientOptionsオブジェクト。APIキーとHTTPクライアントプロバイダを含む。</param>
     public AivisUsersClient(AivisClientOptions options)
     {
         ArgumentNullException.ThrowIfNull(options);

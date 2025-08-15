@@ -48,6 +48,11 @@ public class MP3Speaker : ISpeaker, IDisposable
         set { AL.Source(_source, ALSourcef.Gain, Math.Clamp(value, 0f, 1f)); }
     }
 
+    /// <summary>
+    /// MP3Speakerのコンストラクタ
+    /// </summary>
+    /// <param name="bufferCount">使用するバッファの数（デフォルトは4）</param>
+    /// <param name="bufferMillis">1バッファあたりのミリ秒数（デフォルトは100ms）</param>
     public MP3Speaker(int bufferCount = 4, int bufferMillis = 100)
     {
         _opt = new FFmpegDecodeOptions();

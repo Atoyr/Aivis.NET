@@ -7,6 +7,11 @@ namespace Aivis.Speakers;
 /// </summary>
 public static class FFmpegProcessFactory
 {
+    /// <summary>
+    /// FFmpegDecodeOptionsを使用してFFmpegプロセスを生成します。
+    /// </summary>
+    /// <param name="options">FFmpegDecodeOptionsのインスタンス。nullの場合はデフォルトオプションが使用されます。</param>
+    /// <returns>生成されたFFmpegプロセスのインスタンス。</returns>
     public static Process CreateProcess(FFmpegDecodeOptions? options = null)
     {
         if (options == null)
