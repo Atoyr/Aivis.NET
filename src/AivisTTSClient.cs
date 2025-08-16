@@ -30,23 +30,26 @@ public class AivisTTSClient : ITalkToSpeech
     }
 
     /// <inheritdoc />
-    public async Task<byte[]> SynthesizeAsync(string modelUuid, string text, string format = "mp3")
+    public async Task<byte[]> SynthesizeAsync(string modelUuid, string text, TalkToSpeechOptions? options = null)
     {
-        var response = await PostSynthesizeAsync(modelUuid, text, format);
+        var o = options ?? new TalkToSpeechOptions();
+        var response = await PostSynthesizeAsync(modelUuid, text, o);
         return await response.Content.ReadAsByteArrayAsync();
     }
 
     /// <inheritdoc />
-    public async Task<Stream> SynthesizeStreamAsync(string modelUuid, string text, string format = "mp3")
+    public async Task<Stream> SynthesizeStreamAsync(string modelUuid, string text, TalkToSpeechOptions? options = null)
     {
-        var response = await PostSynthesizeAsync(modelUuid, text, format);
+        var o = options ?? new TalkToSpeechOptions();
+        var response = await PostSynthesizeAsync(modelUuid, text, o);
         return await response.Content.ReadAsStreamAsync();
     }
 
     /// <inheritdoc />
-    public async Task<TTSContents> SynthesizeWithContentsAsync(string modelUuid, string text, string format = "mp3")
+    public async Task<TTSContents> SynthesizeWithContentsAsync(string modelUuid, string text, TalkToSpeechOptions? options = null)
     {
-        var response = await PostSynthesizeAsync(modelUuid, text, format);
+        var o = options ?? new TalkToSpeechOptions();
+        var response = await PostSynthesizeAsync(modelUuid, text, o);
         var audioStream = response.Content.ReadAsStreamAsync();
 
         // Content-Dispositionヘッダーの取得
@@ -71,7 +74,7 @@ public class AivisTTSClient : ITalkToSpeech
                 );
     }
 
-    private async Task<HttpResponseMessage> PostSynthesizeAsync(string modelUuid, string text, string format = "mp3")
+    private async Task<HttpResponseMessage> PostSynthesizeAsync(string modelUuid, string text, TalkToSpeechOptions options)
     {
         if (string.IsNullOrWhiteSpace(_options.ApiKey))
         {
@@ -79,7 +82,15 @@ public class AivisTTSClient : ITalkToSpeech
         }
 
         // TODO: 設定できるパラメータを増やして柔軟に実行できるようにする
-        TTSRequest requestBody = new(modelUuid, text) { OutputFormat = format };
+        TTSRequest requestBody
+            = new(modelUuid, text)
+            {
+                SpeakerUuid = options.SpeakerUuid?.ToString(),
+                StyleId = options.StyleId,
+                UserDictionaryUuid = options.UserDictionaryUuid?.ToString(),
+                UseSsml = options.UseSsml,
+                OutputFormat = options.OutputFormat.ToFormatString(),
+            };
         var jsonContent = JsonSerializer.Serialize(requestBody);
 
         var response = await _options.HttpClientProvider.Instance.PostWithAuthAsync(_options.ApiKey!, SynthetizeEndpoint(), jsonContent);
