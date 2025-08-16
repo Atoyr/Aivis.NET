@@ -3,7 +3,7 @@ _layout: landing
 ---
 <div align="center">
 
-  ![Aivis.NET Logo](/docs/logo_dark.svg#data-bs-theme)
+  ![Aivis.NET Logo](docs/logo_dark.svg)
 
   <br/>
 
