@@ -22,7 +22,7 @@ Aivis.AivisClientOptions options = new(apiKey!.Trim());
 Aivis.AivisTTSClient ttsClient = new(options);
 using var stream = await ttsClient.SynthesizeStreamAsync(modelUuid!.Replace("\n", "").Trim(), text!);
 
-Aivis.Speakers.MP3Speaker speaker = new ();
+Aivis.Speakers.MP3Speaker speaker = new();
 Console.WriteLine("チャンクの受信を開始します...");
 Console.WriteLine("ストリーミング再生を開始します... ");
 await speaker.PlayAsync(stream);
