@@ -21,8 +21,9 @@ var client = new AivisTTSClient(options);
 using var audioStream = await client.SynthesizeStreamAsync("model-uuid", "こんにちは、世界！");
 
 // 音声を再生
-Aivis.Speakers.ISpeaker speaker = new Aivis.Speakers.MP3Speaker();
-await speaker.PlayAsync(audioStream);
+Aivis.Speakers.MP3Speaker speaker = new ();
+await speaker.PlayAsync(contents.AudioStream);
+speaker.Dispose();
 ```
 
 ## 機能
@@ -54,8 +55,9 @@ Console.WriteLine($"使用クレジット: {contents.CreditsUsed}");
 > FFmpegとOpenALがインストールされている必要があります。
 
 ```csharp
-Aivis.Speakers.ISpeaker speaker = new Aivis.Speakers.MP3Speaker();
+Aivis.Speakers.MP3Speaker speaker = new ();
 await speaker.PlayAsync(contents.AudioStream);
+speaker.Dispose();
 ```
 
 ## 依存関係
@@ -96,8 +98,9 @@ var client = new AivisTTSClient(options);
 using var audioStream = await client.SynthesizeStreamAsync("model-uuid", "こんにちは、世界！");
 
 // Play audio
-Aivis.Speakers.ISpeaker speaker = new Aivis.Speakers.MP3Speaker();
-await speaker.PlayAsync(audioStream);
+Aivis.Speakers.MP3Speaker speaker = new ();
+await speaker.PlayAsync(contents.AudioStream);
+speaker.Dispose();
 ```
 
 ## Features
@@ -128,8 +131,9 @@ Console.WriteLine($"Credits Used: {contents.CreditsUsed}");
 ### Audio Playback
 > Need install to FFmpeg and OpenAL.
 ```csharp
-Aivis.Speakers.ISpeaker speaker = new Aivis.Speakers.MP3Speaker();
+Aivis.Speakers.MP3Speaker speaker = new ();
 await speaker.PlayAsync(contents.AudioStream);
+speaker.Dispose();
 ```
 
 ## Dependencies
