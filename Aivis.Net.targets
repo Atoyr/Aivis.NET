@@ -10,16 +10,32 @@
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>git://github.com/atoyr/Aivis-net</RepositoryUrl>
         <PackageReadmeFile>NUGET_README.md</PackageReadmeFile>
+        <PackageIcon>docs/icon.png</PackageIcon>
+
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+
+        <Deterministic>true</Deterministic>
+        <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+
+        <DebugType>portable</DebugType>
+        <DebugSymbols>true</DebugSymbols>
 
         <PackageReleaseNotes>
-          ## 0.5.0 - 2025-08-15
-          ### Added
+          0.5.1 - 2025-08-16
+          1. 追加
+          Nugetパッケージ情報を修正しました。
+
+          0.5.0 - 2025-08-15
+          1. 追加
           - `FFmpeg`と`OpenAL`を使用した音声再生の仕組みを追加しました
 
-          ### Changed
+          2. 変更
           - `TTSContents`の`audio`を`Stream audioStream`に変更しました
 
-          ### Removed
+          3. 破壊的変更
           - NAudioを利用したSpeaker機能は廃止しました
             - NAudioを利用する場合はサンプルアプリを参照してください
           - `TextToSpeech`で`byte[]`を戻り値とするメソッドを廃止しました
