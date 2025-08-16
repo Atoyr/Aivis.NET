@@ -66,7 +66,7 @@ speaker.Dispose();
 
 ## リンク
 
-- [GitHubリポジトリ](https://github.com/Atoyr/Aivis-net)
+- [GitHubリポジトリ](https://github.com/Atoyr/Aivis.NET)
 - [Aivis Project](https://aivis-project.com)
 
 ## ライセンス
@@ -142,7 +142,7 @@ speaker.Dispose();
 
 ## Links
 
-- [GitHub Repository](https://github.com/Atoyr/Aivis-net)
+- [GitHub Repository](https://github.com/Atoyr/Aivis.NET)
 - [Aivis Project](https://aivis-project.com)
 
 ## License

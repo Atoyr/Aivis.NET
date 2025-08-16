@@ -9,12 +9,12 @@
     <img alt="NuGet Version" src="https://img.shields.io/nuget/v/Aivis.Net">
   </a>
 
-  <a href="https://github.com/Atoyr/Aivis-net/releases">
-    <img alt="GitHub Release" src="https://img.shields.io/github/v/release/Atoyr/Aivis-net">
+  <a href="https://github.com/Atoyr/Aivis.NET/releases">
+    <img alt="GitHub Release" src="https://img.shields.io/github/v/release/Atoyr/Aivis.NET">
   </a>
 
-  <a href="https://github.com/Atoyr/Aivis-net/actions/workflows/ci.yml">
-    <img alt="GitHub Actions CI Workflow Status" src="https://img.shields.io/github/actions/workflow/status/Atoyr/Aivis-net/ci.yml">
+  <a href="https://github.com/Atoyr/Aivis.NET/actions/workflows/ci.yml">
+    <img alt="GitHub Actions CI Workflow Status" src="https://img.shields.io/github/actions/workflow/status/Atoyr/Aivis.NET/ci.yml">
   </a>
 
   #
@@ -113,7 +113,7 @@ NAudioのSpeakerのサンプルアプリは[sample/NAudio](./sample/NAudio)に�
 
 ## ❓ 質問・不具合の報告
 
-- バグ報告や機能要望は [Issueページ](https://github.com/Atoyr/Aivis-net/issues) よりお願いします
+- バグ報告や機能要望は [Issueページ](https://github.com/Atoyr/Aivis.NET/issues) よりお願いします
 - ライブラリの使い方の質問も歓迎しています！`[Question]` ラベルを付けて投稿してください
 
 # ライセンス

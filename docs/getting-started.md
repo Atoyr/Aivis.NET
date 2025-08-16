@@ -53,7 +53,7 @@ speaker.Dispose();
 ### NAudioを使った音声再生
 
 > [!NOTE]
-> NAudioのSpeakerのサンプルは[sample/NAudio/NAudioSpeaker](https://github.com/Atoyr/Aivis-net/tree/main/sample/NAudio)にあります。
+> NAudioのSpeakerのサンプルは[sample/NAudio/NAudioSpeaker](https://github.com/Atoyr/Aivis.NET/tree/main/sample/NAudio)にあります。
 ``` C#
 Aivis.AivisClientOptions options = new(apiKey!);
 Aivis.AivisTTSClient ttsClient = new(options);
@@ -108,7 +108,7 @@ sudo pacman -S openal
 ```
 
 ## NAudioを使った音声再生
-NAudioのSpeakerのサンプルは[sample/NAudio/NAudioSpeaker](https://github.com/Atoyr/Aivis-net/tree/main/sample/NAudio)にあります。
+NAudioのSpeakerのサンプルは[sample/NAudio/NAudioSpeaker](https://github.com/Atoyr/Aivis.NET/tree/main/sample/NAudio)にあります。
 
 ## 依存関係
 
@@ -116,5 +116,5 @@ NAudioのSpeakerのサンプルは[sample/NAudio/NAudioSpeaker](https://github.c
 
 ## リンク
 
-- [GitHubリポジトリ](https://github.com/Atoyr/Aivis-net)
+- [GitHubリポジトリ](https://github.com/Atoyr/Aivis.NET)
 - [Aivis Project](https://aivis-project.com)
