@@ -5,6 +5,9 @@ using Aivis.Schemas;
 
 namespace Aivis;
 
+/// <summary>
+/// Aivisのユーザー情報を取得するためのクライアントクラス。
+/// </summary>
 public class AivisUsersClient
 {
     private readonly AivisClientOptions _options;

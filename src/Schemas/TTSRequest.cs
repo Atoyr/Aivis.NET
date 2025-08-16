@@ -2,6 +2,9 @@ using System.Text.Json.Serialization;
 
 namespace Aivis.Schemas;
 
+/// <summary>
+/// TTSRequest クラスは、音声合成リクエストのパラメータを定義します。
+/// </summary>
 public class TTSRequest
 {
     private Guid modelUuid;
@@ -142,7 +145,7 @@ public class TTSRequest
 
     /// <summary>
     /// text に記述された SSML タグのサブセットの解釈を有効にするかを指定します。デフォルトで有効です。
-    /// 現在、SSML のサブセット (<break time/strength="...">, <prosody rate/pitch/volume="...">, <sub alias="...">, <p>, <s>) にのみ対応しています。
+    /// 現在、SSML のサブセット (&lt;break time/strength=&quot;...&quot;&gt;, &lt;prosody rate/pitch/volume=&quot;...&quot;&gt;, &lt;sub alias=&quot;...&quot;&gt;, &lt;p&gt;, &lt;s&gt;) にのみ対応しています。
     /// 
     /// true の場合、text の内容を SSML (XML) として解釈します。タグとして解釈されうる制御文字はエスケープが必要です。
     /// false の場合、text の内容はすべてプレーンテキストとして扱われ、SSML タグは解釈しません。

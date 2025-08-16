@@ -1,5 +1,8 @@
 namespace Aivis;
 
+/// <summary>
+/// ITalkToSpeech インターフェースは、音声合成機能を提供します。
+/// </summary>
 public interface ITalkToSpeech
 {
     /// <summary>
