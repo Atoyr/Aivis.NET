@@ -99,7 +99,7 @@ using var audioStream = await client.SynthesizeStreamAsync("model-uuid", "こん
 
 // Play audio
 Aivis.Speakers.MP3Speaker speaker = new ();
-await speaker.PlayAsync(contents.AudioStream);
+await speaker.PlayAsync(audioStream);
 speaker.Dispose();
 ```
 
