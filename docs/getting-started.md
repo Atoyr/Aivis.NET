@@ -1,30 +1,4 @@
-<div align="center">
-
-  ![Aivis.NET Logo](/docs/logo_dark.svg#gh-light-mode-only)
-  ![Aivis.NET Logo](/docs/logo_light.svg#gh-dark-mode-only)
-
-  <br/>
-
-  <a href="https://www.nuget.org/packages/Aivis.Net">
-    <img alt="NuGet Version" src="https://img.shields.io/nuget/v/Aivis.Net">
-  </a>
-
-  <a href="https://github.com/Atoyr/Aivis-net/releases">
-    <img alt="GitHub Release" src="https://img.shields.io/github/v/release/Atoyr/Aivis-net">
-  </a>
-
-  <a href="https://github.com/Atoyr/Aivis-net/actions/workflows/ci.yml">
-    <img alt="GitHub Actions CI Workflow Status" src="https://img.shields.io/github/actions/workflow/status/Atoyr/Aivis-net/ci.yml">
-  </a>
-
-  #
-
-</div>
-Aivis.NET は Aivis APIの非公式ライブラリです。(https://aivis-project.com)
-
-
-
-# Getting Start.
+# Getting Started
 
 ## 対応バージョン
 `.NET 8.0`
@@ -32,30 +6,54 @@ Aivis.NET は Aivis APIの非公式ライブラリです。(https://aivis-projec
 
 ## パッケージの追加
 
-
 ``` 
 dotnet add package Aivis.Net
 ```
 
-## 使用例
 
-Text-to-Speech (ストリーミング再生)
-> [!IMPORTANT]
+## 使用方法
+
+### 基本的なTTS
+
+```C#
+var options = new AivisClientOptions("your-api-key");
+var client = new AivisTTSClient(options);
+
+// 音声ストリームのみを取得
+using var audioStream = await client.SynthesizeStreamAsync("model-uuid", "こんにちは、世界！");
+
+// 音声とメタデータを取得
+var contents = await client.SynthesizeWithContentsAsync("model-uuid", "ここにテキストを入力");
+Console.WriteLine($"文字数: {contents.CharacterCount}");
+Console.WriteLine($"使用クレジット: {contents.CreditsUsed}");
+```
+
+### リアルタイムストリーミング再生
+> [!NOTE]
 > FFmpegとOpenALがインストールされている必要があります。
 > インストール方法は[音声再生の利用](#音声再生の利用)を参照してください。
 ``` C#
-Aivis.AivisClientOptions options = new(apiKey);
-Aivis.AivisTTSClient ttsClient = new(options);
-using var stream = await ttsClient.SynthesizeStreamAsync(modelUuid, text);
+```csharp
+using Aivis;
 
+// APIキーでクライアントを初期化
+var options = new AivisClientOptions("your-api-key");
+var client = new AivisTTSClient(options);
+
+// テキストを音声に変換
+using var audioStream = await client.SynthesizeStreamAsync("model-uuid", "こんにちは、世界！");
+
+// 音声を再生
 Aivis.Speakers.MP3Speaker speaker = new ();
-await speaker.PlayAsync(contents.AudioStream);
+await speaker.PlayAsync(audioStream);
 speaker.Dispose();
 ```
 
 
-NAudioを使った音声再生
-> NAudioのSpeakerのサンプルは[sample/NAudio/NAudioSpeaker](./sample/NAudio/NAudioSpeaker.cs)にあります。
+### NAudioを使った音声再生
+
+> [!NOTE]
+> NAudioのSpeakerのサンプルは[sample/NAudio/NAudioSpeaker](https://github.com/Atoyr/Aivis-net/tree/main/sample/NAudio)にあります。
 ``` C#
 Aivis.AivisClientOptions options = new(apiKey!);
 Aivis.AivisTTSClient ttsClient = new(options);
@@ -70,7 +68,8 @@ await speaker.PlayAsync(stream);
 そのため、`ffmpeg`と`OpenAL`のインストールが必要となります。
 また、Windowsに限り`NAudio`を使用することで各種ツールのインストールが不要です。
 
-## ffmpegのインストール
+## ffmpegとOpenALのインストール
+> [!NOTE]
 > どのOSでも最後に`ffmpeg -version`で確認してください。
 
 ### windows
@@ -109,12 +108,13 @@ sudo pacman -S openal
 ```
 
 ## NAudioを使った音声再生
-NAudioのSpeakerのサンプルアプリは[sample/NAudio](./sample/NAudio)にあります。
+NAudioのSpeakerのサンプルは[sample/NAudio/NAudioSpeaker](https://github.com/Atoyr/Aivis-net/tree/main/sample/NAudio)にあります。
 
-## ❓ 質問・不具合の報告
+## 依存関係
 
-- バグ報告や機能要望は [Issueページ](https://github.com/Atoyr/Aivis-net/issues) よりお願いします
-- ライブラリの使い方の質問も歓迎しています！`[Question]` ラベルを付けて投稿してください
+- OpenTK 4.9.4（音声再生用）
 
-# ライセンス
-MIT
+## リンク
+
+- [GitHubリポジトリ](https://github.com/Atoyr/Aivis-net)
+- [Aivis Project](https://aivis-project.com)
