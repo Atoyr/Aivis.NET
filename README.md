@@ -47,8 +47,9 @@ Aivis.AivisClientOptions options = new(apiKey);
 Aivis.AivisTTSClient ttsClient = new(options);
 using var stream = await ttsClient.SynthesizeStreamAsync(modelUuid, text);
 
-Aivis.Speakers.ISpeaker speaker = new Aivis.Speakers.MP3Speaker();
+Aivis.Speakers.MP3Speaker speaker = new ();
 await speaker.PlayAsync(contents.AudioStream);
+speaker.Dispose();
 ```
 
 
