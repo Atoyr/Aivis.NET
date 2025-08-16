@@ -1,5 +1,8 @@
 namespace Aivis.Speakers;
 
+/// <summary>
+/// ISpeaker インターフェースは、音声を再生する機能を提供します。
+/// </summary>
 public interface ISpeaker
 {
     /// <summary>
