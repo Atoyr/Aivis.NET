@@ -24,6 +24,14 @@
         <DebugSymbols>true</DebugSymbols>
 
         <PackageReleaseNotes>
+          1.0.0 - 2025-08-17
+          1. 変更
+          - TextToSpeechのときにオプションを設定できるようにしました。
+
+          0.5.2 - 2025-08-16
+          1. 追加
+          - ドキュメンテーションを追加しました。
+
           0.5.1 - 2025-08-16
           1. 追加
           Nugetパッケージ情報を修正しました。
