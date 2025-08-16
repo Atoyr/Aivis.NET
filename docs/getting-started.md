@@ -35,7 +35,8 @@ Console.WriteLine($"使用クレジット: {contents.CreditsUsed}");
 ``` C#
 ```csharp
 using Aivis;
-
+```csharp
+using Aivis;
 // APIキーでクライアントを初期化
 var options = new AivisClientOptions("your-api-key");
 var client = new AivisTTSClient(options);
