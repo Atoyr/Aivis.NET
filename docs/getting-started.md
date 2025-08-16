@@ -32,7 +32,6 @@ Console.WriteLine($"使用クレジット: {contents.CreditsUsed}");
 > [!NOTE]
 > FFmpegとOpenALがインストールされている必要があります。
 > インストール方法は[音声再生の利用](#音声再生の利用)を参照してください。
-``` C#
 ```csharp
 using Aivis;
 ```csharp
