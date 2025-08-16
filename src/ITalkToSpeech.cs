@@ -10,18 +10,18 @@ public interface ITalkToSpeech
     /// </summary>
     /// <param name="modelUuid">モデルのUUID</param>
     /// <param name="text">合成するテキスト</param>
-    /// <param name="format">出力フォーマット（デフォルトは "mp3"）</param>
+    /// <param name="options">音声合成のオプション</param>
     /// <returns>音声データのバイト配列</returns>
-    Task<byte[]> SynthesizeAsync(string modelUuid, string text, string format = "mp3");
+    Task<byte[]> SynthesizeAsync(string modelUuid, string text, TalkToSpeechOptions? options = null);
 
     /// <summary>
     /// 音声合成を行いストリーミングします。
     /// </summary>
     /// <param name="modelUuid">モデルのUUID</param>
     /// <param name="text">合成するテキスト</param>
-    /// <param name="format">出力フォーマット（デフォルトは "mp3"）</param>
+    /// <param name="options">音声合成のオプション</param>
     /// <returns>音声データのストリーム</returns>
-    Task<Stream> SynthesizeStreamAsync(string modelUuid, string text, string format = "mp3");
+    Task<Stream> SynthesizeStreamAsync(string modelUuid, string text, TalkToSpeechOptions? options = null);
 
     /// <summary>
     /// 音声合成を行います。
@@ -29,7 +29,7 @@ public interface ITalkToSpeech
     /// </summary>
     /// <param name="modelUuid">モデルのUUID</param>
     /// <param name="text">合成するテキスト</param>
-    /// <param name="format">出力フォーマット（デフォルトは "mp3"）</param>
+    /// <param name="options">音声合成のオプション</param>
     /// <returns>音声データとヘッダコンテンツを含むTTSコンテンツ</returns>
-    Task<TTSContents> SynthesizeWithContentsAsync(string modelUuid, string text, string format = "mp3");
+    Task<TTSContents> SynthesizeWithContentsAsync(string modelUuid, string text, TalkToSpeechOptions? options = null);
 }

@@ -83,7 +83,8 @@ public class AivisTTSClientTests
         SetupHttpResponse(responseMessage);
 
         var client = new AivisTTSClient(_options);
-        await client.SynthesizeAsync("550e8400-e29b-41d4-a716-446655440000", "テストテキスト", "wav");
+        var options = new TalkToSpeechOptions().SetOutputFormat(MediaType.WAV);
+        await client.SynthesizeAsync("550e8400-e29b-41d4-a716-446655440000", "テストテキスト", options);
 
         VerifyHttpRequest("/v1/tts/synthesize", requestBody =>
         {
@@ -187,7 +188,8 @@ public class AivisTTSClientTests
         SetupHttpResponse(responseMessage);
 
         var client = new AivisTTSClient(_options);
-        await client.SynthesizeAsync("550e8400-e29b-41d4-a716-446655440000", "テストテキスト", "wav");
+        var options = new TalkToSpeechOptions().SetOutputFormat(MediaType.WAV);
+        await client.SynthesizeAsync("550e8400-e29b-41d4-a716-446655440000", "テストテキスト", options);
 
         VerifyHttpRequest("/v1/tts/synthesize", requestBody =>
         {
