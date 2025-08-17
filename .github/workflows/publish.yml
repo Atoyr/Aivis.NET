@@ -1,8 +1,13 @@
 name: publish nuget
 on:
-  workflow_dispatch: 
   release:
     types: [published]
+  workflow_dispatch: 
+    inputs:
+      tag:
+        description: 'Tag to use (e.g., v1.2.3). If empty, uses latest tag.'
+        required: false
+        type: string
 
 env:
   PROJECT_PATH: 'src/Aivis.Net.csproj'
@@ -31,8 +36,11 @@ jobs:
         id: version
         run: |
           if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
-            # 手動実行の場合、最新のタグを取得
-            TAG_NAME=$(git describe --tags --abbrev=0)
+            if [ -n "${{ github.event.inputs.tag }}" ]; then
+              # 入力されたタグを使用
+              TAG_NAME="${{ github.event.inputs.tag }}"
+              echo "Using input tag: $TAG_NAME"
+            fi
           else
             # タグpushの場合、そのタグを使用
             TAG_NAME="${GITHUB_REF##*/}"
