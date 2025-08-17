@@ -6,10 +6,13 @@ on:
 
 env:
   PROJECT_PATH: 'src/Aivis.Net.csproj'
-
+  ARTIFACT_STAGING_DIRECTORY: "artifacts"
+  REPOSITORY_URL: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
 jobs:
-  publish:
+  build:
+    name: Build and Test
     runs-on: ubuntu-latest
+    env:
 
     steps:
       - name: Checkout repository
@@ -32,15 +35,51 @@ jobs:
           VERSION="${TAG_NAME#v}"                  # remove leading 'v'
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
-      - name: Restore dependencies
+      - name: Restore
         run: dotnet restore ${{ env.PROJECT_PATH }}
 
-      - name: Build the project
+      - name: Build
         run: dotnet build ${{ env.PROJECT_PATH }} --configuration Release --no-restore
 
+      - name: Unit Test
+        run: dotnet test ${{ env.PROJECT_PATH }} --no-build --configuration Release --verbosity normal
+
       - name: Pack the NuGet package
-        run: dotnet pack ${{ env.PROJECT_PATH }} --configuration Release --no-build --output ./nupkg -p:Version=${{ steps.version.outputs.version }}
+        run: dotnet pack ${{ env.PROJECT_PATH }} --no-restore --configuration Release --no-build --output ${{ env.ARTIFACT_STAGING_DIRECTORY }} -p:Version=${{ steps.version.outputs.version }}
+
+      - name: Publish Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Aivis-NET
+          path: ${{ env.ARTIFACT_STAGING_DIRECTORY }}/*
+
+  publish:
+    name: Publish
+    runs-on: ubuntu-latest
+    needs: [build]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup NuGet
+        uses: nuget/setup-nuget@v2
+        with:
+          nuget-version: '6.x'
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: Aivis-NET
+          path: ${{ env.ARTIFACT_STAGING_DIRECTORY }}
+
+      - name: Set API Keys
+        run: |
+          nuget setApiKey ${{ secrets.NUGET_API_KEY }} -Source https://api.nuget.org/v3/index.json
+          nuget setApiKey ${{ secrets.GITHUB_TOKEN }} -Source ${{ env.REPOSITORY_URL }}
 
       - name: Publish to NuGet
-        run: dotnet nuget push ./nupkg/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+        run: nuget push "${{ env.ARTIFACT_STAGING_DIRECTORY }}/*.nupkg" -Source https://api.nuget.org/v3/index.json
 
+      - name: Publish to GitHub Packages
+        run: nuget push "${{ env.ARTIFACT_STAGING_DIRECTORY }}/*.nupkg" -Source ${{ env.REPOSITORY_URL }}
