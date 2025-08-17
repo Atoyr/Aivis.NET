@@ -82,10 +82,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup NuGet
-        uses: nuget/setup-nuget@v2
+      - name: Setup .NET 9
+        uses: actions/setup-dotnet@v4
         with:
-          nuget-version: '6.x'
+          dotnet-version: '9.0.x'
 
       - name: Download artifacts
         uses: actions/download-artifact@v4
@@ -95,11 +95,11 @@ jobs:
 
       - name: Set API Keys
         run: |
-          nuget setApiKey ${{ secrets.NUGET_API_KEY }} -Source https://api.nuget.org/v3/index.json
-          nuget setApiKey ${{ secrets.GITHUB_TOKEN }} -Source ${{ env.REPOSITORY_URL }}
+          dotnet nuget add source https://api.nuget.org/v3/index.json
+          dotnet nuget add source --username Atoyr --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github ${{ env.REPOSITORY_URL }}
 
       - name: Publish to NuGet
-        run: nuget push "${{ env.ARTIFACT_STAGING_DIRECTORY }}/*.nupkg" -Source https://api.nuget.org/v3/index.json
+        run: nuget push "${{ env.ARTIFACT_STAGING_DIRECTORY }}/*.nupkg" -source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
 
       - name: Publish to GitHub Packages
-        run: nuget push "${{ env.ARTIFACT_STAGING_DIRECTORY }}/*.nupkg" -Source ${{ env.REPOSITORY_URL }}
+        run: nuget push "${{ env.ARTIFACT_STAGING_DIRECTORY }}/*.nupkg" -source ${{ env.REPOSITORY_URL }} --api-key ${{ secrets.GITHUB_TOKEN }} --skip-duplicate
