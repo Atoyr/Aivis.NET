@@ -26,15 +26,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup .NET 8
+      - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
-
-      - name: Setup .NET 9
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '9.0.x'
+          dotnet-version: |
+            6.0.x
+            7.0.x
+            8.0.x
+            9.0.x
 
       - name: Extract version from tag
         id: version
@@ -86,10 +85,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup .NET 9
+      - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.0.x'
+          dotnet-version: |
+            6.0.x
+            7.0.x
+            8.0.x
+            9.0.x
 
       - name: Download artifacts
         uses: actions/download-artifact@v4

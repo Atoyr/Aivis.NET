@@ -69,7 +69,7 @@ public class AivisUsersClient
             case HttpStatusCode.NotFound:
                 var notFoundError = await response.Content.ReadFromJsonAsync<ErrorResponse>();
                 throw new NotSupportedException($"{response.StatusCode} - {notFoundError?.Detail ?? "ユーザーが見つかりませんでした。"}");
-            case HttpStatusCode.UnprocessableContent:
+            case HttpStatusCode.UnprocessableEntity:
                 var validationError = await response.Content.ReadFromJsonAsync<HttpValidationError>();
                 throw new HttpRequestException($"Validation error: {string.Join(", ", validationError?.Detail?.Select(e => e.Msg) ?? Enumerable.Empty<string>())}");
             default:

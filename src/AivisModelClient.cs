@@ -43,7 +43,7 @@ public class AivisModelClient
             return await response.Content.ReadFromJsonAsync<AivmModelsResponse>() ?? new AivmModelsResponse(0, Enumerable.Empty<AivmModelResponse>());
         }
 
-        if (response.StatusCode == HttpStatusCode.UnprocessableContent)
+        if (response.StatusCode == HttpStatusCode.UnprocessableEntity)
         {
             var error = await response.Content.ReadFromJsonAsync<HttpValidationError>();
             throw new HttpRequestException($"Validation error: {string.Join(", ", error?.Detail?.Select(e => e.Msg) ?? Enumerable.Empty<string>())}");
@@ -71,7 +71,7 @@ public class AivisModelClient
             return await response.Content.ReadFromJsonAsync<AivmModelResponse>() ?? throw new InvalidOperationException("Received empty model details.");
         }
 
-        if (response.StatusCode == HttpStatusCode.UnprocessableContent)
+        if (response.StatusCode == HttpStatusCode.UnprocessableEntity)
         {
             var error = await response.Content.ReadFromJsonAsync<HttpValidationError>();
             throw new HttpRequestException($"Validation error: {string.Join(", ", error?.Detail?.Select(e => e.Msg) ?? Enumerable.Empty<string>())}");
@@ -106,7 +106,7 @@ public class AivisModelClient
             throw new HttpRequestException("Locationヘッダが存在しません。");
         }
 
-        if (response.StatusCode == HttpStatusCode.UnprocessableContent)
+        if (response.StatusCode == HttpStatusCode.UnprocessableEntity)
         {
             var error = await response.Content.ReadFromJsonAsync<HttpValidationError>();
             throw new HttpRequestException($"Validation error: {string.Join(", ", error?.Detail?.Select(e => e.Msg) ?? Enumerable.Empty<string>())}");

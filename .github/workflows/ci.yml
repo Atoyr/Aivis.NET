@@ -25,14 +25,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup .NET 8.0
+      - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
-      - name: Setup .NET 9.0
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '9.0.x'
+          dotnet-version: |
+            6.0.x
+            7.0.x
+            8.0.x
+            9.0.x
 
       - name: Install dotnet-format
         run: dotnet tool install --global dotnet-format
@@ -62,14 +62,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup .NET 8.0
+      - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
-      - name: Setup .NET 9.0
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '9.0.x'
+          dotnet-version: |
+            6.0.x
+            7.0.x
+            8.0.x
+            9.0.x
 
       - name: Install dotnet-format
         run: dotnet tool install --global dotnet-format
@@ -85,14 +85,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
        
-      - name: Setup .NET 8.0
+      - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
-      - name: Setup .NET 9.0
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '9.0.x'
+          dotnet-version: |
+            6.0.x
+            7.0.x
+            8.0.x
+            9.0.x
 
       - name: Install FFmpeg and OpenAL dependencies
         run: |
@@ -131,14 +131,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
        
-      - name: Setup .NET 8.0
+      - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
-      - name: Setup .NET 9.0
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '9.0.x'
+          dotnet-version: |
+            6.0.x
+            7.0.x
+            8.0.x
+            9.0.x
 
       - name: Restore dependencies for sample
         run: dotnet restore ${{ matrix.sample.folder }}
