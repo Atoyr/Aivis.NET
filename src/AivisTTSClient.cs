@@ -107,7 +107,7 @@ public class AivisTTSClient : ITalkToSpeech
                 throw new NotSupportedException($"{response.StatusCode} - クレジット残高が不足しています。");
             case HttpStatusCode.NotFound:
                 throw new NotSupportedException($"{response.StatusCode} - 指定されたモデルが見つかりません。モデルUUIDを確認してください。");
-            case HttpStatusCode.UnprocessableContent:
+            case HttpStatusCode.UnprocessableEntity:
                 throw new NotSupportedException($"{response.StatusCode} - リクエストパラメータの形式が正しくありません。");
             case HttpStatusCode.TooManyRequests:
                 throw new NotSupportedException($"{response.StatusCode} - 音声合成APIのレート制限に到達しました。");
