@@ -29,11 +29,11 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: |
-            '5.0.x'
-            '6.0.x'
-            '7.0.x'
-            '8.0.x'
-            '9.0.x'
+            5.0.x
+            6.0.x
+            7.0.x
+            8.0.x
+            9.0.x
 
       - name: Install dotnet-format
         run: dotnet tool install --global dotnet-format
@@ -67,11 +67,11 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: |
-            '5.0.x'
-            '6.0.x'
-            '7.0.x'
-            '8.0.x'
-            '9.0.x'
+            5.0.x
+            6.0.x
+            7.0.x
+            8.0.x
+            9.0.x
 
       - name: Install dotnet-format
         run: dotnet tool install --global dotnet-format
@@ -91,11 +91,11 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: |
-            '5.0.x'
-            '6.0.x'
-            '7.0.x'
-            '8.0.x'
-            '9.0.x'
+            5.0.x
+            6.0.x
+            7.0.x
+            8.0.x
+            9.0.x
 
       - name: Install FFmpeg and OpenAL dependencies
         run: |
@@ -138,11 +138,11 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: |
-            '5.0.x'
-            '6.0.x'
-            '7.0.x'
-            '8.0.x'
-            '9.0.x'
+            5.0.x
+            6.0.x
+            7.0.x
+            8.0.x
+            9.0.x
 
       - name: Restore dependencies for sample
         run: dotnet restore ${{ matrix.sample.folder }}
