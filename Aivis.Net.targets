@@ -25,6 +25,11 @@
         <DebugSymbols>true</DebugSymbols>
 
         <PackageReleaseNotes>
+
+          1.1.0 - 2025-08-19
+          1. アップグレード
+          - .NET6.0以降に対応しました。
+
           1.0.0 - 2025-08-17
           1. 変更
           - TextToSpeechのときにオプションを設定できるようにしました。
@@ -49,6 +54,7 @@
             - NAudioを利用する場合はサンプルアプリを参照してください
           - `TextToSpeech`で`byte[]`を戻り値とするメソッドを廃止しました
             - `Stream`を返す機能で利用してください
+
         </PackageReleaseNotes>
     </PropertyGroup>
 </Project>

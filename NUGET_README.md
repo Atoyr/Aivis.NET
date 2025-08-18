@@ -31,7 +31,7 @@ speaker.Dispose();
 - ✅ Aivis APIを使用したテキスト音声合成
 - ✅ FFmpegとOpenALによる音声再生サポート
 - ✅ レスポンスメタデータ（課金情報、文字数、レート制限など）
-- ✅ .NET 8.0および.NET 9.0サポート
+- ✅ .NET6 ~ .NET9をサポート
 - ✅ async/awaitパターン
 
 ## 使用方法
@@ -108,7 +108,7 @@ speaker.Dispose();
 - ✅ Text-to-Speech synthesis via Aivis API
 - ✅ Audio playback support with FFmpeg and OpenAL
 - ✅ Response metadata (billing, character count, rate limits)
-- ✅ Support for .NET 8.0 and .NET 9.0
+- ✅ Support between .NET 6.0 and .NET 9.0
 - ✅ Async/await pattern
 
 ## Usage
