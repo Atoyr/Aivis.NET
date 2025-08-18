@@ -24,11 +24,7 @@ public class AivisUsersClient
     /// <param name="options">AivisClientOptionsオブジェクト。APIキーとHTTPクライアントプロバイダを含む。</param>
     public AivisUsersClient(AivisClientOptions options)
     {
-#if NET6_0_OR_GREATER
         ArgumentNullException.ThrowIfNull(options);
-#else
-        if (options is null) throw new ArgumentNullException(nameof(options));
-#endif
         _options = options.Clone();
     }
 
