@@ -73,7 +73,7 @@ public class TTSRequest
     /// 当該モデル → 話者 → スタイルに存在しないスタイル ID を指定すると 422 エラーが発生します。
     /// 未指定時は、当該話者のノーマルスタイルを音声合成に利用します。
     /// </summary>
-    [JsonPropertyName("style_id")]
+    [JsonIgnore]
     public int StyleId
     {
         get => _styleId;
@@ -90,7 +90,15 @@ public class TTSRequest
             }
         }
     }
-    public bool ShouldSerializeStyleId() => _styleId != DEFAULT_STYLE_ID;
+
+    [JsonPropertyName("style_id")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    private int? _styleIdRaw
+    {
+        get => StyleId != DEFAULT_STYLE_ID ? StyleId : null;
+        set => StyleId = value ?? DEFAULT_STYLE_ID;
+    }
 
     /// <summary>
     /// スタイル名のデフォルト値: ノーマル
@@ -104,7 +112,7 @@ public class TTSRequest
     /// 当該モデル → 話者 → スタイルに存在しないスタイル名を指定すると 422 エラーが発生します。
     /// 未指定時は、当該話者のデフォルトスタイルを音声合成に利用します。
     /// </summary>
-    [JsonPropertyName("style_name")]
+    [JsonIgnore]
     public string StyleName 
     {
         get 
@@ -124,7 +132,15 @@ public class TTSRequest
             _styleName = DEFAULT_STYLE_NAME;
         }
     }
-    public bool ShouldSerializeStyleName() => _styleName != DEFAULT_STYLE_NAME;
+
+    [JsonPropertyName("style_name")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    private string? _styleNameRaw
+    {
+        get => StyleName != DEFAULT_STYLE_NAME ? StyleName : null;
+        set => StyleName = value ?? DEFAULT_STYLE_NAME;
+    }
 
     private Guid? _userDictionaryUuid = null;
     /// <summary>
@@ -193,13 +209,21 @@ public class TTSRequest
     /// テキスト読み上げ時の言語を BCP 47 言語タグで指定します。2025/08時点では日本語のみ対応しています。
     /// 未指定時は、デフォルトの日本語で音声合成を行います。
     /// </summary>
-    [JsonPropertyName("launguage")]
+    [JsonIgnore]
     public string Language
     { 
         get => _language;
         set => _language = value;
     }
-    public bool ShouldSerializeLanguage() => _language != DEFAULT_LANGUAGE;
+
+    [JsonPropertyName("launguage")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    private string? _languageRaw
+    {
+        get => Language != DEFAULT_LANGUAGE ? Language : null;
+        set => Language = value ?? DEFAULT_LANGUAGE;
+    }
 
 
     /// <summary>
@@ -211,7 +235,7 @@ public class TTSRequest
     /// 話す速さを 0.5 ~ 2.0 の範囲で指定します。(デフォルト: 1.0)
     /// 2.0 で 2 倍速、0.5 で 0.5 倍速になります。
     /// </summary>
-    [JsonPropertyName("speaking_rate")]
+    [JsonIgnore]
     public double SpeakingRate
     { 
         get => _speakingRate;
@@ -224,7 +248,15 @@ public class TTSRequest
             _speakingRate = value;
         }
     }
-    public bool ShouldSerializeSpeakingRate() => _speakingRate != DEFAULT_SPEAKING_RATE;
+
+    [JsonPropertyName("speaking_rate")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    private double? _speakingRateRaw
+    {
+        get => SpeakingRate != DEFAULT_SPEAKING_RATE ? SpeakingRate : null;
+        set => SpeakingRate = value ?? DEFAULT_SPEAKING_RATE;
+    }
 
     /// <summary>
     /// 感情表現の強弱のデフォルト値: 1.0
@@ -242,7 +274,7 @@ public class TTSRequest
     /// ⚠️ ノーマルスタイルを利用する場合、emotional_intensity (話者スタイルの感情表現の強さ) は指定しても効果がありません。
     /// ノーマルスタイルは全スタイルの平均的な特徴を持つため、感情表現の強さは自動で最適化されます。
     /// </summary>
-    [JsonPropertyName("emotion_intensity")]
+    [JsonIgnore]
     public double EmotionIntensity
     {
         get => emotionIntensity;
@@ -255,7 +287,15 @@ public class TTSRequest
             emotionIntensity = value;
         }
     }
-    public bool ShouldSerializeEmotionIntensity() => emotionIntensity != DEFAULT_EMOTION_INTENSITY;
+
+    [JsonPropertyName("emotion_intensity")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    private double? _emotionIntensityRaw
+    {
+        get => EmotionIntensity != DEFAULT_EMOTION_INTENSITY ? EmotionIntensity : null;
+        set => EmotionIntensity = value ?? DEFAULT_EMOTION_INTENSITY;
+    }
 
     /// <summary>
     /// 話す早さのデフォルト値: 1.0
@@ -267,7 +307,7 @@ public class TTSRequest
     /// 数値が大きいほど、より早口で生っぽい抑揚がついた声になります。
     /// 声の表現を細かく変化させたい際に調整してみてください。
     /// </summary>
-    [JsonPropertyName("tempo_dynamics")]
+    [JsonIgnore]
     public double TempoDynamics
     {
         get => tempoDynamics;
@@ -280,7 +320,15 @@ public class TTSRequest
             tempoDynamics = value;
         }
     }
-    public bool ShouldSerializeTempoDynamics() => tempoDynamics != DEFAULT_TEMPO_DYNAMICS;
+
+    [JsonPropertyName("tempo_dynamics")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    private double? _tempoDynamicsRaw
+    {
+        get => TempoDynamics != DEFAULT_TEMPO_DYNAMICS ? TempoDynamics : null;
+        set => TempoDynamics = value ?? DEFAULT_TEMPO_DYNAMICS;
+    }
 
     /// <summary>
     /// 声のピッチのデフォルト値: 0.0
@@ -294,7 +342,7 @@ public class TTSRequest
     /// ⚠️ 仕様上、この値を 0.0 から変更すると、合成音声の品質が劣化する場合があります。また、生成速度が大幅に低下します。
     /// クリアで高品質な音声を生成したいケースではなるべく指定しないことをおすすめします。
     /// </summary>
-    [JsonPropertyName("pitch")]
+    [JsonIgnore]
     public double Pitch
     {
         get => pitch;
@@ -307,7 +355,15 @@ public class TTSRequest
             pitch = value;
         }
     }
-    public bool ShouldSerializePitch() => pitch != DEFAULT_PITCH;
+
+    [JsonPropertyName("pitch")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    private double? _pitchRaw
+    {
+        get => Pitch != DEFAULT_PITCH ? Pitch : null;
+        set => Pitch = value ?? DEFAULT_PITCH;
+    }
 
     /// <summary>
     /// 音量のデフォルト値: 1.0
@@ -318,6 +374,7 @@ public class TTSRequest
     /// 全体の音量の大きさを 0.0 ~ 2.0 の範囲で指定します。(デフォルト: 1.0)
     /// 数値が大きいほど、より大きな声になります。
     /// </summary>
+    [JsonIgnore]
     public double Volume
     {
         get => _volume;
@@ -330,7 +387,15 @@ public class TTSRequest
             _volume = value;
         }
     }
-    public bool ShouldSerializeVolume() => _volume != DEFAULT_VOLUME;
+
+    [JsonPropertyName("volume")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    private double? _volumeRaw
+    {
+        get => Volume != DEFAULT_VOLUME ? Volume : null;
+        set => Volume = value ?? DEFAULT_VOLUME;
+    }
 
     /// <summary>
     /// 音声先頭の無音区間のサイズのデフォルト値: 0.1
@@ -342,7 +407,7 @@ public class TTSRequest
     /// 0.0 を指定すると、音声先頭の無音時間を完全に削除できます。
     /// ストリーミング再生時に 0.0 を指定すると、再生開始までの待機時間をさらに削減できます。
     /// </summary>
-    [JsonPropertyName("leading_silence_seconds")]
+    [JsonIgnore]
     public double LeadingSilenceSeconds
     {
         get => _leadingSilenceSeconds;
@@ -355,7 +420,15 @@ public class TTSRequest
             _leadingSilenceSeconds = value;
         }
     }
-    public bool ShouldSerializeLeadingSilenceSeconds() => _leadingSilenceSeconds != DEFAULT_LEADING_SILENCE_SECONDS;
+
+    [JsonPropertyName("leading_silence_seconds")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    private double? _leadingSilenceSecondsRaw
+    {
+        get => LeadingSilenceSeconds != DEFAULT_LEADING_SILENCE_SECONDS ? LeadingSilenceSeconds : null;
+        set => LeadingSilenceSeconds = value ?? DEFAULT_LEADING_SILENCE_SECONDS;
+    }
 
     /// <summary>
     /// 音声末尾の無音区間のサイズのデフォルト値: 0.1
@@ -366,7 +439,7 @@ public class TTSRequest
     /// 音声末尾の無音時間の長さを秒単位で指定します。(デフォルト: 0.1)
     /// 0.0 を指定すると、音声末尾の無音時間を完全に削除できます。
     /// </summary>
-    [JsonPropertyName("trailing_silence_seconds")]
+    [JsonIgnore]
     public double TrailingSilenceSeconds
     {
         get => _trailingSilenceSeconds;
@@ -379,7 +452,15 @@ public class TTSRequest
             _trailingSilenceSeconds = value;
         }
     }
-    public bool ShouldSerializeTrailingSilenceSeconds() => _trailingSilenceSeconds != DEFAULT_TRAILING_SILENCE_SECONDS;
+
+    [JsonPropertyName("trailing_silence_seconds")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    private double? _trailingSilenceSecondsRaw
+    {
+        get => TrailingSilenceSeconds != DEFAULT_TRAILING_SILENCE_SECONDS ? TrailingSilenceSeconds : null;
+        set => TrailingSilenceSeconds = value ?? DEFAULT_TRAILING_SILENCE_SECONDS;
+    }
 
     /// <summary>
     /// テキストの改行ごとに挟む無音区間の長さのデフォルト値: 0.4
@@ -393,7 +474,7 @@ public class TTSRequest
     /// ⚠️ SSML が有効かつ &lt;p&gt;, &lt;s&gt; が記述されている場合、line_break_silence_seconds の値は適用されません。
     /// 必要に応じて &lt;break time="..."&gt; タグで無音区間をさらに調整可能です。
     /// </summary>
-    [JsonPropertyName("line_break_silence_seconds")]
+    [JsonIgnore]
     public double LineBreakSilenceSeconds
     {
         get => _lineBreakSilenceSeconds;
@@ -406,7 +487,15 @@ public class TTSRequest
             _lineBreakSilenceSeconds = value;
         }
     }
-    public bool ShouldSerializeLineBreakSilenceSeconds() => _lineBreakSilenceSeconds != DEFAULT_LINE_BREAK_SILENCE_SECONDS;
+
+    [JsonPropertyName("line_break_silence_seconds")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    private double? _lineBreakSilenceSecondsRaw
+    {
+        get => LineBreakSilenceSeconds != DEFAULT_LINE_BREAK_SILENCE_SECONDS ? LineBreakSilenceSeconds : null;
+        set => LineBreakSilenceSeconds = value ?? DEFAULT_LINE_BREAK_SILENCE_SECONDS;
+    }
 
     /// <summary>
     /// 出力フォーマットのデフォルト値: mp3
@@ -438,7 +527,7 @@ public class TTSRequest
     /// - 無劣化・最高音質で再生: flac (互換性が求められる場合は wav)
     /// - 未指定時は、デフォルトで MP3 形式で出力します。
     /// </summary>
-    [JsonPropertyName("output_format")]
+    [JsonIgnore]
     public string OutputFormat
     { 
         get => _outputFormat;
@@ -462,11 +551,17 @@ public class TTSRequest
             _outputFormat = value.ToLower();
         }
     }
-    public bool ShouldSerializeOutputFormat() => _outputFormat != DEFAULT_OUTPUT_FORMAT;
 
+    [JsonPropertyName("output_format")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    private string? _outputFormatRaw
+    {
+        get => OutputFormat != DEFAULT_OUTPUT_FORMAT ? OutputFormat : null;
+        set => OutputFormat = value ?? DEFAULT_OUTPUT_FORMAT;
+    }
 
     private int? _outputBitrate = null;
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     /// <summary>
     /// 音声データの出力ビットレートを kbps 単位の数値で指定します。(例: 192 (kbps))
     /// output_format が wav または flac のときは設定できません（wav は無圧縮、flac は可逆圧縮のため）。
@@ -477,6 +572,7 @@ public class TTSRequest
     /// aac: 96-256kbps (128-192kbps を推奨、MP3 より高効率)
     /// opus: 64-192kbps (128kbps でも MP3 192kbps 相当の音質)
     /// </summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? OutputBitrate
     {
         get => _outputBitrate;
@@ -514,7 +610,7 @@ public class TTSRequest
     /// ⚠️ Opus コーデックの仕様上、output_format が opus のとき、output_sampling_rate は 8000/12000/16000/24000/48000Hz のみ指定可能です。
     /// サポートされていないサンプリングレートが指定された場合、指定値以上で最も近い対応サンプリングレートに自動調整します。
     /// </summary>
-    [JsonPropertyName("output_sampling_rate")]
+    [JsonIgnore]
     public int OutputSamplingRate
     {
         get => _outputSamplingRate;
@@ -542,7 +638,15 @@ public class TTSRequest
             _outputSamplingRate = value;
         }
     }
-    public bool ShouldSerializeOutputSamplingRate() => _outputSamplingRate != DEFAULT_OUTPUT_SAMPLING_RATE;
+
+    [JsonPropertyName("output_sampling_rate")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    private int? _outputSamplingRateRaw
+    {
+        get => OutputSamplingRate != DEFAULT_OUTPUT_SAMPLING_RATE ? OutputSamplingRate : null;
+        set => OutputSamplingRate = value ?? DEFAULT_OUTPUT_SAMPLING_RATE;
+    }
 
     /// <summary>
     /// チャンネル数のデフォルト値: mono
@@ -554,7 +658,7 @@ public class TTSRequest
     /// stereo を指定すると、モノラル音声（1チャンネル）を複製してステレオ音声（2チャンネル）に変換してから出力します。
     /// 未指定時は、モノラル音声（1チャンネル）で出力します。
     /// </summary>
-    [JsonPropertyName("output_audio_channels")]
+    [JsonIgnore]
     public string OutputAudioChannels
     {
         get => _outputAudioChannels;
@@ -570,6 +674,15 @@ public class TTSRequest
                     throw new ArgumentException("Invalid output audio channels. Supported channels are: mono, stereo.", nameof(value));
             }
         }
+    }
+
+    [JsonPropertyName("output_audio_channels")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    private string? _outputAudioChannelsRaw
+    {
+        get => OutputAudioChannels != DEFAULT_OUTPUT_AUDIO_CHANNELS ? OutputAudioChannels : null;
+        set => OutputAudioChannels = value ?? DEFAULT_OUTPUT_AUDIO_CHANNELS;
     }
 
     /// <summary>
