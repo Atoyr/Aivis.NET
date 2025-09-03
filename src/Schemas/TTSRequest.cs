@@ -113,13 +113,13 @@ public class TTSRequest
     /// 未指定時は、当該話者のデフォルトスタイルを音声合成に利用します。
     /// </summary>
     [JsonIgnore]
-    public string StyleName 
+    public string StyleName
     {
-        get 
+        get
         {
             return _styleName;
         }
-        set 
+        set
         {
             // デフォルト値以外はStyleIdをデフォルト値に変更する
             if (value != DEFAULT_STYLE_NAME)
@@ -153,7 +153,7 @@ public class TTSRequest
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? UserDictionaryUuid
     {
-        get 
+        get
         {
             if (_userDictionaryUuid is null || _userDictionaryUuid == Guid.Empty)
             {
@@ -211,7 +211,7 @@ public class TTSRequest
     /// </summary>
     [JsonIgnore]
     public string Language
-    { 
+    {
         get => _language;
         set => _language = value;
     }
@@ -237,7 +237,7 @@ public class TTSRequest
     /// </summary>
     [JsonIgnore]
     public double SpeakingRate
-    { 
+    {
         get => _speakingRate;
         set
         {
@@ -411,7 +411,7 @@ public class TTSRequest
     public double LeadingSilenceSeconds
     {
         get => _leadingSilenceSeconds;
-        set 
+        set
         {
             if (value < 0.0 || value > 60.0)
             {
@@ -529,9 +529,9 @@ public class TTSRequest
     /// </summary>
     [JsonIgnore]
     public string OutputFormat
-    { 
+    {
         get => _outputFormat;
-        set 
+        set
         {
             switch (value.ToLower())
             {
