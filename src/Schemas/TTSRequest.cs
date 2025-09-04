@@ -315,7 +315,7 @@ public class TTSRequest
         {
             if (value < 0.0 || value > 2.0)
             {
-                throw new ArgumentOutOfRangeException(nameof(value), "temperature must be between 0.0 and 2.0.");
+                throw new ArgumentOutOfRangeException(nameof(value), "TempoDynamics must be between 0.0 and 2.0.");
             }
             tempoDynamics = value;
         }
@@ -592,7 +592,7 @@ public class TTSRequest
 
             if (value < 8 || value > 320)
             {
-                throw new ArgumentOutOfRangeException(nameof(value), "OutputBitrate must be between 8 and 512 kbps.");
+                throw new ArgumentOutOfRangeException(nameof(value), "OutputBitrate must be between 8 and 320 kbps.");
             }
             _outputBitrate = value;
         }
