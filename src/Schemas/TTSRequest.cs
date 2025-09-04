@@ -572,6 +572,7 @@ public class TTSRequest
     /// aac: 96-256kbps (128-192kbps を推奨、MP3 より高効率)
     /// opus: 64-192kbps (128kbps でも MP3 192kbps 相当の音質)
     /// </summary>
+    [JsonPropertyName("output_bitrate")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? OutputBitrate
     {
