@@ -449,60 +449,111 @@ public class TalkToSpeechOptions
         return this;
     }
 
+    /// <summary>
+    /// テキスト読み上げ時の言語を設定します。
+    /// </summary>
+    /// <param name="language">BCP 47言語タグ（例: "ja-JP"）</param>
+    /// <returns>TalkToSpeechOptionsのインスタンス</returns>
     public TalkToSpeechOptions SetLanguage(string language)
     {
         Language = language;
         return this;
     }
 
+    /// <summary>
+    /// 話す速さを設定します。
+    /// </summary>
+    /// <param name="speakingRate">話す速さ（0.5〜2.0の範囲）</param>
+    /// <returns>TalkToSpeechOptionsのインスタンス</returns>
     public TalkToSpeechOptions SetSpeakingRate(double speakingRate)
     {
         SpeakingRate = speakingRate;
         return this;
     }
 
+    /// <summary>
+    /// 選択した話者スタイルの感情表現の強弱を設定します。
+    /// </summary>
+    /// <param name="emotionIntensity">感情表現の強弱（0.0〜2.0の範囲）</param>
+    /// <returns>TalkToSpeechOptionsのインスタンス</returns>
     public TalkToSpeechOptions SetEmotionIntensity(double emotionIntensity)
     {
         EmotionIntensity = emotionIntensity;
         return this;
     }
 
+    /// <summary>
+    /// 話す速さの緩急の強弱を設定します。
+    /// </summary>
+    /// <param name="tempoDynamics">話す速さの緩急の強弱（0.0〜2.0の範囲）</param>
+    /// <returns>TalkToSpeechOptionsのインスタンス</returns>
     public TalkToSpeechOptions SetTempoDynamics(double tempoDynamics)
     {
         TempoDynamics = tempoDynamics;
         return this;
     }
 
+    /// <summary>
+    /// 声のピッチの高さ（音高）を設定します。
+    /// </summary>
+    /// <param name="pitch">ピッチの高さ（-1.0〜1.0の範囲）</param>
+    /// <returns>TalkToSpeechOptionsのインスタンス</returns>
     public TalkToSpeechOptions SetPitch(double pitch)
     {
         Pitch = pitch;
         return this;
     }
     
+    /// <summary>
+    /// 全体の音量の大きさを設定します。
+    /// </summary>
+    /// <param name="volume">音量の大きさ（0.0〜2.0の範囲）</param>
+    /// <returns>TalkToSpeechOptionsのインスタンス</returns>
     public TalkToSpeechOptions SetVolume(double volume)
     {
         Volume = volume;
         return this;
     }
 
+    /// <summary>
+    /// 音声先頭の無音時間の長さを秒単位で設定します。
+    /// </summary>
+    /// <param name="leadingSilenceSeconds">音声先頭の無音時間（0.0〜60.0の範囲）</param>
+    /// <returns>TalkToSpeechOptionsのインスタンス</returns>
     public TalkToSpeechOptions SetLeadingSilenceSeconds(double leadingSilenceSeconds)
     {
         LeadingSilenceSeconds = leadingSilenceSeconds;
         return this;
     }
 
+    /// <summary>
+    /// 音声末尾の無音時間の長さを秒単位で設定します。
+    /// </summary>
+    /// <param name="trailingSilenceSeconds">音声末尾の無音時間（0.0〜60.0の範囲）</param>
+    /// <returns>TalkToSpeechOptionsのインスタンス</returns>
     public TalkToSpeechOptions SetTrailingSilenceSeconds(double trailingSilenceSeconds)
     {
         TrailingSilenceSeconds = trailingSilenceSeconds;
         return this;
     }
 
+    /// <summary>
+    /// テキストの改行ごとに挟む無音区間の長さを秒単位で設定します。
+    /// </summary>
+    /// <param name="lineBreakSilenceSeconds">改行間の無音時間（0.0〜60.0の範囲）</param>
+    /// <returns>TalkToSpeechOptionsのインスタンス</returns>
     public TalkToSpeechOptions SetLineBreakSilenceSeconds(double lineBreakSilenceSeconds)
     {
         LineBreakSilenceSeconds = lineBreakSilenceSeconds;
         return this;
     }
 
+    /// <summary>
+    /// 音声の先頭と末尾の無音時間を同時に設定します。
+    /// </summary>
+    /// <param name="leadingSilenceSeconds">音声先頭の無音時間（0.0〜60.0の範囲）</param>
+    /// <param name="trailingSilenceSeconds">音声末尾の無音時間（0.0〜60.0の範囲）</param>
+    /// <returns>TalkToSpeechOptionsのインスタンス</returns>
     public TalkToSpeechOptions SetSilenceSeconds(double leadingSilenceSeconds, double trailingSilenceSeconds)
     {
         LeadingSilenceSeconds = leadingSilenceSeconds;
@@ -510,6 +561,13 @@ public class TalkToSpeechOptions
         return this;
     }
 
+    /// <summary>
+    /// 音声の先頭、末尾、および改行間の無音時間を同時に設定します。
+    /// </summary>
+    /// <param name="leadingSilenceSeconds">音声先頭の無音時間（0.0〜60.0の範囲）</param>
+    /// <param name="trailingSilenceSeconds">音声末尾の無音時間（0.0〜60.0の範囲）</param>
+    /// <param name="lineBreakSilenceSeconds">改行間の無音時間（0.0〜60.0の範囲）</param>
+    /// <returns>TalkToSpeechOptionsのインスタンス</returns>
     public TalkToSpeechOptions SetSilenceSeconds(double leadingSilenceSeconds, double trailingSilenceSeconds, double lineBreakSilenceSeconds)
     {
         SetSilenceSeconds(leadingSilenceSeconds, trailingSilenceSeconds);
@@ -552,24 +610,44 @@ public class TalkToSpeechOptions
         }
     }
 
+    /// <summary>
+    /// 音声データの出力ビットレートをkbps単位で設定します。
+    /// </summary>
+    /// <param name="outputBitrate">出力ビットレート（8〜320kbpsの範囲、nullの場合はデフォルト値を使用）</param>
+    /// <returns>TalkToSpeechOptionsのインスタンス</returns>
     public TalkToSpeechOptions SetOutputBitrate(int? outputBitrate)
     {
         OutputBitrate = outputBitrate;
         return this;
     }
 
+    /// <summary>
+    /// 音声データの出力サンプリングレートをHz単位で設定します。
+    /// </summary>
+    /// <param name="outputSamplingRate">出力サンプリングレート（Hz単位）</param>
+    /// <returns>TalkToSpeechOptionsのインスタンス</returns>
     public TalkToSpeechOptions SetOutputSamplingRate(int outputSamplingRate)
     {
         OutputSamplingRate = outputSamplingRate;
         return this;
     }
 
+    /// <summary>
+    /// 音声データのチャンネル数を設定します。
+    /// </summary>
+    /// <param name="outputAudioChannels">出力チャンネル数</param>
+    /// <returns>TalkToSpeechOptionsのインスタンス</returns>
     public TalkToSpeechOptions SetOutputAudioChannels(AudioChannel outputAudioChannels)
     {
         OutputAudioChannels = outputAudioChannels;
         return this;
     }
 
+    /// <summary>
+    /// 音声データのチャンネル数を文字列で設定します。
+    /// </summary>
+    /// <param name="outputAudioChannels">出力チャンネル数（"mono" または "stereo"）</param>
+    /// <returns>TalkToSpeechOptionsのインスタンス</returns>
     public TalkToSpeechOptions SetOutputAudioChannels(string outputAudioChannels)
     {
         switch (outputAudioChannels.ToLower())
