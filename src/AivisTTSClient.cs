@@ -81,15 +81,27 @@ public class AivisTTSClient : ITalkToSpeech
             throw new ArgumentException("APIキーが設定されていません。AivisClientOptionsのApiKeyプロパティを設定してください。", nameof(_options));
         }
 
-        // TODO: 設定できるパラメータを増やして柔軟に実行できるようにする
         TTSRequest requestBody
             = new(modelUuid, text)
             {
                 SpeakerUuid = options.SpeakerUuid?.ToString(),
                 StyleId = options.StyleId,
+                StyleName = options.StyleName,
                 UserDictionaryUuid = options.UserDictionaryUuid?.ToString(),
                 UseSsml = options.UseSsml,
+                Language = options.Language,
+                SpeakingRate = options.SpeakingRate,
+                EmotionIntensity = options.EmotionIntensity,
+                TempoDynamics = options.TempoDynamics,
+                Pitch = options.Pitch,
+                Volume = options.Volume,
+                LeadingSilenceSeconds = options.LeadingSilenceSeconds,
+                TrailingSilenceSeconds = options.TrailingSilenceSeconds,
+                LineBreakSilenceSeconds = options.LineBreakSilenceSeconds,
                 OutputFormat = options.OutputFormat.ToFormatString(),
+                OutputBitrate = options.OutputBitrate,
+                OutputSamplingRate = options.OutputSamplingRate,
+                OutputAudioChannels = options.OutputAudioChannels.ToFormatString(),
             };
         var jsonContent = JsonSerializer.Serialize(requestBody);
 
