@@ -543,12 +543,12 @@ public class TTSRequest
                     OutputBitrate = null; // ビットレート指定を無効化
                     break;
                 case "opus":
-                    OutputSamplingRate = _outputSamplingRate; // Opusのサンプリングレート制限を再適用
                     break;
                 default:
                     throw new ArgumentException("Invalid output format. Supported formats are: wav, flac, mp3, aac, opus.", nameof(value));
             }
             _outputFormat = value.ToLower();
+            OutputSamplingRate = _outputSamplingRate; // サンプリングレート制限を再適用
         }
     }
 

@@ -71,7 +71,7 @@ public class TalkToSpeechOptions
 
             _styleName = TTSRequest.DEFAULT_STYLE_NAME;
         }
-    } 
+    }
 
     /// <summary>
     /// 指定されたユーザー辞書 UUID に対応するユーザー辞書を、音声合成時に適用します。
@@ -255,11 +255,34 @@ public class TalkToSpeechOptions
         }
     }
 
+    private MediaType _outputFormat = MediaType.MP3;
     /// <summary>
     /// 音声データの出力形式を指定します。用途に応じて最適な形式を選択してください。
     /// wav, flac, mp3, aac, opus
     /// </summary>
-    public MediaType OutputFormat { get; set; } = MediaType.MP3;
+    public MediaType OutputFormat
+    {
+        get => _outputFormat;
+        set
+        {
+            switch (value)
+            {
+                case MediaType.MP3:
+                case MediaType.AAC:
+                    break;
+                case MediaType.WAV:
+                case MediaType.FLAC:
+                    OutputBitrate = null; // ビットレート指定を無効化
+                    break;
+                case MediaType.OPUS:
+                    break;
+                default:
+                    throw new ArgumentException("Invalid output format. Supported formats are: wav, flac, mp3, aac, opus.", nameof(value));
+            }
+            _outputFormat = value;
+            OutputSamplingRate = _outputSamplingRate; // サンプリングレート制限を再適用
+        }
+    }
 
     private int? _outputBitrate = null;
     /// <summary>
@@ -503,7 +526,7 @@ public class TalkToSpeechOptions
         Pitch = pitch;
         return this;
     }
-    
+
     /// <summary>
     /// 全体の音量の大きさを設定します。
     /// </summary>
