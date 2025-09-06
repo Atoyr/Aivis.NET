@@ -41,11 +41,11 @@ public class TTSRequestAdvancedTests
     {
         var req = new TTSRequest(ValidModel, "text");
         var jsonDefault = JsonSerializer.Serialize(req);
-        Assert.DoesNotContain("launguage", jsonDefault); // デフォルトは非出力
+        Assert.DoesNotContain("language", jsonDefault); // デフォルトは非出力
 
         req.Language = "en";
         var jsonCustom = JsonSerializer.Serialize(req);
-        Assert.Contains("\"launguage\":\"en\"", jsonCustom); // モデルのプロパティ名に合わせる
+        Assert.Contains("\"language\":\"en\"", jsonCustom); // モデルのプロパティ名に合わせる
     }
 
     [Theory]
@@ -193,7 +193,7 @@ public class TTSRequestAdvancedTests
         // デフォルト値は省略される（Raw プロパティの条件）
         Assert.DoesNotContain("style_id", json);
         Assert.DoesNotContain("style_name", json);
-        Assert.DoesNotContain("launguage", json);
+        Assert.DoesNotContain("language", json);
         Assert.DoesNotContain("speaking_rate", json);
         Assert.DoesNotContain("emotion_intensity", json);
         Assert.DoesNotContain("tempo_dynamics", json);
