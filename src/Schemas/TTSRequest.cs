@@ -216,7 +216,7 @@ public class TTSRequest
         set => _language = value;
     }
 
-    [JsonPropertyName("launguage")]
+    [JsonPropertyName("language")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     private string? _languageRaw
@@ -617,6 +617,11 @@ public class TTSRequest
         get => _outputSamplingRate;
         set
         {
+            if (value <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(value), "OutputSamplingRate must be greater than 0.");
+            }
+
             if (OutputFormat == "opus")
             {
                 int[] supportedRates = { 8000, 12000, 16000, 24000, 48000 };

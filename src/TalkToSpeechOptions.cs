@@ -333,6 +333,11 @@ public class TalkToSpeechOptions
         get => _outputSamplingRate;
         set
         {
+            if (value <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(value), "OutputSamplingRate must be greater than 0.");
+            }
+
             if (OutputFormat == MediaType.OPUS)
             {
                 int[] supportedRates = { 8000, 12000, 16000, 24000, 48000 };
@@ -616,7 +621,7 @@ public class TalkToSpeechOptions
     /// <returns>TalkToSpeechOptionsのインスタンス</returns>
     public TalkToSpeechOptions SetOutputFormat(string format)
     {
-        switch (format.ToLower())
+        switch (format.ToLowerInvariant())
         {
             case "wav":
                 return SetOutputFormat(MediaType.WAV);
@@ -673,7 +678,7 @@ public class TalkToSpeechOptions
     /// <returns>TalkToSpeechOptionsのインスタンス</returns>
     public TalkToSpeechOptions SetOutputAudioChannels(string outputAudioChannels)
     {
-        switch (outputAudioChannels.ToLower())
+        switch (outputAudioChannels.ToLowerInvariant())
         {
             case "mono":
                 return SetOutputAudioChannels(AudioChannel.Mono);
