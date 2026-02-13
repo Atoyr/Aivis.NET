@@ -31,6 +31,7 @@ Aivis.NET は Aivis APIの非公式ライブラリです。(https://aivis-projec
 - `.NET 7.0`
 - `.NET 8.0`
 - `.NET 9.0`
+- `.NET 10.0`
 
 ## パッケージの追加
 
