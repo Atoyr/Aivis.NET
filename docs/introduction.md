@@ -8,6 +8,7 @@ Aivis APIの非公式C#ライブラリです。Text-to-Speech（音声合成）�
 - `.NET 7.0`
 - `.NET 8.0`
 - `.NET 9.0`
+- `.NET 10.0`
 
 ## パッケージの追加
 
