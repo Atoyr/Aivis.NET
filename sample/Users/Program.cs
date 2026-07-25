@@ -20,11 +20,7 @@ switch (mode)
 async Task GetMe()
 {
     string? apiKey = null;
-    var searchOptions = new Aivis.SearchVoiceModelsOptions();
-    while(string.IsNullOrWhiteSpace(apiKey))
-{
-    string? apiKey = null;
-    while(string.IsNullOrWhiteSpace(apiKey))
+    while (string.IsNullOrWhiteSpace(apiKey))
     {
         Console.WriteLine("input api key");
         apiKey = Console.ReadLine();
@@ -45,12 +41,7 @@ async Task GetMe()
 async Task GetUserInfo()
 {
     string? handle = null;
-    var searchOptions = new Aivis.SearchVoiceModelsOptions();
-    while(string.IsNullOrWhiteSpace(handle))
-{
-    string? handle = null;
-    
-    while(string.IsNullOrWhiteSpace(handle))
+    while (string.IsNullOrWhiteSpace(handle))
     {
         Console.WriteLine("input handle");
         handle = Console.ReadLine();
