@@ -21,17 +21,18 @@ var client = new AivisTTSClient(options);
 using var audioStream = await client.SynthesizeStreamAsync("model-uuid", "こんにちは、世界！");
 
 // 音声を再生
-Aivis.Speakers.MP3Speaker speaker = new ();
+using Aivis.Speakers.MP3Speaker speaker = new();
 await speaker.PlayAsync(audioStream);
-speaker.Dispose();
 ```
 
 ## 機能
 
 - ✅ Aivis APIを使用したテキスト音声合成
+- ✅ 音声合成モデルの検索・詳細取得
+- ✅ ユーザーアカウント情報の取得
 - ✅ FFmpegとOpenALによる音声再生サポート
 - ✅ レスポンスメタデータ（課金情報、文字数、レート制限など）
-- ✅ .NET6 ~ .NET9をサポート
+- ✅ .NET 6.0 ~ .NET 10.0 をサポート
 - ✅ async/awaitパターン
 
 ## 使用方法
@@ -55,9 +56,8 @@ Console.WriteLine($"使用クレジット: {contents.CreditsUsed}");
 > FFmpegとOpenALがインストールされている必要があります。
 
 ```csharp
-Aivis.Speakers.MP3Speaker speaker = new ();
+using Aivis.Speakers.MP3Speaker speaker = new();
 await speaker.PlayAsync(contents.AudioStream);
-speaker.Dispose();
 ```
 
 ## 依存関係
@@ -98,17 +98,18 @@ var client = new AivisTTSClient(options);
 using var audioStream = await client.SynthesizeStreamAsync("model-uuid", "こんにちは、世界！");
 
 // Play audio
-Aivis.Speakers.MP3Speaker speaker = new ();
+using Aivis.Speakers.MP3Speaker speaker = new();
 await speaker.PlayAsync(audioStream);
-speaker.Dispose();
 ```
 
 ## Features
 
 - ✅ Text-to-Speech synthesis via Aivis API
+- ✅ Voice model search and detail lookup
+- ✅ User account information retrieval
 - ✅ Audio playback support with FFmpeg and OpenAL
 - ✅ Response metadata (billing, character count, rate limits)
-- ✅ Support between .NET 6.0 and .NET 9.0
+- ✅ Support between .NET 6.0 and .NET 10.0
 - ✅ Async/await pattern
 
 ## Usage
@@ -131,9 +132,8 @@ Console.WriteLine($"Credits Used: {contents.CreditsUsed}");
 ### Audio Playback
 > Need install to FFmpeg and OpenAL.
 ```csharp
-Aivis.Speakers.MP3Speaker speaker = new ();
+using Aivis.Speakers.MP3Speaker speaker = new();
 await speaker.PlayAsync(contents.AudioStream);
-speaker.Dispose();
 ```
 
 ## Dependencies

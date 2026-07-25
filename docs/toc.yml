@@ -2,3 +2,15 @@
   href: introduction.md
 - name: Getting Started
   href: getting-started.md
+- name: TTS オプション
+  href: tts-options.md
+- name: モデル検索
+  href: model-search.md
+- name: ユーザー API
+  href: users.md
+- name: 音声再生
+  href: audio-playback.md
+- name: トラブルシューティング
+  href: troubleshooting.md
+- name: アーキテクチャ
+  href: architecture.md

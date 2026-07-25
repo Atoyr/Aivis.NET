@@ -4,3 +4,5 @@
   href: api/
 - name: CHANGELOG
   href: CHANGELOG.md
+- name: Contributing
+  href: CONTRIBUTING.md
