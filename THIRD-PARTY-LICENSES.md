@@ -26,5 +26,15 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-#### Third party licenses may be applicable. These have been disclosed in [THIRD_PARTIES.md](THIRD_PARTIES.md)
+#### Third party licenses may be applicable. These have been disclosed in [THIRD_PARTIES.md](https://github.com/opentk/opentk/blob/master/THIRD_PARTIES.md)
+
+---
+
+# Runtime dependencies (not distributed with this package)
+
+`Aivis.Speakers.MP3Speaker` requires the following software to be installed separately.
+They are not bundled with this package, and their licenses apply to your own installation.
+
+- **FFmpeg** — https://ffmpeg.org/legal.html (LGPL 2.1+ / GPL 2+, depending on build options)
+- **OpenAL** — https://openal.org/ or [OpenAL Soft](https://github.com/kcat/openal-soft) (LGPL 2.1)
 
